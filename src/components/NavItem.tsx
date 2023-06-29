@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import clsx from 'clsx';
 
 type NavItemProps = {
   link: string;
@@ -6,5 +7,14 @@ type NavItemProps = {
 };
 
 export function NavItem({ link, icon }: NavItemProps) {
-  return <Link className='text-[1.5rem] text-white-dimmed' to={link}>{icon}</Link>;
+  return (
+    <NavLink
+      className={({ isActive }) => {
+        return `${isActive ? 'text-white' : 'text-white-dimmed'} text-[1.5rem]`;
+      }}
+      to={link}
+    >
+      {icon}
+    </NavLink>
+  );
 }

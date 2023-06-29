@@ -16,7 +16,7 @@ const navItems = [
     icon: <HiBookmark />,
   },
   {
-    link: '',
+    link: '/user',
     icon: <HiUser />,
   },
 ];
@@ -27,7 +27,7 @@ export function Navbar() {
       {navItems.map(item => (
         <NavItem
           link={item.link}
-          icon={cloneElement(item.icon, { className: 'active:text-white' })}
+          icon={cloneElement(item.icon, { className: '' })}
         />
       ))}
     </div>
