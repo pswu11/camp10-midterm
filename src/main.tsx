@@ -5,8 +5,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { SelectSeat } from './pages/SelectSeat';
-import { MovieDetails } from './pages/Moviedetails';
-import { Cast } from './pages/Cast';
+import { MovieLayout } from './layouts/MovieLayout';
+import { MovieDetails } from './pages/MovieDetails';
+import { CastAndCrew } from './pages/CastAndCrew';
 import { SelectTime } from './pages/SelectTime';
 import { Ticket } from './pages/Ticket';
 import { RootLayout } from './layouts/RootLayout';
@@ -29,34 +30,36 @@ const router = createBrowserRouter([
       {
         path: 'movies',
         element: <Movies />,
-        children: [
-          {
-            path: ':MovieId',
-            element: <MovieDetails />,
-            children: [
-              {
-                path: 'cast',
-                element: <Cast />,
-              },
-              {
-                path: 'select-time',
-                element: <SelectTime />,
-              },
-              {
-                path: 'select-seat',
-                element: <SelectSeat />,
-              },
-              {
-                path: 'ticket',
-                element: <Ticket />,
-              },
-            ],
-          },
-        ],
       },
       {
         path: 'bookmarks',
         element: <Bookmarks />,
+      },
+    ],
+  },
+  {
+    path: 'movies/:movieId',
+    element: <MovieLayout />,
+    children: [
+      {
+        index: true,
+        element: <MovieDetails />
+      },
+      {
+        path: 'castandcrew',
+        element: <CastAndCrew />,
+      },
+      {
+        path: 'select-time',
+        element: <SelectTime />,
+      },
+      {
+        path: 'select-seat',
+        element: <SelectSeat />,
+      },
+      {
+        path: 'ticket',
+        element: <Ticket />,
       },
     ],
   },
