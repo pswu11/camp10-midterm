@@ -4,49 +4,32 @@ export default {
   theme: {
     colors: {
       dark: {
-        default: '#1C1C27',
+        DEFAULT: '#1C1C27',
         light: '#363740',
       },
       white: {
-        default: '#FFFFFF',
+        DEFAULT: '#FFFFFF',
         dimmed: {
-          default: '#FFFFFF66',
+          DEFAULT: '#FFFFFF66',
           heavy: '#FFFFFF33',
         },
       },
-      red: {
-        default: '#EF4444',
-      },
-      yellow: {
-        default: '#FFB43A',
-      },
-      green: {
-        default: '#22C55E',
-      },
+      red: '#EF4444',
+      yellow: '#FFB43A',
+      green: '#22C55E',
     },
     fontFamily: {
-      default: ['"Inter"', 'sans-serif'],
+      DEFAULT: ['Inter', 'sans-serif'],
     },
+
     fontSize: {
       l: '1rem',
       m: '0.875rem',
-      s: '0.750rem',
+      s: '0.75rem',
     },
     fontWeight: {
       700: '700',
       500: '500',
-    },
-    borderRadius: {
-      default: '8px',
-      12: '12px',
-      rounded: '50%',
-    },
-    spacing: {
-      1: '0.5rem',
-      4: '1.25rem',
-      5: '1.5rem',
-      6: '1.75rem',
-      7: '2rem',
     },
 
     extend: {},

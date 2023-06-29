@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <h1 className="text-3xl font-bold underline">Welcome to the Midterm</h1>
+      <h1>Welcome to the Midterm</h1>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>
