@@ -6,5 +6,5 @@ type NavItemProps = {
 };
 
 export function NavItem({ link, icon }: NavItemProps) {
-  return <Link to={link}>{icon}</Link>;
+  return <Link className='text-[1.5rem] text-white-dimmed' to={link}>{icon}</Link>;
 }
