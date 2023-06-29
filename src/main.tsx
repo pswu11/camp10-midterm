@@ -16,8 +16,6 @@ import { Movies } from './pages/Movies';
 import { Bookmarks } from './pages/Bookmarks';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
-import { GenIcon } from 'react-icons';
-
 const router = createBrowserRouter([
   {
     path: '/',
