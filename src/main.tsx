@@ -7,6 +7,16 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { SelectSeat } from "./pages/SelectSeat";
+import { Moviedetails } from "./pages/Moviedetails";
+import { Cast } from "./pages/Cast";
+import { SelectTime } from "./pages/SelectTime";
+import { Ticket } from "./pages/Ticket";
+import { Root } from "./pages/Root";
+import { Genres } from "./pages/Genres";
+import { Movies } from "./pages/Movies";
+import { Bookmarks } from "./pages/Bookmarks";
+import { Login } from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -15,29 +25,39 @@ const router = createBrowserRouter([
   },
   {
     path: "genre",
-    element: <Genre />,
+    element: <Genres />,
   },
   {
     path: "movies",
     element: <Movies />,
     children: [
       {
-        path: "castandcrew",
-        element: <Castandcrew />,
-      },
-      {
-        path: "reserve",
-        element: <Reserve />,
-      },
-      {
-        path: "movies/:moviesId",
-        element: <MovieId />,
+        path: ":Moviedetails",
+        element: <Moviedetails />,
+        children: [
+          {
+            path: "cast",
+            element: <Cast />,
+          },
+          {
+            path: "select-time",
+            element: <SelectTime />,
+          },
+          {
+            path: "select-seat",
+            element: <SelectSeat />
+          },
+          {
+            path: "ticket",
+            element: <Ticket />
+          },
+        ]
       },
     ]
   },
   {
-    path: "bookmark",
-    element: <Bookmark />
+    path: "bookmarks",
+    element: <Bookmarks />
   },
   {
     path: "login",
