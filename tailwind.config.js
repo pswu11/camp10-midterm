@@ -31,7 +31,6 @@ export default {
       700: '700',
       500: '500',
     },
-
     extend: {},
   },
   plugins: [],
