@@ -1,5 +1,5 @@
 import { HiHome, HiFilm, HiBookmark, HiUser } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { NavItem } from './NavItem';
 import { cloneElement } from 'react';
 
 const navItems = [
@@ -23,12 +23,12 @@ const navItems = [
 
 export function Navbar() {
   return (
-    <div className="">
-      <HiUser className="" />
+    <div className="flex justify-between items-center">
       {navItems.map(item => (
-        <Link to={item.link}>
-          {navItems.map(item => cloneElement(item.icon, { className: true }))}
-        </Link>
+        <NavItem
+          link={item.link}
+          icon={cloneElement(item.icon, { className: 'h-3 w-3' })}
+        />
       ))}
     </div>
   );
