@@ -3,17 +3,29 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     colors: {
-      'primary-black': '#1C1C27',
-      'secondary-grey': '#363740',
-      'white-standard': '#FFFFFF',
-      'white-dimmed': '#FFFFFF66',
-      'white-dimmed-heavy': '#FFFFFF33',
-      'status-yellow': '#FFB43A',
-      'status-red': '#EF4444',
-      'status-green': '#22C55E',
+      dark: {
+        default: '#1C1C27',
+        light: '#363740',
+      },
+      white: {
+        default: '#FFFFFF',
+        dimmed: {
+          default: '#FFFFFF66',
+          heavy: '#FFFFFF33',
+        },
+      },
+      red: {
+        default: '#EF4444',
+      },
+      yellow: {
+        default: '#FFB43A',
+      },
+      green: {
+        default: '#22C55E',
+      },
     },
     fontFamily: {
-      sans: ['"Inter"', 'sans-serif'],
+      default: ['"Inter"', 'sans-serif'],
     },
     fontSize: {
       l: '1rem',
@@ -25,11 +37,12 @@ export default {
       500: '500',
     },
     borderRadius: {
-      24: '24.rem',
-      12: '12.rem',
-      8: '8.rem',
-
+      default: '8px',
+      12: '12px',
+      rounded: '50%',
+    },
     spacing: {
+      1: '0.5rem',
       4: '1.25rem',
       5: '1.5rem',
       6: '1.75rem',
