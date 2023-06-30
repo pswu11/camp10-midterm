@@ -16,6 +16,7 @@ import { Movies } from './pages/Movies';
 import { Bookmarks } from './pages/Bookmarks';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
+import { User } from './pages/User';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
         path: 'bookmarks',
         element: <Bookmarks />,
       },
+      {
+        path: 'user',
+        element: <User />
+      }
     ],
   },
   {
