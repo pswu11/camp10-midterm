@@ -1,3 +1,3 @@
 export function Movies() {
-  return <p>These are movies. Apparently unsorted and unfiltered.</p>;
+  return <div>Movies placeholder.</div>;
 }
