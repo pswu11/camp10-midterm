@@ -23,7 +23,7 @@ const navItems = [
 
 export function Navbar() {
   return (
-    <div className="flex justify-evenly items-center h-[5.5rem] w-[375px]">
+    <div className="flex justify-evenly items-center h-[5.5rem] w-full">
       {navItems.map(item => (
         <NavItem
           link={item.link}
