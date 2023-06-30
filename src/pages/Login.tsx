@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Input } from '../components/Input';
-import { HiLogin } from 'react-icons/hi';
+import { HiLogin, HiUser } from 'react-icons/hi';
 
 export function Login() {
   const [userData, setUserData] = useState({
@@ -18,11 +18,12 @@ export function Login() {
     <form className="flex flex-col items-center justify-center gap-2 bg-dark">
       <Input
         placeholder="your@email.com"
+        icon={<HiUser />}
         value={username}
         onChange={changeHandler}
       />
       <Input
-        placeholder="a"
+        placeholder="Enter your password"
         icon={<HiLogin />}
         value={password}
         onChange={changeHandler}
