@@ -14,6 +14,7 @@ export type UpcomingMovie = {
     vote_average: number
 }
 
+// Movie (aka MovieDetail) to include length
 export type Movie = {
     runtime: number
 } & UpcomingMovie
