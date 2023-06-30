@@ -11,4 +11,14 @@ export default meta;
 
 type Story = StoryObj<typeof GenreIcon>;
 
-export const Basic: Story = {};
+export const Basic: Story = {
+  args: {
+    variant: 'default',
+  },
+};
+
+export const Active: Story = {
+  args: {
+    variant: 'active',
+  },
+};
