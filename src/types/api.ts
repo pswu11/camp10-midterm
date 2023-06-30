@@ -1,45 +1,37 @@
-export type UpcomingMovie = {
-    
-    adult: Boolean
-    backdrop_path: String
-    genre_ids: [Number]
-    id: Number
-    original_language: String
-    original_title: String
-    overview: String
-    poster_path: String
-    release_date: String
-    title: String
-    video: Boolean
-    vote_average: Number
-    vote_count: Number
-
-
+export type Genre = {
+    id: number,
+    name: string
 }
 
-const movieResponse: UpcomingMovie[] = []
-
+export type UpcomingMovie = {
+    id: number
+    title: string
+    backdrop_path: string
+    poster_path: string
+    genre_ids: number[]
+    overview: string
+    release_date: string
+    vote_average: number
+}
 
 export type Movie = {
+    runtime: number
+} & UpcomingMovie
 
-}
-
-export type MovieDetail = {
-
-}
+export type UpcomingMovies = UpcomingMovie[]
 
 export type Person = {
-
+    id: number
+    name: string
+    known_for_department: string
+    profile_path: string
 }
 
-export type Cast = {
-
-}
-
-export type Crew = {
-
-}
+export type Cast = Person[]
+export type Crew = Person[]
 
 export type Credits = {
-
+    id: number
+    cast: Cast
+    crew: Crew
 }

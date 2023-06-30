@@ -5,6 +5,18 @@ https://www.figma.com/file/TOCJzJFMXE7PL1dQyGWqXZ/midterm?type=design&node-id=19
 
 # How to: dotenv
 
+Link: https://www.npmjs.com/package/dotenv
+
 - create a file named `.env`
 - add `*.env` to `.gitignore`
-- add `API_KEY=[your api key]` to `.env`
+- add `API_KEY="your api key"` to `.env`
+
+
+# List API Endpoints:
+
+- genres of all the movies: `https://api.themoviedb.org/3/genre/movie/list`
+- movie detail: `https://api.themoviedb.org/3/movie/{movie_id}`
+- list of upcoming movies: `https://api.themoviedb.org/3/movie/upcoming` (List of Movies that will release soon) 
+- list of now playing movies: `https://api.themoviedb.org/3/movie/upcoming` (List of Movies that are currently playing) 
+- credits: `https://api.themoviedb.org/3/movie/{movie_id}/credits` (this includes cast and crew)
+- person: `https://api.themoviedb.org/3/person/{person_id}`
