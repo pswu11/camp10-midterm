@@ -23,11 +23,11 @@ const navItems = [
 
 export function Navbar() {
   return (
-    <div className="flex justify-evenly items-center h-[5.5rem]">
+    <div className="flex justify-evenly items-center h-[5.5rem] w-[375px]">
       {navItems.map(item => (
         <NavItem
           link={item.link}
-          icon={cloneElement(item.icon, { className: '' })}
+          icon={cloneElement(item.icon)}
         />
       ))}
     </div>
