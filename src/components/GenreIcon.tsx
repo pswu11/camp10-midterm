@@ -1,3 +1,4 @@
+import { cn } from "../libs/utils"
 
 type GenreIconProps = {
   icon:string,
