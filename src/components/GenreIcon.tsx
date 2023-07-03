@@ -40,7 +40,7 @@ export function GenreIcon({
     <div className="flex flex-col items-center">
       <button 
         className={cn(
-          'rounded-xl flex items-center justify-center h-14 w-14',
+          'rounded-xl flex items-center justify-center h-14 w-14 text-[1.875rem]',
           styles[variant],
           className
         )}
