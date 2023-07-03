@@ -6,7 +6,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { SelectSeat } from './pages/SelectSeat';
 import { MovieLayout } from './layouts/MovieLayout';
-
 import { CastAndCrew } from './pages/CastAndCrew';
 import { SelectTime } from './pages/SelectTime';
 import { Ticket } from './pages/Ticket';
