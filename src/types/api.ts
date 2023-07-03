@@ -6,8 +6,8 @@ export type Genre = {
 export type UpcomingMovie = {
     id: number
     title: string
-    backdrop_path: string
-    poster_path: string
+    backdrop_path: string | null
+    poster_path: string | null
     genre_ids: number[]
     overview: string
     release_date: string
@@ -25,11 +25,15 @@ export type Person = {
     id: number
     name: string
     known_for_department: string
-    profile_path: string
+    profile_path: string | null
 }
 
-export type Cast = Person[]
-export type Crew = Person[]
+export type Cast = Person[] & {
+    charactor: string
+}
+export type Crew = Person[] & {
+    job: string
+}
 
 export type Credits = {
     id: number
