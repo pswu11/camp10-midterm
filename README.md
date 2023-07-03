@@ -25,13 +25,19 @@ API Reference: https://developer.themoviedb.org/reference/intro/getting-started
 - person: `https://api.themoviedb.org/3/person/{person_id}`
 
 
-### Images (poster, backdrop, etc.)
+### Access to images (poster, backdrop, etc.)
 
-#### Examples: 
+**Example URL**
+
 Original:
-`https://image.tmdb.org/t/p/original/{poster_path}`
+```
+https://image.tmdb.org/t/p/original/{poster_path}
+```
+
 Width 500px: 
-`https://image.tmdb.org/t/p/w500/{poster_path}`
+```
+https://image.tmdb.org/t/p/w500/{poster_path}
+```
 
 Check out documentation to learn more:
 https://developer.themoviedb.org/docs/image-basics
