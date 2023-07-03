@@ -1,9 +1,9 @@
 import React, { cloneElement } from 'react';
 
-type Input = React.InputHTMLAttributes<HTMLInputElement>;
+type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-interface InputProps extends Input {
-  icon: JSX.Element;
+interface InputProps extends NativeInputProps {
+  icon?: JSX.Element;
 }
 
 export function Input({ icon, placeholder, id, ...props }: InputProps) {
@@ -12,7 +12,7 @@ export function Input({ icon, placeholder, id, ...props }: InputProps) {
       htmlFor={id}
       className="flex items-center  bg-dark-light px-5 py-3 gap-5 rounded-md outline-none focus-within:outline-white-dimmed focus-within:outline-offset-0"
     >
-      {cloneElement(icon, { className: 'w-6 h-6 text-white-dimmed' })}
+      {icon && cloneElement(icon, { className: 'w-6 h-6 text-white-dimmed' })}
       <input
         id={id}
         name={id}

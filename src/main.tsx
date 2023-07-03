@@ -14,7 +14,6 @@ import { RootLayout } from './layouts/RootLayout';
 import { Genres } from './pages/Genres';
 import { Movies } from './pages/Movies';
 import { Bookmarks } from './pages/Bookmarks';
-import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { User } from './pages/User';
 
@@ -38,8 +37,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'user',
-        element: <User />
-      }
+        element: <User />,
+      },
     ],
   },
   {
@@ -48,7 +47,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MovieDetails />
+        element: <MovieDetails />,
       },
       {
         path: 'castandcrew',
