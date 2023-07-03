@@ -84,7 +84,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <ReactQueryDevtools initialIsOpen={false} />
-    <div className='bg-white-dimmed text-white rounded 0.375 py-5 px'></div>
+      <div className="bg-white-dimmed text-white rounded 0.375 py-5 px"></div>
     </QueryClientProvider>
   </React.StrictMode>
 );
