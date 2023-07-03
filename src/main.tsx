@@ -13,10 +13,10 @@ import { RootLayout } from './layouts/RootLayout';
 import { Genres } from './pages/Genres';
 import { Movies } from './pages/Movies';
 import { Bookmarks } from './pages/Bookmarks';
-import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { User } from './pages/User';
-import { MovieDetails } from './pages/Moviedetails';
+import { MovieDetails } from './pages/MovieDetails';
+import { Login } from './pages/Login';
 
 const router = createBrowserRouter([
   {
