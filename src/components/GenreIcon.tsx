@@ -1,38 +1,54 @@
 import { cn } from '../lib/utils';
 
+
+        { // Usage Notes:
+
+  //       const genreObj = {
+  //   28: { "icon": "🤩", "name": "Action" },
+  //   12: { "icon": "🫣", "name": "Abenteuer" },
+  //   16: { "icon": "🫣", "name": "Animation" }
+  // }
+
+        // Object.entries(genreObj).map(([key,value], idx)=> {
+        //   return (
+        //     <GenreIcon genre={value} />
+        //   )
+        // })
+      }
+
+
 type GenreIconProps = {
-  icon: string;
-  genre: string;
   variant?: 'default' | 'active';
-} & React.DetailedHTMLProps<
+  genre : {icon: string, name: string}
+  } & React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >;
 
 export function GenreIcon({
   variant = 'default',
-  genre,
-  icon = 'X',
   className,
+  genre,
   ...props
 }: GenreIconProps) {
   const styles: Record<typeof variant, string> = {
     default: 'bg-dark-light',
     active: 'bg-white-dimmed',
-  };
+  }
+
   return (
     <div className="flex flex-col items-center">
-      <button
+      <button 
         className={cn(
-          'rounded-md flex items-center justify-center h-14 w-14',
+          'rounded-lg flex items-center justify-center h-14 w-14',
           styles[variant],
           className
         )}
         {...props}
       >
-        {icon}
+        {genre.icon}
       </button>
-      <p className="text-dark-light"> genre {genre} </p>
+      <p className="text-white-dimmed font-700 text-m"> {genre.name} </p>
     </div>
   );
 }
