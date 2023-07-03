@@ -12,7 +12,7 @@ type Story = StoryObj<typeof Input>;
 
 export const Login: Story = {
   args: {
-    icon: HiMail(),
+    icon: <HiMail/>,
     id: 'login',
     placeholder: 'your@email.com',
   },
@@ -20,7 +20,7 @@ export const Login: Story = {
 
 export const Password: Story = {
   args: {
-    icon: HiKey(),
+    icon: <HiKey/>
     id: 'password',
     placeholder: 'Enter password',
   },
