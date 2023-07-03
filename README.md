@@ -14,7 +14,8 @@ Link: https://www.npmjs.com/package/dotenv
 
 ## List API Endpoints:
 
-API documentation: https://developer.themoviedb.org/reference/intro/getting-started
+API Documentation: https://developer.themoviedb.org/docs
+API Reference: https://developer.themoviedb.org/reference/intro/getting-started
 
 - genres of all the movies: `https://api.themoviedb.org/3/genre/movie/list`
 - movie detail: `https://api.themoviedb.org/3/movie/{movie_id}`
