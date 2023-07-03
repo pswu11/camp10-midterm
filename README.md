@@ -3,7 +3,7 @@
 https://www.figma.com/file/TOCJzJFMXE7PL1dQyGWqXZ/midterm?type=design&node-id=193-51&mode=design&t=4jEuQWIjPhpPolEq-0
 
 
-# How to: dotenv
+## How to: dotenv
 
 Link: https://www.npmjs.com/package/dotenv
 
@@ -12,7 +12,7 @@ Link: https://www.npmjs.com/package/dotenv
 - add `API_KEY="your api key"` to `.env`
 
 
-# List API Endpoints:
+## List API Endpoints:
 
 API documentation: https://developer.themoviedb.org/reference/intro/getting-started
 
@@ -22,3 +22,15 @@ API documentation: https://developer.themoviedb.org/reference/intro/getting-star
 - list of now playing movies: `https://api.themoviedb.org/3/movie/now_playing` (List of Movies that are currently playing) 
 - credits: `https://api.themoviedb.org/3/movie/{movie_id}/credits` (this includes cast and crew)
 - person: `https://api.themoviedb.org/3/person/{person_id}`
+
+
+### Images (poster, backdrop, etc.)
+
+#### Examples: 
+Original:
+`https://image.tmdb.org/t/p/original/{poster_path}`
+Width 500px: 
+`https://image.tmdb.org/t/p/w500/{poster_path}`
+
+Check out documentation to learn more:
+https://developer.themoviedb.org/docs/image-basics
