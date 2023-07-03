@@ -1,50 +1,53 @@
-import type {Meta, StoryObj } from '@storybook/react';
-import { Button } from "../components/Button";
+import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '../components/Button';
 
-const meta = {
-    title: "Button Component",
-    component: Button,
-    tags: ["autodocs"],
-    argTypes: {
-      disabled: {
-        control: "boolean",
-      },
-      children: {
-        control: "text",
-      },
+const meta: Meta<typeof Button> = {
+  title: 'Button',
+  component: Button,
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1',
     },
-  } satisfies Meta<typeof Button>
+  },
+};
 
-const Template: StoryObj<Button> = (args) => <Button {...args} />
-export default meta
-type Button = StoryObj<typeof meta>
+export default meta;
 
-export const buttonPrimaryYellowDefault: Story = {
-    args: {
-      variant: "buttonPrimaryYellowDefault",
-    },
-  }
-  
-  export const buttonPrimaryYellowDisabled: Story = {
-    args: {
-      variant: "buttonPrimaryYellowDisabled",
-    },
-  }
-  
-  export const buttonPrimaryYellowSmall: Story = {
-    args: {
-      variant: "buttonPrimaryYellowSmall",
-    },
-  }
-  
-  export const buttonSecondaryBlackDefault: Story = {
-    args: {
-      variant: "buttonSecondaryBlackDefault",
-    },
-  }
+type Story = StoryObj<typeof Button> & {
+  args: { variant: string; size: string };
+};
 
-  export const buttonSecondaryBlackSmallDefault: Story = {
-    args: {
-      variant: "buttonSecondaryBlackSmallDefault",
-    },
-  }
+export const Primary: Story = {
+  args: { variant: 'primary', size: 'default' },
+};
+
+/*export default {
+  title: 'Example/Button',
+  component: Button,
+  argTypes: {
+    variant: { control: 'boolean' },
+    size: { control: 'boolean' },
+    status: { control: 'text' },
+
+  }, as: Meta,
+
+  const Template: StoryObj = (args) => <Button {...args} />,
+
+  export const Variant = Template.bind({});
+  Primary.args = {
+    primary: true,
+    label: 'Button',
+  },
+
+  export const Status = Template.bind({});
+  Secondary.args = {
+    secondary: true,
+    label: 'Button',
+  },    }
+
+  export const = Template.bind({});
+  Secondary.args = {
+    secondary: true,
+    label: 'Button',
+  },    }*/
