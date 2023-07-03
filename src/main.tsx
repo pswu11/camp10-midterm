@@ -6,7 +6,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { SelectSeat } from './pages/SelectSeat';
 import { MovieLayout } from './layouts/MovieLayout';
-import { MovieDetails } from './pages/MovieDetails';
 import { CastAndCrew } from './pages/CastAndCrew';
 import { SelectTime } from './pages/SelectTime';
 import { Ticket } from './pages/Ticket';
@@ -17,6 +16,7 @@ import { Bookmarks } from './pages/Bookmarks';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { User } from './pages/User';
+import { MovieDetails } from './pages/Moviedetails';
 
 const router = createBrowserRouter([
   {
@@ -38,8 +38,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'user',
-        element: <User />
-      }
+        element: <User />,
+      },
     ],
   },
   {
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MovieDetails />
+        element: <MovieDetails />,
       },
       {
         path: 'castandcrew',
@@ -85,7 +85,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <ReactQueryDevtools initialIsOpen={false} />
-    <div className='bg-white-dimmed text-white rounded 0.375 py-5 px'></div>
+      <div className="bg-white-dimmed text-white rounded 0.375 py-5 px"></div>
     </QueryClientProvider>
   </React.StrictMode>
 );
