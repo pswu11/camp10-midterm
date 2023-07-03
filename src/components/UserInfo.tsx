@@ -12,7 +12,7 @@ function UserInfo({ name = 'Human Person', image = Avatar }: Props) {
     <header className="flex justify-between">
       <div className="flex flex-col justify-between gap-3">
         <h3 className="text-white-dimmed text-s font-700">
-          Welcome {name} <span className="text-white">👋</span>
+          Welcome {name} <span className="text-white text-s">👋</span>
         </h3>
         <h1 className="text-white text-m font-700">
           Let's relax and watch a movie!
