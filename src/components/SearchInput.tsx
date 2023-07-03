@@ -23,13 +23,13 @@ export function SearchInput() {
 
   return (
     <Combobox value={selectedMovie} onChange={setSelectedMovie}>
-      <Combobox.Label className="relative">
+      <Combobox.Label className="relative flex items-center">
         <Combobox.Input
-          className="bg-dark-light text-white rounded-full h-12 rel pl-[3.75rem] w-full outline-none focus:ring-2 focus:ring-white-dimmed"
+          className="bg-dark-light text-white rounded-full h-12 pl-[3.75rem] w-full outline-none focus:ring-2 focus:ring-white-dimmed"
           placeholder="Search"
           onChange={event => setQuery(event.target.value)}
         />
-        <Combobox.Options className="leading-8 bg-dark-light mt-4 rounded-lg text-white-dimmed overflow-hidden">
+        <Combobox.Options className="absolute leading-8 top-10 inset-x-0 bg-dark-light mt-4 rounded-lg text-white-dimmed overflow-hidden">
           {filteredMovies.map(movie => (
             <Combobox.Option key={movie} value={movie} as={Fragment}>
               {({ active }) => (
@@ -44,8 +44,10 @@ export function SearchInput() {
             </Combobox.Option>
           ))}
         </Combobox.Options>
-        <CgSearch className="absolute left-5 top-3 text-[1.5rem] text-white-dimmed-heavy focus:text-white" />
+        <CgSearch className="absolute left-5 text-[1.5rem] text-white-dimmed-heavy focus:text-white" />
       </Combobox.Label>
     </Combobox>
   );
 }
+
+
