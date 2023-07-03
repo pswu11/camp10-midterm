@@ -10,7 +10,7 @@ export function Input({ icon, placeholder, id, ...props }: InputProps) {
   return (
     <label
       htmlFor={id}
-      className="flex items-center  bg-dark-light px-5 py-3 gap-5 rounded-md outline-none focus-within:outline-white-dimmed focus-within:outline-offset-0"
+      className="flex items-center bg-dark-light px-5 py-3 gap-5 rounded-md outline-none focus-within:outline-white-dimmed focus-within:outline-offset-0"
     >
       {icon && cloneElement(icon, { className: 'w-6 h-6 text-white-dimmed' })}
       <input
