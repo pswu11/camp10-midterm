@@ -10,7 +10,7 @@ const movies = [
   'Star Trek',
   'Starwars',
   'Sherlock Holmes',
-  'John Wick'
+  'John Wick',
 ];
 
 export function SearchInput() {
@@ -20,8 +20,8 @@ export function SearchInput() {
   const filteredMovies =
     query === ''
       ? movies
-      : movies.filter(person => {
-          return person.toLowerCase().includes(query.toLowerCase());
+      : movies.filter(movie => {
+          return movie.toLowerCase().includes(query.toLowerCase());
         });
 
   return (
@@ -52,5 +52,3 @@ export function SearchInput() {
     </Combobox>
   );
 }
-
-
