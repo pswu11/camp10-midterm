@@ -6,7 +6,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { SelectSeat } from './pages/SelectSeat';
 import { MovieLayout } from './layouts/MovieLayout';
-import { MovieDetails } from './pages/MovieDetails';
 import { CastAndCrew } from './pages/CastAndCrew';
 import { SelectTime } from './pages/SelectTime';
 import { Ticket } from './pages/Ticket';
@@ -16,6 +15,7 @@ import { Movies } from './pages/Movies';
 import { Bookmarks } from './pages/Bookmarks';
 import { Home } from './pages/Home';
 import { User } from './pages/User';
+import { MovieDetails } from './pages/Moviedetails';
 
 const router = createBrowserRouter([
   {
