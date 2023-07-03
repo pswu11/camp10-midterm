@@ -13,10 +13,10 @@ import { RootLayout } from './layouts/RootLayout';
 import { Genres } from './pages/Genres';
 import { Movies } from './pages/Movies';
 import { Bookmarks } from './pages/Bookmarks';
-import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { User } from './pages/User';
-import { MovieDetails } from './pages/Moviedetails';
+import { MovieDetails } from './pages/MovieDetails';
+import { Login } from './pages/Login';
 
 const router = createBrowserRouter([
   {
@@ -38,8 +38,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'user',
-        element: <User />
-      }
+        element: <User />,
+      },
     ],
   },
   {
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MovieDetails />
+        element: <MovieDetails />,
       },
       {
         path: 'castandcrew',
@@ -85,7 +85,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <ReactQueryDevtools initialIsOpen={false} />
-    <div className='bg-white-dimmed text-white rounded 0.375 py-5 px'></div>
+      <div className="bg-white-dimmed text-white rounded 0.375 py-5 px"></div>
     </QueryClientProvider>
   </React.StrictMode>
 );
