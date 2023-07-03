@@ -2,6 +2,7 @@ import { Combobox } from '@headlessui/react';
 import { CgSearch } from 'react-icons/cg';
 import { Fragment, useState } from 'react';
 
+// Mock data for fuzzy search
 const movies = [
   'The Matrix',
   'Dune',
