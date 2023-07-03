@@ -38,8 +38,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'user',
-        element: <User />
-      }
+        element: <User />,
+      },
     ],
   },
   {
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MovieDetails />
+        element: <MovieDetails />,
       },
       {
         path: 'castandcrew',
