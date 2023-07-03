@@ -3,11 +3,13 @@ import { CgSearch } from 'react-icons/cg';
 import { Fragment, useState } from 'react';
 
 const movies = [
+  'The Matrix',
   'Dune',
-  'Alice Wonderland',
-  'Startreck',
+  'Alice in Wonderland',
+  'Star Trek',
   'Starwars',
   'Sherlock Holmes',
+  'John Wick'
 ];
 
 export function SearchInput() {
