@@ -1,30 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Movie } from "../types/api";
+import { cn } from "../lib/utils";
 
-export type Movie = {
-    id: string
-    poster_path:string
-    title: string
-
-}
-
-type MovieCardProps = {
+type VariantProps = {
+  variant?: "default" | "rounded" 
   movie: Movie
-}
+} 
 
-const MovieCard = ({ movie }:MovieCardProps) => {
+ export function MovieCard({variant="default", movie}:VariantProps) {
+  const style:Record<typeof variant, string>={
+    default:"rounded-none",
+    rounded:"rounded-sm",
+  }
   return (
     <Link to={`/movies/${movie.id}`}>
-    <div className="movie-card" >
+    <div className={cn(
+        ' ',
+       style[variant]
+        
+      )} >
+      
       
         <img
-          src={movie.poster_path}
+          src={movie.poster_path? movie.poster_path:"https://www.themoviedb.org/t/p/w1280/hpWLjEDl18syQeISgDQYCVWamEW.jpg"} 
           alt={movie.title}
-          className="movie-poster"
+          
         />
     </div>
       </Link>
   );
 };
 
-export default MovieCard;

@@ -1,9 +1,19 @@
-import MovieCard, { Movie } from "../components/MovieCard";
+import { MovieCard } from "../components/MovieCard";
+import { Movie } from "../types/api";
+
 
 const testMovie: Movie = {
-  id: "1",
-  poster_path:"https://www.themoviedb.org/t/p/w1280/4W2iA3GpCXhGa3IrStbMkfgrI8D.jpg",
-  title: " Last Year in Marienbad",
+  
+  id: 1,
+  poster_path:null,
+  title: " ",
+  backdrop_path: null,
+  genre_ids:[],
+  overview: "",
+  release_date: "",
+  vote_average: 0,
+  runtime: 0,
+
 
   
 }
