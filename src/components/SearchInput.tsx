@@ -19,7 +19,7 @@ const movies = [
   'The Silence of the Lambs',
   'The Green Mile',
   'The Pianist',
-  'The Great Dictator'
+  'The Great Dictator',
 ];
 
 export function SearchInput() {
@@ -33,7 +33,7 @@ export function SearchInput() {
           return movie.toLowerCase().includes(query.toLowerCase());
         });
 
-  console.log(filteredMovies)
+  console.log(filteredMovies);
 
   return (
     <Combobox value={selectedMovie} onChange={setSelectedMovie}>
@@ -43,7 +43,7 @@ export function SearchInput() {
           placeholder="Search"
           onChange={event => setQuery(event.target.value)}
         />
-        <Combobox.Options className="absolute leading-8 top-10 inset-x-0 bg-dark-light mt-4 rounded-lg text-white-dimmed max-h-40 overflow-y-scroll">
+        <Combobox.Options className="absolute leading-8 top-10 inset-x-0 bg-dark-light mt-4 rounded-lg text-white-dimmed max-h-40 overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded scrollbar-track-white/0 scrollbar-thumb-white-dimmed">
           {filteredMovies.map(movie => (
             <Combobox.Option key={movie} value={movie} as={Fragment}>
               {({ active }) => (
