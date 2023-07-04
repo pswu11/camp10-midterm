@@ -1,34 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Movie } from "../types/api";
-import { cn } from "../lib/utils";
+import { Link } from 'react-router-dom';
+import { Movie } from '../types/api';
 
-type VariantProps = {
-  variant?: "default" | "rounded" 
-  movie: Movie
-} 
-
- export function MovieCard({variant="default", movie}:VariantProps) {
-  const style:Record<typeof variant, string>={
-    default:"rounded-none",
-    rounded:"rounded-sm",
-  }
-  return (
-    <Link to={`/movies/${movie.id}`}>
-    <div className={cn(
-        ' ',
-       style[variant]
-        
-      )} >
-      
-      
-        <img
-          src={movie.poster_path? movie.poster_path:"https://www.themoviedb.org/t/p/w1280/hpWLjEDl18syQeISgDQYCVWamEW.jpg"} 
-          alt={movie.title}
-          
-        />
-    </div>
-      </Link>
-  );
+type Props = {
+  movie: Movie;
+  variant: 'upcoming' | 'now_playing';
 };
 
+const MovieCard = ({ movie, variant }: Props) => (
+  <Link to={`/movies/${movie.id}`}>
+    <div
+      className={
+        variant === 'upcoming'
+          ? 'rounded-lg w-44 h-56 overflow-hidden'
+          : 'w-full'
+      }
+    >
+      <img
+        src={
+          movie.poster_path ||
+          'https://images.unsplash.com/photo-1607317146126-64b09b69eb4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80'
+        }
+        alt={movie.title}
+        className="object-cover w-full h-full"
+      />
+    </div>
+  </Link>
+);
+
+export default MovieCard;
