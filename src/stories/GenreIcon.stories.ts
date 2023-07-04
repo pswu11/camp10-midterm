@@ -10,16 +10,16 @@ const meta: Meta<typeof GenreIcon> = {
 export default meta;
 
 type Story = StoryObj<typeof GenreIcon> & {
-  args : {variant:string, genre?:{ icon:string,name:string } }
+  args : {isActive:boolean, genre?:{ icon:string,name:string } }
 };
 
 export const Basic: Story = {
   args: {
-    variant: 'default', genre: {icon:"🤩", name:"Action"} },
+    isActive: false, genre: {icon:"🤩", name:"Action"} },
 };
 
 
 export const Active: Story = {
   args: {
-    variant: 'active', genre: {icon:"🫣", name:"Adventure"} },
+    isActive: false, genre: {icon:"🫣", name:"Adventure"} },
   }
