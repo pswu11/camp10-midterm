@@ -1,3 +1,10 @@
+import { SearchInput } from "../components/SearchInput"
+
 export function Home() {
-  return <div>This is home page</div>;
+  return (
+    <>
+      <SearchInput />
+      This is home page
+    </>
+  )
 }
