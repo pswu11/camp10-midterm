@@ -14,13 +14,13 @@ function BookingDetails({variant="default", className, children, ...props}:Booki
     const styles: Record<typeof variant, string> = {
         active:"bg-yellow text-dark-light",
         disabled:"text-dark-light",
-        default:"bg-dark text-white-dimmed "
+        default:"bg-dark text-white-dimmed",
     }
  
     return (
         <button
           className={cn(
-            'flex justify-center rounded-s font-500 text-m rounded',
+            'flex justify-center rounded-s font-500 text-m px-[1.03rem] py-[0.37rem] rounded',
             styles[variant], 
             className
           )}
