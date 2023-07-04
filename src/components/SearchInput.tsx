@@ -27,7 +27,7 @@ export function SearchInput() {
   const [query, setQuery] = useState('');
 
   const filteredMovies =
-    query === ''
+    query.trim() === ''
       ? []
       : movies.filter(movie => {
           return movie.toLowerCase().includes(query.toLowerCase());
