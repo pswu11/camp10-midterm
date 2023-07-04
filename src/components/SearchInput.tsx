@@ -11,6 +11,15 @@ const movies = [
   'Starwars',
   'Sherlock Holmes',
   'John Wick',
+  'The Lion King',
+  'The Dark Knight',
+  'Inception',
+  'The Godfather',
+  'The Lord of the Rings',
+  'The Silence of the Lambs',
+  'The Green Mile',
+  'The Pianist',
+  'The Great Dictator'
 ];
 
 export function SearchInput() {
@@ -19,10 +28,12 @@ export function SearchInput() {
 
   const filteredMovies =
     query === ''
-      ? movies
+      ? []
       : movies.filter(movie => {
           return movie.toLowerCase().includes(query.toLowerCase());
         });
+
+  console.log(filteredMovies)
 
   return (
     <Combobox value={selectedMovie} onChange={setSelectedMovie}>
@@ -32,7 +43,7 @@ export function SearchInput() {
           placeholder="Search"
           onChange={event => setQuery(event.target.value)}
         />
-        <Combobox.Options className="absolute leading-8 top-10 inset-x-0 bg-dark-light mt-4 rounded-lg text-white-dimmed overflow-hidden">
+        <Combobox.Options className="absolute leading-8 top-10 inset-x-0 bg-dark-light mt-4 rounded-lg text-white-dimmed max-h-40 overflow-y-scroll">
           {filteredMovies.map(movie => (
             <Combobox.Option key={movie} value={movie} as={Fragment}>
               {({ active }) => (
