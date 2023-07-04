@@ -29,7 +29,7 @@ export type Person = {
 }
 
 export type Cast = Person[] & {
-    charactor: string
+    character: string
 }
 export type Crew = Person[] & {
     job: string

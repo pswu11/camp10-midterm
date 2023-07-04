@@ -4,8 +4,10 @@
 
 
 
-import CastCrewFunction from "../components/CastCrew";
+import CastCrew from "../components/CastCrew";
 
 export function CastAndCrew() {
-  return <p><CastCrewFunction/>Here are the people behind that movie.</p>;
+  return <>
+  <CastCrew/>
+  </>;
 }

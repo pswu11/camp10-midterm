@@ -1,52 +1,33 @@
-import React, { useState, useEffect } from 'react';
 import Woman from '../assets/woman1.jpg'
-
-const App = () => {
-    const [people, setPosts] = useState([]);
-
-    const getData = () => {
-        var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-  
-      fetch("http://localhost:3030/people", requestOptions)
-        .then((response) => response.json())
-        .then((result) => setPosts(result))
-        .catch((error) => console.log("error", error));
-    };
-  
-    useEffect(() => {
-      getData();
-    }, []);
-
+import { Cast, Crew, Person } from '../types/api.ts'
 
 export type CastCrewProps = {
     name?: string;
     image?: string;
+    character?: string;
 };
 
-export default function CastCrewFunction({ name = 'Human Person', image = Woman }: CastCrewProps) {
-    const initial = name.charAt(0).toUpperCase();
+export default function CastCrew({ 
+    name = 'Angelina Jolie', 
+    image = Woman, 
+    character = 'Mrs. Smith' 
+}: CastCrewProps) {
 
     return (
         <header className="flex flex-row gap-5 m-2">
-            <div className="h-14 w-14 rounded-full bg-dark-light flex items-center justify-center text-white">
+            <div className="h-16 w-16 rounded-full bg-red flex items-center justify-center text-white">
                     {image ? (
-                    <img className="h-full w-full rounded-sm" src={image} alt={name} />
+                    <img className="h-full w-full object-cover" src={image} alt={name} />
                     ) : (
                         initial
                     )}
             </div>
             <div className='flex flex-col justify-center'>
-
-                {people}
                 <h2>
-                    Actor Name{}
+                    {name}
                 </h2>
                 <h4 className='text-m text-white-dimmed'>
-                    Character
-                    <span>{people.}</span>
+                    {character}
                 </h4>
             </div>
         </header>
