@@ -14,14 +14,20 @@ export function Login() {
         </p>
       </div>
       <div className="space-y-4">
-        <Input placeholder="your@email.com" icon={<HiUser />} type="email" />
         <Input
+          name="user-email"
+          placeholder="your@email.com"
+          icon={<HiUser />}
+          type="email"
+        />
+        <Input
+          name="user-password"
           placeholder="Enter Your Password"
           icon={<HiKey />}
           type="password"
         />
       </div>
-      <Button className="mt-auto" type='submit'/>
+      <Button className="mt-auto" type="submit" label="Login" />
     </form>
   );
 }
