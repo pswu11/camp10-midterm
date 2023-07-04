@@ -1,26 +1,25 @@
 import Avatar from '../assets/Avatar.png';
+import { Cast, Crew, Person } from '../types/api.ts';
 
-export type Props = {
-    name?: string;
-    image?: string;
+export type CastAndCrewProps = {
+  name?: string;
+  image?: string;
 };
 
-export default function CastCrewFunction({ name = 'Human Person', image = Avatar }: Props) {
-    const initial = name.charAt(0).toUpperCase();
-
-    return (
-        <header className="flex justify-between">
-            <div>
-            <div className="h-10 w-10 rounded-full bg-dark-light flex items-center justify-center text-white">
-                {image ? (
-                <img className="h-full w-full rounded-full" src={image} alt={name} />
-                ) : (
-                    initial
-                    )}
-            </div>
-                <h2>Actor Name</h2>
-                <h3>Character</h3>
-            </div>
-        </header>
-    );
+export default function CastCrewFunction({
+  name = 'Matt Damon',
+  image = Avatar,
+}: CastAndCrewProps) {
+  return (
+    <div className="flex justify-between">
+      <div className="h-10 w-10 bg-dark-light flex items-center justify-center text-white">
+        {image ? (
+          <img className="h-full w-full" src={image} alt={name} />
+        ) : (
+          'blabla'
+        )}
+      </div>
+      <h3>Character</h3>
+    </div>
+  );
 }
