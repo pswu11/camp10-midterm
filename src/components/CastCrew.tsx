@@ -1,25 +1,54 @@
-import Avatar from '../assets/Avatar.png';
-import { Cast, Crew, Person } from '../types/api.ts';
+import React, { useState, useEffect } from 'react';
+import Woman from '../assets/woman1.jpg'
 
-export type CastAndCrewProps = {
-  name?: string;
-  image?: string;
+const App = () => {
+    const [people, setPosts] = useState([]);
+
+    const getData = () => {
+        var requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+  
+      fetch("http://localhost:3030/people", requestOptions)
+        .then((response) => response.json())
+        .then((result) => setPosts(result))
+        .catch((error) => console.log("error", error));
+    };
+  
+    useEffect(() => {
+      getData();
+    }, []);
+
+
+export type CastCrewProps = {
+    name?: string;
+    image?: string;
 };
 
-export default function CastCrewFunction({
-  name = 'Matt Damon',
-  image = Avatar,
-}: CastAndCrewProps) {
-  return (
-    <div className="flex justify-between">
-      <div className="h-10 w-10 bg-dark-light flex items-center justify-center text-white">
-        {image ? (
-          <img className="h-full w-full" src={image} alt={name} />
-        ) : (
-          'blabla'
-        )}
-      </div>
-      <h3>Character</h3>
-    </div>
-  );
+export default function CastCrewFunction({ name = 'Human Person', image = Woman }: CastCrewProps) {
+    const initial = name.charAt(0).toUpperCase();
+
+    return (
+        <header className="flex flex-row gap-5 m-2">
+            <div className="h-14 w-14 rounded-full bg-dark-light flex items-center justify-center text-white">
+                    {image ? (
+                    <img className="h-full w-full rounded-sm" src={image} alt={name} />
+                    ) : (
+                        initial
+                    )}
+            </div>
+            <div className='flex flex-col justify-center'>
+
+                {people}
+                <h2>
+                    Actor Name{}
+                </h2>
+                <h4 className='text-m text-white-dimmed'>
+                    Character
+                    <span>{people.}</span>
+                </h4>
+            </div>
+        </header>
+    );
 }
