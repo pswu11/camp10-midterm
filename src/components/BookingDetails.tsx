@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
 import { cn } from '../lib/utils';
 
-type BookingDetailsProps = { isDisabled?: boolean } & React.DetailedHTMLProps<
+type BookingDetailsProps = {
+  isDisabled?: boolean;
+  isActive?: boolean;
+} & React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >;
-
 function BookingDetails({
   isDisabled = false,
+  isActive = false,
   className,
   children,
   ...props
 }: BookingDetailsProps) {
-  const [isActive, setActive] = useState(false);
-
   return (
     <button
       className={cn(
@@ -27,7 +27,7 @@ function BookingDetails({
       )}
       disabled={isDisabled}
       onClick={() => {
-        setActive(!isActive);
+        !isActive;
       }}
       {...props}
     >
