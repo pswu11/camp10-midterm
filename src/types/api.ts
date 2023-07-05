@@ -28,10 +28,10 @@ export type Person = {
   profile_path: string | null;
 };
 
-export type Cast = Person[] & {
+export type Cast = Person & {
   character: string;
 };
-export type Crew = Person[] & {
+export type Crew = Person & {
   job: string;
 };
 

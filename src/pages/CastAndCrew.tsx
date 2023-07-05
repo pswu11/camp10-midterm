@@ -1,5 +1,5 @@
-import CastCrewFunction from '../components/CastCrew';
+import CastCrew from '../components/CastCrew';
 
 export function CastAndCrew() {
-  return <CastCrewFunction />;
+  return <CastCrew />;
 }
