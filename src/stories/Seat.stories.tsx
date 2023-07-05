@@ -8,15 +8,14 @@ const meta: Meta<typeof Seat> = {
     viewport: {
       defaultViewport: 'mobile1',
     },
+    backgrounds: {
+      default: 'dark',
+    },
   },
 };
 
 export default meta;
 
-type Story = StoryObj<typeof Seat> & {
-  args: { variant: string };
-};
+type Story = StoryObj<typeof Seat>;
 
-export const Basic: Story = {
-  args: { variant: 'free' },
-};
+export const Basic: Story = {};
