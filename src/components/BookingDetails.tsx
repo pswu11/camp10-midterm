@@ -1,37 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { cn } from '../lib/utils';
 
+type BookingDetailsProps = { isDisabled?: boolean } & React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>;
 
+function BookingDetails({
+  isDisabled = false,
+  className,
+  children,
+  ...props
+}: BookingDetailsProps) {
+  const [isActive, setActive] = useState(false);
 
-type BookingDetailsProps = {
-   variant?:"default"|"active"|"disabled",
-  } & React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >;
+  return (
+    <button
+      className={cn(
+        'flex justify-center rounded-s font-500 text-m px-[1.03rem] py-[0.37rem] rounded text-white-dimmed',
+        isActive
+          ? 'bg-yellow text-dark-light'
+          : isDisabled
+          ? 'text-dark-light'
+          : '',
+        className
+      )}
+      disabled={isDisabled}
+      onClick={() => {
+        setActive(!isActive);
+      }}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
 
-function BookingDetails({variant="default", className, children, ...props}:BookingDetailsProps) {
-    const styles: Record<typeof variant, string> = {
-        active:"bg-yellow text-dark-light",
-        disabled:"text-dark-light",
-        default:"bg-dark text-white-dimmed",
-    }
- 
-    return (
-        <button
-          className={cn(
-            'flex justify-center rounded-s font-500 text-m px-[1.03rem] py-[0.37rem] rounded',
-            styles[variant], 
-            className
-          )}
-         
-          {...props}
-        >
-          {children}
-        </button>
-      );
-    }
-    
-
-
-export default BookingDetails
+export default BookingDetails;
