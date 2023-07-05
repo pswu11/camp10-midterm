@@ -34,7 +34,7 @@ export function Ticket() {
       <div className="bg-white-dimmed-heavy rounded-3xl overflow-hidden flex-1 flex flex-col justify-between">
         <div>
           <img src={`${IMG_BASE_URL}${currentMovie.backdrop_path}`} className="h-40 w-full object-cover" />
-          <h3 className="text-white font-700 text-[23px] mx-6 mb-3 mt-1">
+          <h3 className="text-white font-700 text-[23px] mx-6 mb-3 mt-1 line-clamp-2">
             {currentMovie.title}
           </h3>
           <div className="flex flex-wrap gap-x-16 gap-y-4 ml-6">
@@ -53,9 +53,9 @@ export function Ticket() {
           <div className="w-full flex justify-center mb-3 -mt-3">
             <Barcode
               value={currentTicket.id}
-              height={60}
               background="#FFFFFF00"
               lineColor="#FFFFFF"
+              height={48}
             />
           </div>
         </div>
