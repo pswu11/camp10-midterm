@@ -15,7 +15,11 @@ https://vitejs.dev/guide/env-and-mode.html
 
 Usage: 
 ```ts
-const res = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}`)
+  const res = await axios.get(
+    `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+      import.meta.env.VITE_TMDB_KEY
+    }`
+  );
 ```
 
 ## List API Endpoints:
