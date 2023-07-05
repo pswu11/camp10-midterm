@@ -3,8 +3,7 @@ import { Button } from '../components/Button';
 import { TicketInfo } from '../components/TicketInfo';
 import { Movie } from '../types/api';
 import { useRouteLoaderData } from 'react-router-dom';
-
-const IMG_URL = "https://image.tmdb.org/t/p/w500"
+import { IMG_BASE_URL } from '../api/movies';
 
 type TicketType = {
   id: string;
@@ -30,12 +29,11 @@ export function Ticket() {
     seat: ['C-3', 'C-4'],
   };
 
-  console.log(currentMovie);
   return (
     <div className="w-full h-full py-8 px-5 flex flex-col gap-y-4">
       <div className="bg-white-dimmed-heavy rounded-3xl overflow-hidden flex-1 flex flex-col justify-between">
         <div>
-          <img src={`${IMG_URL}${currentMovie.backdrop_path}`} className="h-40 w-full object-cover" />
+          <img src={`${IMG_BASE_URL}${currentMovie.backdrop_path}`} className="h-40 w-full object-cover" />
           <h3 className="text-white font-700 text-[23px] mx-6 mb-3 mt-1">
             {currentMovie.title}
           </h3>
