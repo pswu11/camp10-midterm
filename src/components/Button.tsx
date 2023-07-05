@@ -40,7 +40,7 @@ export function Button({
   return (
     <button
       className={clsx(
-        'flex justify-center font-700 text-center px-9 w-full rounded-lg',
+        'flex justify-center font-700 text-center items-center px-9 w-full rounded-lg',
         sizeStyle,
         disabledStyle,
         variantStyle,

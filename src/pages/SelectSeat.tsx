@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import Seat from '../components/Seat';
+import { BookingSummary } from '../components/BookingSummary';
 
 export function SelectSeat() {
   const [isSelected, setIsSelected] = useState(false);
@@ -12,10 +13,13 @@ export function SelectSeat() {
     console.log(seatId);
   };
   return (
-    <Seat
-      seatid={1}
-      onClick={() => handleSeatClick(1)}
-      isSelected={isSelected}
-    />
+    <>
+      <Seat
+        seatid={1}
+        onClick={() => handleSeatClick(1)}
+        isSelected={isSelected}
+      />
+      <BookingSummary />
+    </>
   );
 }
