@@ -2,10 +2,8 @@
 // use {Movie} from ../types
 // probably going to need this
 
-
-
-import CastCrewFunction from "../components/CastCrew";
+import CastCrewFunction from '../components/CastCrew';
 
 export function CastAndCrew() {
-  return <p><CastCrewFunction/>Here are the people behind that movie.</p>;
+  return <CastCrewFunction />;
 }
