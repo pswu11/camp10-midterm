@@ -17,6 +17,8 @@ import { Home } from './pages/Home';
 import { User } from './pages/User';
 import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
+import { UpcomingMovies } from './types/api';
+import axios from "axios"
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,12 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+        loader: async () => {
+          const { data: movies } = await axios.get<{results:UpcomingMovies[]}>( 
+            `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&api_key=${import.meta.env.VITE_TMDB_KEY}`
+          )
+          return movies.results
+        },
         index: true,
       },
       {
