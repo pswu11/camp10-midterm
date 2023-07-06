@@ -4,24 +4,25 @@ import { Transition } from '@headlessui/react';
 import { MdOutlineKeyboardArrowUp } from 'react-icons/md';
 import { useState } from 'react';
 import clsx from 'clsx';
+import { SelectedSeat } from '../pages/SelectSeat';
 
 // Later, selected seats should be passed from the SelectSeat page
-const mockSelectedSeats = [
-  {
-    seat: 'C-3',
-    price: 12.99,
-  },
-  {
-    seat: 'C-4',
-    price: 12.99,
-  },
-  {
-    seat: 'E-8',
-    price: 14.75,
-  },
-];
+// const mockSelectedSeats = [
+//   {
+//     seat: 'C-3',
+//     price: 12.99,
+//   },
+//   {
+//     seat: 'C-4',
+//     price: 12.99,
+//   },
+//   {
+//     seat: 'E-8',
+//     price: 14.75,
+//   },
+// ];
 
-export function BookingSummary() {
+export function BookingSummary( { selectedSeats } : { selectedSeats: SelectedSeat[] } ) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSlide = () => {
@@ -44,11 +45,11 @@ export function BookingSummary() {
         enterTo="translate-y-120 opacity-100"
       >
         <div className="w-full space-y-2">
-          {mockSelectedSeats.map((item, idx) => (
+          {selectedSeats.map((item, idx) => (
             <BookingSummaryRow
               id={idx + 1}
-              key={idx}
-              seat={item.seat}
+              key={item.id}
+              seat={item.code}
               price={item.price}
             />
           ))}
@@ -61,7 +62,7 @@ export function BookingSummary() {
             Total Price
           </span>
           <span className="text-xl font-700 text-white">
-            {mockSelectedSeats
+            {selectedSeats
               .reduce((acc, seat) => acc + seat.price, 0)
               .toFixed(2)}
           </span>
