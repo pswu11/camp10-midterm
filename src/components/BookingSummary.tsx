@@ -64,7 +64,7 @@ export function BookingSummary({
       <MdOutlineKeyboardArrowUp
         onClick={toggleSlide}
         className={clsx(
-          '-mt-4 mx-auto text-white text-xl',
+          '-mt-4 mx-auto text-white-dimmed text-xl',
           isOpen ? 'rotate-180' : ''
         )}
       />
