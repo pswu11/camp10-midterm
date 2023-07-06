@@ -1,15 +1,17 @@
-type SummaryRow = {
-  id: number;
-  seat: string;
+import { SeatTypeOptions } from "./BookingSummary";
+
+export type SummaryRow = {
+  type: SeatTypeOptions
+  amount: number
   price: number;
 };
 
-export function BookingSummaryRow({ id, seat, price }: SummaryRow) {
+export function BookingSummaryRow({ type, amount, price }: SummaryRow) {
   return (
     <li className="flex justify-between text-white-dimmed text-s">
       <div className="flex">
-        <div className="w-12">{`${id}x`}</div>
-        <div className="text-white">{seat}</div>
+        <div className="w-12">{`${amount}x`}</div>
+        <div className="text-white">{`Seat - ${type}`}</div>
       </div>
       <div>
         <span className="text-white">{`$${price}`}</span>

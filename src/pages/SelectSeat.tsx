@@ -2,7 +2,7 @@ import Seat from '../components/Seat';
 import { BookingSummary } from '../components/BookingSummary';
 import { useState } from 'react';
 
-type Seat = {
+export type SeatType = {
   id: number;
   code: string;
   isSelected: boolean
@@ -10,7 +10,7 @@ type Seat = {
 }
 
 // This will come from backend eventually
-const mockAllSeats: Seat[] = [
+const mockAllSeats: SeatType[] = [
   {
     id: 1,
     code: 'A-3',
@@ -41,27 +41,22 @@ const mockAllSeats: Seat[] = [
     isSelected: false,
     isReserved: false,
   },
+  {
+    id: 6,
+    code: 'D-10',
+    isSelected: false,
+    isReserved: false,
+  },
+  {
+    id: 7,
+    code: 'D-11',
+    isSelected: false,
+    isReserved: false,
+  },
 ];
 
-const seatPrices = {
-  "Front": 12.99,
-  "Middle": 14.75,
-  "Back": 16.99
-}
-
-export type SeatType = "Front" | "Middle" | "Back"
-
-export type SelectedSeat = {
-  id: number;
-  code: string;
-  type: SeatType
-  price: number;
-  isSelected: boolean
-  isReserved: boolean
-};
-
 export function SelectSeat() {
-  const [selectedSeats, updateSelectedSeats] = useState([] as SelectedSeat[]);
+  const [selectedSeats, updateSelectedSeats] = useState([] as SeatType[]);
   return (
     <>
       <div className="flex gap-x-2 mx-auto">
@@ -73,12 +68,10 @@ export function SelectSeat() {
             isReserved={item.isReserved}
             isSelected={item.isSelected}
             onClick={() => {
-              let updatedSelectedSeats: SelectedSeat[] = []
-              const seatType = item.code.split("-")[0] === "A" ? "Front" : "Middle"
-              const seatPrice = seatPrices[seatType]
+              let updatedSelectedSeats: SeatType[] = []
               if (!item.isSelected) {
                 item.isSelected = true
-                updatedSelectedSeats = [...selectedSeats, {...item, price: seatPrice, type: seatType}];
+                updatedSelectedSeats = [...selectedSeats, item];
                 updateSelectedSeats(updatedSelectedSeats)
               } else {
                 item.isSelected = false

@@ -4,35 +4,55 @@ import { Transition } from '@headlessui/react';
 import { MdOutlineKeyboardArrowUp } from 'react-icons/md';
 import { useState } from 'react';
 import clsx from 'clsx';
-import { SelectedSeat } from '../pages/SelectSeat';
 import { cn } from '../lib/utils';
+import { SeatType } from '../pages/SelectSeat';
+import { SummaryRow } from './BookingSummaryRow';
 
-// Later, selected seats should be passed from the SelectSeat page
-// const mockSelectedSeats = [
-//   {
-//     seat: 'C-3',
-//     price: 12.99,
-//   },
-//   {
-//     seat: 'C-4',
-//     price: 12.99,
-//   },
-//   {
-//     seat: 'E-8',
-//     price: 14.75,
-//   },
-// ];
+// This logic is purely made up for now
+function returnSeatType(seatCode: string) {
+  const row = seatCode.split('-')[0];
+  switch (row) {
+    case 'A':
+      return 'Front';
+    case 'H':
+      return 'Back';
+    default:
+      return 'Middle';
+  }
+}
+
+export type SeatTypeOptions = 'Front' | 'Middle' | 'Back';
+
+const seatPrices = {
+  Front: 12.99,
+  Middle: 14.75,
+  Back: 16.99,
+};
 
 export function BookingSummary({
   selectedSeats,
 }: {
-  selectedSeats: SelectedSeat[];
+  selectedSeats: SeatType[];
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(true);
   const toggleSlide = () => {
     setIsOpen(!isOpen);
   };
+
+  // create summary rows
+  const summaries: SummaryRow[] = [];
+  selectedSeats.forEach(seat => {
+    const type = returnSeatType(seat.code);
+    if (!summaries.some(row => row.type === type)) {
+      summaries.push({ type: type, amount: 1, price: seatPrices[type] });
+    } else {
+      summaries.forEach(row => {
+        if (row.type === type) {
+          row.amount += 1;
+        }
+      });
+    }
+  });
 
   return (
     <div className="w-full bg-dark-light rounded-3xl px-5 pt-7 pb-6">
@@ -50,6 +70,14 @@ export function BookingSummary({
         enterTo="translate-y-120 opacity-100"
       >
         <div className="w-full space-y-2">
+          {summaries.map(row => (
+            <BookingSummaryRow
+              key={row.type}
+              type={row.type}
+              amount={row.amount}
+              price={row.price}
+            />
+          ))}
         </div>
         <div
           className={cn(
@@ -64,8 +92,8 @@ export function BookingSummary({
             Total Price
           </span>
           <span className="text-xl font-700 text-white">
-            {selectedSeats
-              .reduce((acc, seat) => acc + seat.price, 0)
+            {summaries
+              .reduce((acc, row) => acc + row.amount * row.price, 0)
               .toFixed(2)}
           </span>
         </div>
