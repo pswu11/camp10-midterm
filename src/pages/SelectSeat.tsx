@@ -19,7 +19,7 @@ const mockAllSeats = [
 export function SelectSeat() {
   return (
     <>
-      <div className='flex gap'>
+      <div className='flex gap mx-auto'>
         {
           mockAllSeats.map(item => <Seat key={item.id} seatid={item.id} seatCode={item.code} />)
         }

@@ -66,7 +66,7 @@ export function BookingSummary() {
               .toFixed(2)}
           </span>
         </div>
-        <Button className="">Book Ticket</Button>
+        <Button>Book Ticket</Button>
       </div>
     </div>
   );
