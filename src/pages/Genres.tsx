@@ -1,5 +1,3 @@
-import { GenreIcon } from '../components/GenreIcon';
-
 export function Genres() {
   return (
     <>
