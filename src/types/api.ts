@@ -37,6 +37,6 @@ export type Crew = Person & {
 
 export type Credits = {
   id: number;
-  cast: Cast;
-  crew: Crew;
+  cast: Cast[];
+  crew: Crew[];
 };
