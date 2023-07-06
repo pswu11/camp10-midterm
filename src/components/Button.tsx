@@ -40,11 +40,11 @@ export function Button({
 
   return (
     <button
-      className={cn(
-        'flex justify-center items-center font-700  px-9 w-full rounded-lg',
-        sizeStyle,
+      className={clsx(
+        'flex justify-center items-center font-700  px-9 rounded-lg',
         disabledStyle,
         variantStyle,
+        sizeStyle,
         className
       )}
       disabled={disabled}

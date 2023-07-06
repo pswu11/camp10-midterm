@@ -2,7 +2,7 @@ import MovieCard from '../components/MovieCard';
 import { Movie } from '../types/api';
 
 const testMovie: Movie = {
-  id: 1,
+  id: 550,
   poster_path: null,
   title: ' ',
   backdrop_path: null,

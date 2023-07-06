@@ -1,43 +1,51 @@
+import { useRouteLoaderData } from 'react-router-dom';
 import { Button } from '../components/Button';
-// import axios from 'axios';
-
-// const options = {
-//   method: 'GET',
-//   url: 'https://api.themoviedb.org/3/movie/550',
-
-//   headers: {
-//     accept: 'application/json',
-//     Authorization:
-//       'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MzA1ODAzNTRjOWFhZjdhNTdkM2YwMmE3YTAwMTBhZSIsInN1YiI6IjY0YTI5NDdiZDQwMGYzMDBjYWFiZThmMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FRp1ZJZTyz7_1Z9SDgKkWmdBoi5FOqFOqn26EIpozpk',
-//   },
-// };
-
-// axios
-//   .request(options)
-//   .then(res => {
-//     console.log(res.data);
-//   })
-//   .catch(error => console.log(error));
 
 export function MovieDetails() {
+  const { movie } = useRouteLoaderData('currentMovie') as { movie: [] };
+  const {
+    adult,
+    title,
+    backdrop_path,
+    runtime,
+    vote_average,
+    vote_count,
+    release_date,
+    overview,
+    id,
+  } = movie;
+
+  const keyNames = Object.keys(
+    `https://api.themoviedb.org/3/movie/550/credits?api_key=830580354c9aaf7a57d3f02a7a0010ae`
+  );
+  console.log(keyNames);
+
+  console.log(movie);
+
   return (
-    <div className="flex flex-col pt-2">
+    <div className="flex flex-col px-5 py-6 ">
       <img
-        src="https://cdn.discordapp.com/attachments/1096518234032853123/1126150464338153573/image_11.png"
+        src={`https://image.tmdb.org/t/p/original/${backdrop_path}`}
         alt=""
       />
-      <h1 className="text-white pt-6 pb-3 font-700 text-[1.25rem]">
-        Terrifier 2
-      </h1>
+      <h1 className="text-white pt-6 pb-3 font-700 text-[1.25rem]">{title}</h1>
       <div className="flex pb-3 justify-between">
         <div className="flex gap-6">
-          <p className="text-s text-white font-500">2022</p>
+          <p className="text-s text-white font-500">
+            {release_date.slice(0, 4)}{' '}
+          </p>
           <p className="text-s text-white-dimmed font-500">Horror/Thriller</p>
-          <p className="text-s text-white-dimmed font-500">2h 18m</p>
+          <p className="text-s text-white-dimmed font-500">
+            {Math.floor(runtime / 60) + 'h ' + ((runtime % 60) + 'm')}
+          </p>
         </div>
         <p className="text-s text-white-dimmed font-500 ">
           {' '}
-          <span className="text-green">70%</span> Score
+          <span className="text-green">
+            {/* {Math.round(vote_count / vote_average / 100) + '%'} */}
+            {Math.round(vote_average * 10) + '%'}
+          </span>{' '}
+          Score
         </p>
       </div>
       <div className="flex justify-between items-center pb-4">
@@ -57,21 +65,21 @@ export function MovieDetails() {
         </div>
         <Button
           variant="secondary"
-          className="w-[10.4375rem] h-[2.375rem] text-s"
+          size="small"
+          className="w-[10.4375rem] h-[2.375rem] "
           label="Cast & Crew"
         ></Button>
       </div>
       <hr className="border-white-dimmed" />
       <div className="flex flex-col pt-4 pb-[3.19rem]">
         <p className="text-white font-700 text-m pb-3">Synopsis</p>
-        <p className="text-white-dimmed text-m font-500 leading-6">
-          {' '}
-          After being resurrected by a sinister entity, Art the Clown returns to
-          Miles County where ....
+        <p className="text-white-dimmed text-m font-500 leading-6 h-[3.125rem] truncate">
+          {overview}
         </p>
         <a
           className="text-yellow text-m font-500 underline underline-offset-2"
-          href="https://developer.themoviedb.org/reference/intro/getting-started"
+          // href={`https://api.themoviedb.org/3/movie/${id}?api_key=830580354c9aaf7a57d3f02a7a0010ae`}
+          href={`https://www.themoviedb.org/movie/${id}?language=de-DE`}
         >
           {' '}
           Read more
