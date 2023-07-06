@@ -1,29 +1,26 @@
 import React from 'react';
 import { cn } from '../lib/utils';
 
-type PaginationVariant = {
-  isActive?: boolean;
+type PaginationButtonProps = {
+  currentPage: number;
 } & React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >;
 
 function PaginationButton({
-  isActive = false,
+  currentPage,
   className,
   children,
   ...props
-}: PaginationVariant) {
+}: PaginationButtonProps) {
   return (
     <button
       className={cn(
-        'flex justify-center items-center  h-8 w-8 rounded', // Added 'items-center' for vertical centering
-        isActive ? 'bg-yellow text-dark-light ' : 'bg-white-dimmed',
+        'flex justify-center items-center  h-8 w-8 rounded-sm  text-dark-light ',
+        currentPage == children ? 'bg-yellow' : 'bg-white-dimmed',
         className
       )}
-      onClick={() => {
-        !isActive;
-      }}
       {...props}
     >
       {children}

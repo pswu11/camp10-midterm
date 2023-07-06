@@ -14,9 +14,9 @@ const meta: Meta<typeof PaginationButton> = {
 export default meta;
 
 type Story = StoryObj<typeof PaginationButton> & {
-  args: { isActive: boolean; children: string };
+  args: { children: string };
 };
 
 export const Basic: Story = {
-  args: { isActive: false, children: 'Label' },
+  args: { children: 'Label' },
 };
