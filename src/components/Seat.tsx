@@ -10,6 +10,8 @@ type SeatProps = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 function Seat({ seatid, seatCode, isReserved = false, ...props }: SeatProps) {
+  // just to make the toggle work for now, but later
+  // we should handle all the seat states on the select seat page
   const [isSelected, setIsSelected] = useState(false)
   return (
     <button
