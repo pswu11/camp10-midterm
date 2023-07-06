@@ -22,13 +22,14 @@ function returnSeatType(seatCode: string) {
   }
 }
 
-// This logic is purely made up for now
+// This is purely made up for now
 const seatPrices = {
   Front: 12.99,
   Middle: 14.75,
   Back: 16.99,
 };
 
+// Transform selected seats into summaries
 function createBookingSummary(selectedSeats: SeatType[]) {
   const summaries: SummaryRow[] = [];
   selectedSeats.forEach(seat => {
