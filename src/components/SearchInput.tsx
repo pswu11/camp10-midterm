@@ -33,8 +33,6 @@ export function SearchInput() {
           return movie.toLowerCase().includes(query.toLowerCase());
         });
 
-  console.log(filteredMovies);
-
   return (
     <Combobox value={selectedMovie} onChange={setSelectedMovie}>
       <Combobox.Label className="relative flex items-center">

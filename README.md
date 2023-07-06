@@ -3,14 +3,24 @@
 https://www.figma.com/file/TOCJzJFMXE7PL1dQyGWqXZ/midterm?type=design&node-id=193-51&mode=design&t=4jEuQWIjPhpPolEq-0
 
 
-## How to: dotenv
+## How to use `.env` in vite project
 
-Link: https://www.npmjs.com/package/dotenv
+Note: Make sure you already have TMDB's api key, if not, register an account and request for one. 
+
+https://vitejs.dev/guide/env-and-mode.html
 
 - create a file named `.env`
-- add `*.env` to `.gitignore`
-- add `API_KEY="your api key"` to `.env`
+- make sure that `*.env` is already in your `.gitignore` (you don't want to commit this file)
+- add `VITE_TMDB_KEY="{your_api_key}"` to `.env`
 
+Usage: 
+```ts
+  const res = await axios.get(
+    `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+      import.meta.env.VITE_TMDB_KEY
+    }`
+  );
+```
 
 ## List API Endpoints:
 
