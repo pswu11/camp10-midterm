@@ -1,4 +1,23 @@
 import { Button } from '../components/Button';
+import axios from 'axios';
+
+const options = {
+  method: 'GET',
+  url: 'https://api.themoviedb.org/3/movie/550',
+
+  headers: {
+    accept: 'application/json',
+    Authorization:
+      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MzA1ODAzNTRjOWFhZjdhNTdkM2YwMmE3YTAwMTBhZSIsInN1YiI6IjY0YTI5NDdiZDQwMGYzMDBjYWFiZThmMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FRp1ZJZTyz7_1Z9SDgKkWmdBoi5FOqFOqn26EIpozpk',
+  },
+};
+
+axios
+  .request(options)
+  .then(res => {
+    console.log(res.data);
+  })
+  .catch(error => console.log(error));
 
 export function MovieDetails() {
   return (
@@ -52,7 +71,7 @@ export function MovieDetails() {
         </p>
         <a
           className="text-yellow text-m font-500 underline underline-offset-2"
-          href=""
+          href="https://developer.themoviedb.org/reference/intro/getting-started"
         >
           {' '}
           Read more
