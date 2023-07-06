@@ -1,5 +1,5 @@
 import { cn } from '../lib/utils';
-import React, { useState } from 'react';
+import React from 'react';
 
 //http://localhost:5173/movies/1/select-seat
 

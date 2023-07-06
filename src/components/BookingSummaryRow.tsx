@@ -1,10 +1,4 @@
-import { SeatTypeOptions } from "./BookingSummary";
-
-export type SummaryRow = {
-  type: SeatTypeOptions
-  amount: number
-  price: number;
-};
+import { SummaryRow } from '../types/booking';
 
 export function BookingSummaryRow({ type, amount, price }: SummaryRow) {
   return (

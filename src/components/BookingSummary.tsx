@@ -5,8 +5,8 @@ import { MdOutlineKeyboardArrowUp } from 'react-icons/md';
 import { useState } from 'react';
 import clsx from 'clsx';
 import { cn } from '../lib/utils';
-import { SeatType } from '../pages/SelectSeat';
-import { SummaryRow } from './BookingSummaryRow';
+import { SummaryRow } from '../types/booking';
+import { SeatType } from '../types/booking';
 
 // This logic is purely made up for now
 function returnSeatType(seatCode: string) {
@@ -14,6 +14,7 @@ function returnSeatType(seatCode: string) {
   switch (row) {
     case 'A':
       return 'Front';
+    // assume H is the last row
     case 'H':
       return 'Back';
     default:
@@ -21,25 +22,14 @@ function returnSeatType(seatCode: string) {
   }
 }
 
-export type SeatTypeOptions = 'Front' | 'Middle' | 'Back';
-
+// This logic is purely made up for now
 const seatPrices = {
   Front: 12.99,
   Middle: 14.75,
   Back: 16.99,
 };
 
-export function BookingSummary({
-  selectedSeats,
-}: {
-  selectedSeats: SeatType[];
-}) {
-  const [isOpen, setIsOpen] = useState(true);
-  const toggleSlide = () => {
-    setIsOpen(!isOpen);
-  };
-
-  // create summary rows
+function createBookingSummary(selectedSeats: SeatType[]) {
   const summaries: SummaryRow[] = [];
   selectedSeats.forEach(seat => {
     const type = returnSeatType(seat.code);
@@ -53,6 +43,20 @@ export function BookingSummary({
       });
     }
   });
+  return summaries;
+}
+
+export function BookingSummary({
+  selectedSeats,
+}: {
+  selectedSeats: SeatType[];
+}) {
+  const [isOpen, setIsOpen] = useState(true);
+  const toggleSlide = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const summaries = createBookingSummary(selectedSeats);
 
   return (
     <div className="w-full bg-dark-light rounded-3xl px-5 pt-7 pb-6">

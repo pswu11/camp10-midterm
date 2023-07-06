@@ -1,13 +1,7 @@
 import Seat from '../components/Seat';
 import { BookingSummary } from '../components/BookingSummary';
 import { useState } from 'react';
-
-export type SeatType = {
-  id: number;
-  code: string;
-  isSelected: boolean
-  isReserved: boolean
-}
+import { SeatType } from '../types/booking';
 
 // This will come from backend eventually
 const mockAllSeats: SeatType[] = [
@@ -68,15 +62,17 @@ export function SelectSeat() {
             isReserved={item.isReserved}
             isSelected={item.isSelected}
             onClick={() => {
-              let updatedSelectedSeats: SeatType[] = []
+              let updatedSelectedSeats: SeatType[] = [];
               if (!item.isSelected) {
-                item.isSelected = true
+                item.isSelected = true;
                 updatedSelectedSeats = [...selectedSeats, item];
-                updateSelectedSeats(updatedSelectedSeats)
+                updateSelectedSeats(updatedSelectedSeats);
               } else {
-                item.isSelected = false
-                updatedSelectedSeats = selectedSeats.filter(seat => seat.id !== item.id)
-                updateSelectedSeats(updatedSelectedSeats)
+                item.isSelected = false;
+                updatedSelectedSeats = selectedSeats.filter(
+                  seat => seat.id !== item.id
+                );
+                updateSelectedSeats(updatedSelectedSeats);
               }
             }}
           />
