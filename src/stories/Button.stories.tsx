@@ -15,7 +15,7 @@ const meta: Meta<typeof Button> = {
 export default meta;
 
 type Story = StoryObj<typeof Button> & {
-  args: { variant: string; size: string };
+  args: { variant: string; size: string;};
 };
 
 export const Primary: Story = {
