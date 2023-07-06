@@ -1,24 +1,29 @@
-// import {useLoaderData} from "react-router-dom"
-// probably going to need this
-
-import { useState } from 'react';
 import Seat from '../components/Seat';
 import { BookingSummary } from '../components/BookingSummary';
 
+const mockAllSeats = [
+  {
+    id: 1,
+    code: 'C-3'
+  },
+  {
+    id: 2,
+    code: 'C-4'
+  },
+  {
+    id: 3,
+    code: 'C-5'
+  },
+]
+
 export function SelectSeat() {
-  const [isSelected, setIsSelected] = useState(false);
-  const handleSeatClick = (seatId: number) => {
-    setIsSelected(!isSelected);
-    //remove this when you understand the logic
-    console.log(seatId);
-  };
   return (
     <>
-      <Seat
-        seatid={1}
-        onClick={() => handleSeatClick(1)}
-        isSelected={isSelected}
-      />
+      <div className='flex gap'>
+        {
+          mockAllSeats.map(item => <Seat key={item.id} seatid={item.id} seatCode={item.code} />)
+        }
+      </div>
       <BookingSummary />
     </>
   );
