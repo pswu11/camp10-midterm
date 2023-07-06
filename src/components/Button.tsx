@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { cn } from '../lib/utils';
 
 type ButtonVariant = 'primary' | 'secondary';
 type ButtonSize = 'default' | 'small';
@@ -39,8 +40,8 @@ export function Button({
 
   return (
     <button
-      className={clsx(
-        'flex justify-center font-700 text-center px-9 w-full rounded-lg',
+      className={cn(
+        'flex justify-center items-center font-700  px-9 w-full rounded-lg',
         sizeStyle,
         disabledStyle,
         variantStyle,
