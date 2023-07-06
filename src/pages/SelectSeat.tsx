@@ -2,40 +2,59 @@ import Seat from '../components/Seat';
 import { BookingSummary } from '../components/BookingSummary';
 import { useState } from 'react';
 
-const mockAllSeats: SelectedSeat[] = [
+type Seat = {
+  id: number;
+  code: string;
+  isSelected: boolean
+  isReserved: boolean
+}
+
+// This will come from backend eventually
+const mockAllSeats: Seat[] = [
   {
     id: 1,
-    code: 'C-3',
-    price: 12.99,
+    code: 'A-3',
     isSelected: false,
     isReserved: false,
   },
   {
     id: 2,
-    code: 'C-4',
-    price: 12.99,
+    code: 'A-4',
     isSelected: false,
     isReserved: false,
   },
   {
     id: 3,
-    code: 'D-5',
-    price: 14.75,
+    code: 'C-3',
     isSelected: false,
     isReserved: false,
   },
   {
     id: 4,
-    code: 'E-8',
-    price: 14.99,
+    code: 'C-4',
+    isSelected: false,
+    isReserved: false,
+  },
+  {
+    id: 5,
+    code: 'H-8',
     isSelected: false,
     isReserved: false,
   },
 ];
 
+const seatPrices = {
+  "Front": 12.99,
+  "Middle": 14.75,
+  "Back": 16.99
+}
+
+export type SeatType = "Front" | "Middle" | "Back"
+
 export type SelectedSeat = {
   id: number;
   code: string;
+  type: SeatType
   price: number;
   isSelected: boolean
   isReserved: boolean
@@ -55,9 +74,11 @@ export function SelectSeat() {
             isSelected={item.isSelected}
             onClick={() => {
               let updatedSelectedSeats: SelectedSeat[] = []
+              const seatType = item.code.split("-")[0] === "A" ? "Front" : "Middle"
+              const seatPrice = seatPrices[seatType]
               if (!item.isSelected) {
                 item.isSelected = true
-                updatedSelectedSeats = [...selectedSeats, item];
+                updatedSelectedSeats = [...selectedSeats, {...item, price: seatPrice, type: seatType}];
                 updateSelectedSeats(updatedSelectedSeats)
               } else {
                 item.isSelected = false

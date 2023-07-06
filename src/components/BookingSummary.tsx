@@ -5,6 +5,7 @@ import { MdOutlineKeyboardArrowUp } from 'react-icons/md';
 import { useState } from 'react';
 import clsx from 'clsx';
 import { SelectedSeat } from '../pages/SelectSeat';
+import { cn } from '../lib/utils';
 
 // Later, selected seats should be passed from the SelectSeat page
 // const mockSelectedSeats = [
@@ -22,7 +23,11 @@ import { SelectedSeat } from '../pages/SelectSeat';
 //   },
 // ];
 
-export function BookingSummary( { selectedSeats } : { selectedSeats: SelectedSeat[] } ) {
+export function BookingSummary({
+  selectedSeats,
+}: {
+  selectedSeats: SelectedSeat[];
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSlide = () => {
@@ -45,16 +50,13 @@ export function BookingSummary( { selectedSeats } : { selectedSeats: SelectedSea
         enterTo="translate-y-120 opacity-100"
       >
         <div className="w-full space-y-2">
-          {selectedSeats.map((item, idx) => (
-            <BookingSummaryRow
-              id={idx + 1}
-              key={item.id}
-              seat={item.code}
-              price={item.price}
-            />
-          ))}
         </div>
-        <div className="border border-t-[1px] border-white-dimmed-heavy border-b-0 mt-4"></div>
+        <div
+          className={cn(
+            'border border-t-[1px] border-white-dimmed-heavy border-b-0 mt-4',
+            selectedSeats.length === 0 && 'border-t-0'
+          )}
+        ></div>
       </Transition>
       <div className="justify-between w-full flex gap-12 mt-8">
         <div className="flex flex-col">
