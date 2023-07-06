@@ -1,23 +1,23 @@
 import { Button } from '../components/Button';
-import axios from 'axios';
+// import axios from 'axios';
 
-const options = {
-  method: 'GET',
-  url: 'https://api.themoviedb.org/3/movie/550',
+// const options = {
+//   method: 'GET',
+//   url: 'https://api.themoviedb.org/3/movie/550',
 
-  headers: {
-    accept: 'application/json',
-    Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MzA1ODAzNTRjOWFhZjdhNTdkM2YwMmE3YTAwMTBhZSIsInN1YiI6IjY0YTI5NDdiZDQwMGYzMDBjYWFiZThmMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FRp1ZJZTyz7_1Z9SDgKkWmdBoi5FOqFOqn26EIpozpk',
-  },
-};
+//   headers: {
+//     accept: 'application/json',
+//     Authorization:
+//       'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MzA1ODAzNTRjOWFhZjdhNTdkM2YwMmE3YTAwMTBhZSIsInN1YiI6IjY0YTI5NDdiZDQwMGYzMDBjYWFiZThmMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FRp1ZJZTyz7_1Z9SDgKkWmdBoi5FOqFOqn26EIpozpk',
+//   },
+// };
 
-axios
-  .request(options)
-  .then(res => {
-    console.log(res.data);
-  })
-  .catch(error => console.log(error));
+// axios
+//   .request(options)
+//   .then(res => {
+//     console.log(res.data);
+//   })
+//   .catch(error => console.log(error));
 
 export function MovieDetails() {
   return (
