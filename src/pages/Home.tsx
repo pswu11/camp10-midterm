@@ -1,7 +1,10 @@
+import { SearchInput } from "../components/SearchInput"
+
 export function Home() {
   return (
-    <div>
+    <>
+      <SearchInput />
       This is home page
-    </div>
+    </>
   )
 }
