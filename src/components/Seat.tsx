@@ -5,11 +5,21 @@ import React from 'react';
 
 type SeatProps = {
   seatid: number;
-  isSelected?: boolean;
-  isReserved?: boolean;
+  seatCode: string;
+  isSelected: boolean;
+  isReserved: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-function Seat({ seatid, isSelected, isReserved = false, ...props }: SeatProps) {
+function Seat({
+  seatid,
+  seatCode,
+  isSelected,
+  isReserved = false,
+  ...props
+}: SeatProps) {
+  // just to make the toggle work for now, but later
+  // we should handle all the seat states on the select seat page
+  // const [isSelected, setIsSelected] = useState(false)
   return (
     <button
       className={cn(
