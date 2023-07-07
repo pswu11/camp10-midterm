@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BookingDetails from '../components/BookingDetails';
+import { useTicketStore } from '../stores/ticket';
 
 type DateType = {
   isActive: boolean;
   isDisabled: boolean;
   date: string;
+};
+
+type TimeType = {
+  isActive: boolean;
+  isDisabled: boolean;
+  time: string;
 };
 
 function generateAvailableDates(numberOfDays: number) {
@@ -28,14 +35,44 @@ function generateAvailableDates(numberOfDays: number) {
   return nextDays;
 }
 
+function generateAvailableTimes(numberOfSlots: number) {
+  const timeslots: TimeType[] = [];
+  for (let i = 0; i <= numberOfSlots - 1; i++) {
+    timeslots.push({
+      isActive: false,
+      isDisabled: Math.random() > 0.3 ? false : true,
+      time: `${Math.floor(Math.random() * 24)}:${Math.floor(
+        Math.random() * 60
+      )}`,
+    });
+  }
+  return timeslots;
+}
+
+function generateTicketId() {
+  return Math.floor(Math.random() * 100000000);
+}
+
 export function SelectTime() {
   const [availableDates, setAvailableDates] = useState(
     generateAvailableDates(8)
   );
+  const [availableTimes, setAvailableTimes] = useState(
+    generateAvailableTimes(8)
+  );
+
+  const ticketStore = useTicketStore();
+  const { setId, setTime, setDate } = ticketStore;
+  useEffect(() => {
+    setId(generateTicketId().toString());
+  }, []);
+
   const handleDateClick = (clickedDate: string) => {
     const updatedDates = availableDates.map(date => {
       if (date.date === clickedDate && !date.isDisabled) {
         // Toggle the isActive property if the date is not disabled
+        setDate(date.date);
+        setAvailableTimes(generateAvailableTimes(8));
         return {
           ...date,
           isActive: !date.isActive,
@@ -53,8 +90,34 @@ export function SelectTime() {
     setAvailableDates(updatedDates);
   };
 
+  const handleTimeClick = (clickedTime: string) => {
+    const updatedTimes = availableTimes.map(time => {
+      if (time.time === clickedTime && !time.isDisabled) {
+        // Toggle the isActive property if the time is not disabled
+        setTime(time.time);
+        return {
+          ...time,
+          isActive: !time.isActive,
+        };
+      } else {
+        // Set rest of the times inactive
+        if (time.isActive)
+          return {
+            ...time,
+            isActive: false,
+          };
+      }
+      return time;
+    });
+    setAvailableTimes(updatedTimes);
+  };
+
   return (
     <div className="h-full w-full px-5 py-8">
+      <div>
+        <h2 className='text-white'>Select Date & Time</h2>
+      </div>
+      <h3 className="uppercase text-m text-white-dimmed font-700 my-6">Date</h3>
       <div className="grid grid-cols-4 gap-y-4">
         {availableDates.map(date => (
           <BookingDetails
@@ -64,6 +127,20 @@ export function SelectTime() {
             onClick={() => handleDateClick(date.date)}
           >
             {date.date}
+          </BookingDetails>
+        ))}
+      </div>
+      <div className="border border-t-[1px] border-white-dimmed-heavy border-b-0 mt-4"></div>
+      <h3 className="uppercase text-m text-white-dimmed font-700 my-6">Time</h3>
+      <div className="grid grid-cols-4 gap-y-4">
+        {availableTimes.map((time, idx) => (
+          <BookingDetails
+            key={idx}
+            isActive={time.isActive}
+            isDisabled={time.isDisabled}
+            onClick={() => handleTimeClick(time.time)}
+          >
+            {time.time}
           </BookingDetails>
         ))}
       </div>
