@@ -42,7 +42,7 @@ const router = createBrowserRouter([
             }`
           );
           const nowPlayingMovies = res.data.results as Movie[];
-          return { nowPlayingMovies };
+          return nowPlayingMovies;
         },
       },
       {

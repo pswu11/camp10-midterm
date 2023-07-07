@@ -10,9 +10,7 @@ const MovieCard = ({ movie, variant }: Props) => (
   <Link to={`/movies/${movie.id}`}>
     <div
       className={
-        variant === 'upcoming'
-          ? 'rounded-lg w-44 h-56 overflow-hidden'
-          : 'w-full'
+        variant === 'upcoming' ? 'rounded-lg w-44 h-56 overflow-hidden' : 'h-56'
       }
     >
       <img
