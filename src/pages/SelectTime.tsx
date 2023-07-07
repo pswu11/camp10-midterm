@@ -19,6 +19,17 @@ type TimeType = {
   time: string;
 };
 
+const fixedTimes = [
+  "10:30",
+  "12:55",
+  "14:30",
+  "15:45",
+  "17:50",
+  "19:30",
+  "20:45",
+  "22:30"
+]
+
 function generateAvailableDates(numberOfDays: number) {
   const today = new Date();
   const options: Intl.DateTimeFormatOptions = {
@@ -39,16 +50,31 @@ function generateAvailableDates(numberOfDays: number) {
   return nextDays;
 }
 
-function generateAvailableTimes(numberOfSlots: number) {
+function generateAvailableTimes(date: string) {
   const timeslots: TimeType[] = [];
-  for (let i = 0; i <= numberOfSlots - 1; i++) {
-    timeslots.push({
-      isActive: false,
-      isDisabled: Math.random() > 0.3 ? false : true,
-      time: `${Math.floor(Math.random() * 24)}:${Math.floor(
-        Math.random() * 60
-      )}`,
-    });
+  const optionsDate: Intl.DateTimeFormatOptions = {
+    day: 'numeric',
+    month: 'short',
+  };
+  const today = new Date().toLocaleString('en-GB', optionsDate)
+  if (today === date) {
+    const currentHour = new Date().getHours()
+    for (let i = 0; i <= 7; i++) {
+      const hour = Number(fixedTimes[i].split(":")[0])
+      timeslots.push({
+        isActive: false,
+        isDisabled: hour > currentHour ? false : true,
+        time: fixedTimes[i],
+      });
+    }
+  } else {
+    for (let i = 0; i <= 7; i++) {
+      timeslots.push({
+        isActive: false,
+        isDisabled: Math.random() > 0.3 ? false : true,
+        time: fixedTimes[i],
+      });
+    }
   }
   return timeslots;
 }
@@ -83,7 +109,7 @@ export function SelectTime() {
       if (date.date === clickedDate && !date.isDisabled) {
         // Toggle the isActive property if the date is not disabled
         setDate(date.date);
-        setAvailableTimes(generateAvailableTimes(8));
+        setAvailableTimes(generateAvailableTimes(date.date));
         return {
           ...date,
           isActive: !date.isActive,
