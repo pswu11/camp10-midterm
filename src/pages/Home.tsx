@@ -7,14 +7,13 @@ import { UpcomingMovie } from "../types/api"
 
 
 export function Home() {
-   const movies = useLoaderData() as  UpcomingMovie[] 
+  const movies = useLoaderData() as  UpcomingMovie[] 
   console.log(movies)
   
   return (
     <>
-     <SearchInput />
+    <SearchInput />
     <Movieslider upcoming={movies}/>
-     
-     </>
+    </>
   )
 }
