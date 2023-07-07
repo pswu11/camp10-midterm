@@ -1,6 +1,6 @@
 import { Link, useRouteLoaderData } from 'react-router-dom';
 import { Button } from '../components/Button';
-import { Credits, Genre, Movie } from '../types/api';
+import { Credits, Movie } from '../types/api';
 import axios from 'axios';
 import { useState } from 'react';
 import { IoChevronBackSharp } from 'react-icons/io5';

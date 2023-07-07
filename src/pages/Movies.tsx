@@ -1,22 +1,7 @@
-import MovieCard from '../components/MovieCard';
-import { Movie } from '../types/api';
-
-const testMovie: Movie = {
-  id: 550,
-  poster_path: null,
-  title: ' ',
-  backdrop_path: null,
-  genre_ids: [],
-  overview: '',
-  release_date: '',
-  vote_average: 0,
-  runtime: 0,
-};
-
 export function Movies() {
   return (
     <div>
-      <MovieCard movie={testMovie} variant="upcoming"></MovieCard>
+      <h1>Movies</h1>
     </div>
   );
 }
