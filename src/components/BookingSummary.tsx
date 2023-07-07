@@ -91,18 +91,18 @@ export function BookingSummary({
           )}
         ></div>
       </Transition>
-      <div className="justify-between w-full flex gap-12 mt-8">
+      <div className="justify-between w-full flex gap-12 mt-8 items-center">
         <div className="flex flex-col">
           <span className="text-s font-500 text-white-dimmed whitespace-nowrap">
             Total Price
           </span>
           <span className="text-xl font-700 text-white">
-            {summaries
+            {`$${summaries
               .reduce((acc, row) => acc + row.amount * row.price, 0)
-              .toFixed(2)}
+              .toFixed(2)}`}
           </span>
         </div>
-        <Button>Book Ticket</Button>
+        <Button className='w-3/5'>Book Ticket</Button>
       </div>
     </div>
   );
