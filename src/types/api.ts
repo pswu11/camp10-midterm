@@ -4,16 +4,15 @@ export type Genre = {
 };
 
 export type UpcomingMovie = {
-    map(arg0: (backdrop_path: any) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode
-    id: number
-    title: string
-    backdrop_path: string | null
-    poster_path: string | null
-    genre_ids: number[]
-    overview: string
-    release_date: string
-    vote_average: number
-}
+  id: number;
+  title: string;
+  backdrop_path: string | null;
+  poster_path: string | null;
+  genre_ids: number[];
+  overview: string;
+  release_date: string;
+  vote_average: number;
+};
 
 // Movie (aka MovieDetail) to include length
 export type Movie = {
