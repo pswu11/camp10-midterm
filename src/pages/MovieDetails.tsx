@@ -1,26 +1,37 @@
 import { useRouteLoaderData } from 'react-router-dom';
 import { Button } from '../components/Button';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Movie } from '../types/api';
 
 export function MovieDetails() {
-  const { movie } = useRouteLoaderData('currentMovie') as { movie: [] };
+  const [creditData, setCreditData] = useState([]);
+  const { movie } = useRouteLoaderData('currentMovie') as { movie: Movie };
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/movie/550/credits?api_key=830580354c9aaf7a57d3f02a7a0010ae`
+      );
+      setCreditData(res.data.crew);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCredits();
+  }, []);
+
   const {
-    adult,
+    id,
     title,
     backdrop_path,
     runtime,
     vote_average,
-    vote_count,
     release_date,
     overview,
-    id,
   } = movie;
-
-  const keyNames = Object.keys(
-    `https://api.themoviedb.org/3/movie/550/credits?api_key=830580354c9aaf7a57d3f02a7a0010ae`
-  );
-  console.log(keyNames);
-
-  console.log(movie);
 
   return (
     <div className="flex flex-col px-5 py-6 ">
@@ -42,7 +53,6 @@ export function MovieDetails() {
         <p className="text-s text-white-dimmed font-500 ">
           {' '}
           <span className="text-green">
-            {/* {Math.round(vote_count / vote_average / 100) + '%'} */}
             {Math.round(vote_average * 10) + '%'}
           </span>{' '}
           Score
@@ -78,7 +88,6 @@ export function MovieDetails() {
         </p>
         <a
           className="text-yellow text-m font-500 underline underline-offset-2"
-          // href={`https://api.themoviedb.org/3/movie/${id}?api_key=830580354c9aaf7a57d3f02a7a0010ae`}
           href={`https://www.themoviedb.org/movie/${id}?language=de-DE`}
         >
           {' '}
