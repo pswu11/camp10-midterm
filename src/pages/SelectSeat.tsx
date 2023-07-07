@@ -1,7 +1,11 @@
 import Seat from '../components/Seat';
 import { BookingSummary } from '../components/BookingSummary';
+import { SummaryRow } from '../types/booking';
 import { useState } from 'react';
 import { SeatType } from '../types/booking';
+import { useRouteLoaderData } from 'react-router-dom';
+import { Movie } from '../types/api';
+import { useTicketStore } from '../stores/ticket';
 
 // This will come from backend eventually
 const mockAllSeats: SeatType[] = [
@@ -49,8 +53,52 @@ const mockAllSeats: SeatType[] = [
   },
 ];
 
+// This is purely made up for now
+const seatPrices = {
+  Front: 12.99,
+  Middle: 14.75,
+  Back: 16.99,
+};
+
+// This logic is purely made up for now
+function returnSeatType(seatCode: string) {
+  const row = seatCode.split('-')[0];
+  switch (row) {
+    case 'A':
+      return 'Front';
+    // assume H is the last row
+    case 'H':
+      return 'Back';
+    default:
+      return 'Middle';
+  }
+}
+
+// Transform selected seats into summaries
+function createBookingSummary(selectedSeats: SeatType[]) {
+  const summaries: SummaryRow[] = [];
+  selectedSeats.forEach(seat => {
+    const type = returnSeatType(seat.code);
+    if (!summaries.some(row => row.type === type)) {
+      summaries.push({ type: type, amount: 1, price: seatPrices[type] });
+    } else {
+      summaries.forEach(row => {
+        if (row.type === type) {
+          row.amount += 1;
+        }
+      });
+    }
+  });
+  return summaries;
+}
+
 export function SelectSeat() {
   const [selectedSeats, updateSelectedSeats] = useState([] as SeatType[]);
+  const { setSeat, setPrice } = useTicketStore();
+  const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
+    movie: Movie;
+  };
+  let updatedSelectedSeats: SeatType[] = [];
   return (
     <>
       <div className="flex gap-x-2 mx-auto">
@@ -62,7 +110,6 @@ export function SelectSeat() {
             isReserved={item.isReserved}
             isSelected={item.isSelected}
             onClick={() => {
-              let updatedSelectedSeats: SeatType[] = [];
               if (!item.isSelected) {
                 item.isSelected = true;
                 updatedSelectedSeats = [...selectedSeats, item];
@@ -74,11 +121,23 @@ export function SelectSeat() {
                 );
                 updateSelectedSeats(updatedSelectedSeats);
               }
+              // update ticket store
+              setSeat(updatedSelectedSeats.map(seat => seat.code));
+              setPrice(
+                Number(
+                  createBookingSummary(updatedSelectedSeats)
+                    .reduce((acc, seat) => acc + seat.amount * seat.price, 0)
+                    .toFixed(2)
+                )
+              );
             }}
           />
         ))}
       </div>
-      <BookingSummary selectedSeats={selectedSeats} />
+      <BookingSummary
+        summaries={createBookingSummary(selectedSeats)}
+        buttonLink={`/movies/${currentMovie.id}/ticket`}
+      />
     </>
   );
 }
