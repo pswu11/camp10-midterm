@@ -1,7 +1,7 @@
 export type Genre = {
-    id: number,
-    name: string
-}
+  id: number;
+  name: string;
+};
 
 export type UpcomingMovie = {
     map(arg0: (backdrop_path: any) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode
@@ -17,27 +17,27 @@ export type UpcomingMovie = {
 
 // Movie (aka MovieDetail) to include length
 export type Movie = {
-    runtime: number
-} & UpcomingMovie
+  runtime: number;
+} & UpcomingMovie;
 
-export type UpcomingMovies = UpcomingMovie[]
+export type UpcomingMovies = UpcomingMovie[];
 
 export type Person = {
-    id: number
-    name: string
-    known_for_department: string
-    profile_path: string | null
-}
+  id: number;
+  name: string;
+  known_for_department: string;
+  profile_path: string | null;
+};
 
-export type Cast = Person[] & {
-    charactor: string
-}
-export type Crew = Person[] & {
-    job: string
-}
+export type Cast = Person & {
+  character: string;
+};
+export type Crew = Person & {
+  job: string;
+};
 
 export type Credits = {
-    id: number
-    cast: Cast
-    crew: Crew
-}
+  id: number;
+  cast: Cast[];
+  crew: Crew[];
+};

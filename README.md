@@ -11,7 +11,7 @@ https://vitejs.dev/guide/env-and-mode.html
 
 - create a file named `.env`
 - make sure that `*.env` is already in your `.gitignore` (you don't want to commit this file)
-- add `VITE_TMDB_KEY="{your_api_key}"` to `.env`
+- add `VITE_TMDB_KEY="{your_api_key}"` to `.env` (please remove `{}` it's just a placeholder for api key)
 
 Usage: 
 ```ts
@@ -35,18 +35,18 @@ API Reference: https://developer.themoviedb.org/reference/intro/getting-started
 - person: `https://api.themoviedb.org/3/person/{person_id}`
 
 
-### Access to images (poster, backdrop, etc.)
+### Access to images (for poster_path, backdrop_path, profile_path, etc.)
 
 **Example URL**
 
 Original:
 ```
-https://image.tmdb.org/t/p/original/{poster_path}
+https://image.tmdb.org/t/p/original/{img_path}
 ```
 
 Width 500px: 
 ```
-https://image.tmdb.org/t/p/w500/{poster_path}
+https://image.tmdb.org/t/p/w500/{img_path}
 ```
 
 Check out documentation to learn more:

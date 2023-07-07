@@ -15,6 +15,7 @@ import { Movies } from './pages/Movies';
 import { Bookmarks } from './pages/Bookmarks';
 import { Home } from './pages/Home';
 import { User } from './pages/User';
+import  Pagination  from './components/PaginationButton';
 import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
 import { getCurrentMovie } from './api/movies';
