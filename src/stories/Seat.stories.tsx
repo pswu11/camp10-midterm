@@ -18,4 +18,9 @@ export default meta;
 
 type Story = StoryObj<typeof Seat>;
 
-export const Basic: Story = {};
+export const Basic: Story = {
+  args: {
+    isSelected: false,
+    isReserved: false
+  }
+};
