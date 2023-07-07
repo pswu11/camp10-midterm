@@ -4,15 +4,7 @@ import { TicketInfo } from '../components/TicketInfo';
 import { Movie } from '../types/api';
 import { useRouteLoaderData } from 'react-router-dom';
 import { IMG_BASE_URL } from '../api/movies';
-
-type TicketType = {
-  id: string;
-  movieId: number;
-  date: string;
-  time: string;
-  price: number;
-  seat: string[];
-};
+import { TicketType } from '../types/booking';
 
 export function Ticket() {
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
