@@ -1,3 +1,4 @@
+import { useLoaderData } from 'react-router-dom';
 import MovieCard from '../components/MovieCard';
 import { Movie } from '../types/api';
 
@@ -14,9 +15,11 @@ const testMovie: Movie = {
 };
 
 export function Movies() {
+  const nowPlayingMovies = useLoaderData() as Movie[];
+  console.log(nowPlayingMovies);
   return (
     <div>
-      <MovieCard movie={testMovie} variant="upcoming"></MovieCard>
+      <MovieCard movie={testMovie} variant="now_playing"></MovieCard>
     </div>
   );
 }

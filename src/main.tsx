@@ -15,7 +15,7 @@ import { Movies } from './pages/Movies';
 import { Bookmarks } from './pages/Bookmarks';
 import { Home } from './pages/Home';
 import { User } from './pages/User';
-import  Pagination  from './components/PaginationButton';
+import Pagination from './components/PaginationButton';
 import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
 import { getCurrentMovie } from './api/movies';
@@ -35,6 +35,15 @@ const router = createBrowserRouter([
       {
         path: 'movies',
         element: <Movies />,
+        loader: async () => {
+          const res = await axios.get(
+            `https://api.themoviedb.org/3/movie/now_playing?api_key=${
+              import.meta.env.VITE_TMDB_KEY
+            }`
+          );
+          const nowPlayingMovies = res.data.results as Movie[];
+          return { nowPlayingMovies };
+        },
       },
       {
         path: 'bookmarks',
@@ -51,11 +60,15 @@ const router = createBrowserRouter([
     element: <MovieLayout />,
     // this loader is available in all the children routes by using useRouteLoaderData('currentMovie')
     id: 'currentMovie',
-    loader: async ({params}) => {
-      const { movieId } = params
-      const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${import.meta.env.VITE_TMDB_KEY}`)
-      const movie = res.data as Movie
-      return { movie }
+    loader: async ({ params }) => {
+      const { movieId } = params;
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+          import.meta.env.VITE_TMDB_KEY
+        }`
+      );
+      const movie = res.data as Movie;
+      return { movie };
     },
     children: [
       {
