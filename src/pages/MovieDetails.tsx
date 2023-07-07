@@ -1,28 +1,17 @@
-import { useRouteLoaderData } from 'react-router-dom';
+import { Link, useRouteLoaderData } from 'react-router-dom';
 import { Button } from '../components/Button';
+import { Credits, Genre, Movie } from '../types/api';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Movie } from '../types/api';
+import { useState } from 'react';
+import { IoChevronBackSharp } from 'react-icons/io5';
+import { BsHeartFill, BsHeart } from 'react-icons/bs';
 
 export function MovieDetails() {
-  const [creditData, setCreditData] = useState([]);
   const { movie } = useRouteLoaderData('currentMovie') as { movie: Movie };
+  const [heartIcon, toggleHeart] = useState(false);
 
-  const getCredits = async () => {
-    try {
-      const res = await axios.get(
-        `https://api.themoviedb.org/3/movie/550/credits?api_key=830580354c9aaf7a57d3f02a7a0010ae`
-      );
-      setCreditData(res.data.crew);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getCredits();
-  }, []);
-
+  const [director, setDirector] = useState('');
+  const [novel, setNovel] = useState('');
   const {
     id,
     title,
@@ -31,11 +20,42 @@ export function MovieDetails() {
     vote_average,
     release_date,
     overview,
+    genres,
   } = movie;
 
+  const getData = () => {
+    axios
+      .get<Credits[]>(
+        `https://api.themoviedb.org/3/movie/${id}/credits?api_key=830580354c9aaf7a57d3f02a7a0010ae`
+      )
+      .then(res => {
+        setDirector(res.data.crew.find(x => x.job == 'Director').name);
+        setNovel(res.data.crew.find(x => x.job == 'Novel').name);
+      })
+      .catch(err => console.log(err));
+  };
+  getData();
   return (
     <div className="flex flex-col px-5 py-6 ">
+      <div className="flex h-[2.375rem] justify-between items-center text-white text-l font-700">
+        <Link to="/movies">
+          <IoChevronBackSharp />
+        </Link>
+        <p> Movie Details </p>
+        {heartIcon ? (
+          <BsHeartFill
+            className="text-red"
+            onClick={() => toggleHeart(!heartIcon)}
+          />
+        ) : (
+          <BsHeart
+            className="text-red"
+            onClick={() => toggleHeart(!heartIcon)}
+          />
+        )}
+      </div>
       <img
+        className="rounded-lg mt-3"
         src={`https://image.tmdb.org/t/p/original/${backdrop_path}`}
         alt=""
       />
@@ -45,7 +65,9 @@ export function MovieDetails() {
           <p className="text-s text-white font-500">
             {release_date.slice(0, 4)}{' '}
           </p>
-          <p className="text-s text-white-dimmed font-500">Horror/Thriller</p>
+          <p className="text-s text-white-dimmed font-500">
+            {genres[0].name}/{genres[1].name}
+          </p>
           <p className="text-s text-white-dimmed font-500">
             {Math.floor(runtime / 60) + 'h ' + ((runtime % 60) + 'm')}
           </p>
@@ -63,17 +85,18 @@ export function MovieDetails() {
           <p className="text-s text-white-dimmed font-700">
             Director:{' '}
             <span className="text-white font-700 pl-[0.62rem]">
-              Damian Leone
+              {director ? director : 'Unknown'}
             </span>
           </p>
           <p className="text-s text-white-dimmed font-500">
             Writer:{' '}
             <span className="text-white font-500 pl-[1.44rem]">
-              Damian Leone
+              {novel ? novel : 'Unknown'}
             </span>
           </p>
         </div>
         <Button
+          // onClick={getData}
           variant="secondary"
           size="small"
           className="w-[10.4375rem] h-[2.375rem] "
