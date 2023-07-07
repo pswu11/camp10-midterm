@@ -1,5 +1,5 @@
-import clsx from "clsx";
-import { cn } from "../lib/utils";
+import clsx from 'clsx';
+import { cn } from '../lib/utils';
 
 type BookingDetailsProps = {
   isDisabled?: boolean;
@@ -17,13 +17,10 @@ function BookingDetails({
 }: BookingDetailsProps) {
   return (
     <button
-      className={clsx(
+      className={cn(
         'flex justify-center rounded-s font-500 text-m px-4 py-[.375rem] rounded text-white-dimmed',
-        isActive
-          ? 'bg-yellow text-dark'
-          : isDisabled
-          ? 'text-dark-light'
-          : '',
+        isActive ? 'bg-yellow text-dark' : '',
+        isDisabled ? 'text-dark-light' : '',
         className
       )}
       {...props}

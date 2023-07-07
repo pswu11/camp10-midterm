@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import BookingDetails from '../components/BookingDetails';
-import Seat from '../components/Seat';
 
 type DateType = {
   isActive: boolean;
@@ -20,7 +19,8 @@ function generateAvailableDates(numberOfDays: number) {
     nextDay.setDate(today.getDate() + i);
     nextDays.push({
       isActive: false,
-      isDisabled: Math.random() > 0.5 ? false : true,
+      // randomly disable certain dates
+      isDisabled: Math.random() > 0.3 ? false : true,
       date: nextDay.toLocaleString('en-GB', options),
     });
   }
@@ -29,21 +29,27 @@ function generateAvailableDates(numberOfDays: number) {
 }
 
 export function SelectTime() {
-  const availableDates = generateAvailableDates(8);
-
-  const handleDateClick = clickedDate => {
+  const [availableDates, setAvailableDates] = useState(
+    generateAvailableDates(8)
+  );
+  const handleDateClick = (clickedDate: string) => {
     const updatedDates = availableDates.map(date => {
-      if (date.date === clickedDate) {
+      if (date.date === clickedDate && !date.isDisabled) {
+        // Toggle the isActive property if the date is not disabled
         return {
           ...date,
-          isActive: !date.isActive, // Toggle the isActive property
+          isActive: !date.isActive,
         };
+      } else {
+        // Set rest of the dates inactive
+        if (date.isActive)
+          return {
+            ...date,
+            isActive: false,
+          };
       }
       return date;
     });
-
-    // Update the state or perform any other actions with the updatedDates array
-    // For example, you can use useState or dispatch an action in a Redux store
     setAvailableDates(updatedDates);
   };
 
@@ -55,16 +61,11 @@ export function SelectTime() {
             key={date.date}
             isActive={date.isActive}
             isDisabled={date.isDisabled}
-            onClick={() => {}}
+            onClick={() => handleDateClick(date.date)}
           >
             {date.date}
           </BookingDetails>
         ))}
-        <Seat
-          seatid={1}
-          isSelected={false}
-          onClick={e => console.log(e.target)}
-        />
       </div>
     </div>
   );
