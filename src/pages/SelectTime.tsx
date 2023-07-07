@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import BookingDetails from '../components/BookingDetails';
 import { useTicketStore } from '../stores/ticket';
+import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
+import { Button } from '../components/Button';
+import { Link } from 'react-router-dom';
+import { useRouteLoaderData } from 'react-router-dom';
+import { Movie } from '../types/api';
 
 type DateType = {
   isActive: boolean;
@@ -31,7 +36,6 @@ function generateAvailableDates(numberOfDays: number) {
       date: nextDay.toLocaleString('en-GB', options),
     });
   }
-  console.log(nextDays);
   return nextDays;
 }
 
@@ -49,6 +53,7 @@ function generateAvailableTimes(numberOfSlots: number) {
   return timeslots;
 }
 
+// generate 8-digit ticket id randomly
 function generateTicketId() {
   return Math.floor(Math.random() * 100000000);
 }
@@ -61,10 +66,16 @@ export function SelectTime() {
     generateAvailableTimes(8)
   );
 
+  const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
+    movie: Movie;
+  };
+
+  // use ticket-store and set id, movieId  for once only
   const ticketStore = useTicketStore();
-  const { setId, setTime, setDate } = ticketStore;
+  const { setMovieId, setId, setTime, setDate } = ticketStore;
   useEffect(() => {
     setId(generateTicketId().toString());
+    setMovieId(currentMovie.id);
   }, []);
 
   const handleDateClick = (clickedDate: string) => {
@@ -77,13 +88,12 @@ export function SelectTime() {
           ...date,
           isActive: !date.isActive,
         };
-      } else {
+      } else if (date.isActive) {
         // Set rest of the dates inactive
-        if (date.isActive)
-          return {
-            ...date,
-            isActive: false,
-          };
+        return {
+          ...date,
+          isActive: false,
+        };
       }
       return date;
     });
@@ -113,9 +123,10 @@ export function SelectTime() {
   };
 
   return (
-    <div className="h-full w-full px-5 py-8">
-      <div>
-        <h2 className='text-white'>Select Date & Time</h2>
+    <div className="h-full w-full px-5 py-8 flex flex-col">
+      <div className="flex relative items-center justify-center">
+        <MdOutlineKeyboardArrowLeft className="text-white text-xl absolute left-0" />
+        <h2 className="text-white text-l font-700">Select Date & Time</h2>
       </div>
       <h3 className="uppercase text-m text-white-dimmed font-700 my-6">Date</h3>
       <div className="grid grid-cols-4 gap-y-4">
@@ -130,7 +141,7 @@ export function SelectTime() {
           </BookingDetails>
         ))}
       </div>
-      <div className="border border-t-[1px] border-white-dimmed-heavy border-b-0 mt-4"></div>
+      <div className="border border-t-[1px] border-white-dimmed-heavy border-b-0 my-6"></div>
       <h3 className="uppercase text-m text-white-dimmed font-700 my-6">Time</h3>
       <div className="grid grid-cols-4 gap-y-4">
         {availableTimes.map((time, idx) => (
@@ -144,6 +155,12 @@ export function SelectTime() {
           </BookingDetails>
         ))}
       </div>
+      <Link
+        to={`/movies/${currentMovie.id}/select-seat`}
+        className="w-full mt-auto"
+      >
+        <Button className="w-full">Select Seat</Button>
+      </Link>
     </div>
   );
 }
