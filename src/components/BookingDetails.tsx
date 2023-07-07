@@ -17,12 +17,12 @@ function BookingDetails({
 }: BookingDetailsProps) {
   return (
     <button
-      className={cn(
-        'flex justify-center rounded-s font-500 text-m px-4 py-[.375rem] rounded text-white-dimmed',
+      className={`${cn(
+        'flex justify-center rounded-s font-500 px-4 py-[.375rem] rounded',
+        isDisabled ? 'text-dark-light' : 'text-white-dimmed',
         isActive ? 'bg-yellow text-dark' : '',
-        isDisabled ? 'text-dark-light' : '',
         className
-      )}
+      )} text-m`}
       {...props}
     >
       {children}
