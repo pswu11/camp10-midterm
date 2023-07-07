@@ -93,7 +93,7 @@ function createBookingSummary(selectedSeats: SeatType[]) {
 }
 
 export function SelectSeat() {
-  const [selectedSeats, updateSelectedSeats] = useState([] as SeatType[]);
+  const [selectedSeats, setSelectedSeats] = useState([] as SeatType[]);
   const { setSeat, setPrice } = useTicketStore();
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
     movie: Movie;
@@ -113,13 +113,13 @@ export function SelectSeat() {
               if (!item.isSelected) {
                 item.isSelected = true;
                 updatedSelectedSeats = [...selectedSeats, item];
-                updateSelectedSeats(updatedSelectedSeats);
+                setSelectedSeats(updatedSelectedSeats);
               } else {
                 item.isSelected = false;
                 updatedSelectedSeats = selectedSeats.filter(
                   seat => seat.id !== item.id
                 );
-                updateSelectedSeats(updatedSelectedSeats);
+                setSelectedSeats(updatedSelectedSeats);
               }
               // update ticket store
               setSeat(updatedSelectedSeats.map(seat => seat.code));

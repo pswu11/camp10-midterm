@@ -4,22 +4,15 @@ import { TicketInfo } from '../components/TicketInfo';
 import { Movie } from '../types/api';
 import { useRouteLoaderData } from 'react-router-dom';
 import { IMG_BASE_URL } from '../api/movies';
-import { TicketType } from '../types/booking';
+import { useTicketStore } from '../stores/ticket';
 
 export function Ticket() {
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
     movie: Movie;
   };
-
+  const currentTicket = useTicketStore()
   // the ticket info sould come from other booking steps
-  const currentTicket: TicketType = {
-    id: '325398732342', // a made-up 12-digit numbers
-    movieId: currentMovie.id,
-    date: '06 Jun',
-    time: '16:40',
-    price: 42.3,
-    seat: ['C-3', 'C-4'],
-  };
+
 
   return (
     <div className="w-full h-full py-8 px-5 flex flex-col gap-y-4">
