@@ -6,6 +6,7 @@ import { Button } from '../components/Button';
 import { Link } from 'react-router-dom';
 import { useRouteLoaderData } from 'react-router-dom';
 import { Movie } from '../types/api';
+import { generateTicketId } from '../lib/utils';
 
 type DateType = {
   isActive: boolean;
@@ -77,11 +78,6 @@ function generateAvailableTimes(date?: string) {
     }
   }
   return timeslots;
-}
-
-// generate 8-digit ticket id randomly
-function generateTicketId() {
-  return Math.floor(Math.random() * 100000000);
 }
 
 export function SelectTime() {
