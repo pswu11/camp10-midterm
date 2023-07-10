@@ -13,6 +13,9 @@ export function Movies() {
         
       ))}
       
+    <div>
+    
+    </div>
     </div>
   );
 }
