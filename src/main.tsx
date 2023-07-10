@@ -15,14 +15,12 @@ import { Movies } from './pages/Movies';
 import { Bookmarks } from './pages/Bookmarks';
 import { Home } from './pages/Home';
 import { User } from './pages/User';
-import  Pagination  from './components/PaginationButton';
 import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
 import { getCurrentMovie } from './api/movies';
 import axios from 'axios';
-import { Movie } from './types/api';
+import { Genre, Movie } from './types/api';
 import { UpcomingMovies } from './types/api';
-
 
 const router = createBrowserRouter([
   {
@@ -33,10 +31,14 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home />,
         loader: async () => {
-          const { data: movies } = await axios.get<{results:UpcomingMovies[]}>( 
-            `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&api_key=${import.meta.env.VITE_TMDB_KEY}`
-          )
-          return movies.results
+          const { data: movies } = await axios.get<{
+            results: UpcomingMovies[];
+          }>(
+            `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&api_key=${
+              import.meta.env.VITE_TMDB_KEY
+            }`
+          );
+          return movies.results;
         },
         index: true,
       },
@@ -59,11 +61,15 @@ const router = createBrowserRouter([
     element: <MovieLayout />,
     // this loader is available in all the children routes by using useRouteLoaderData('currentMovie')
     id: 'currentMovie',
-    loader: async ({params}) => {
-      const { movieId } = params
-      const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${import.meta.env.VITE_TMDB_KEY}`)
-      const movie = res.data as Movie
-      return { movie }
+    loader: async ({ params }) => {
+      const { movieId } = params;
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+          import.meta.env.VITE_TMDB_KEY
+        }`
+      );
+      const movie = res.data as Movie;
+      return { movie };
     },
     children: [
       {
@@ -92,6 +98,15 @@ const router = createBrowserRouter([
   {
     path: 'genres',
     element: <Genres />,
+    loader: async () => {
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${
+          import.meta.env.VITE_TMDB_KEY
+        }`
+      );
+      const { genres } = res.data as { genres: Genre[] };
+      return genres;
+    },
   },
   {
     path: 'login',

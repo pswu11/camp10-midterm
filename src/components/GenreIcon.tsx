@@ -16,7 +16,9 @@ import { cn } from '../lib/utils';
 
 type GenreIconProps = {
   isActive?: boolean;
-  genre: { icon: string; name: string };
+  // genre: { icon: string; name: string };
+  icon: string,
+  title: string
 } & React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
@@ -25,11 +27,13 @@ type GenreIconProps = {
 export function GenreIcon({
   isActive = false,
   className,
-  genre,
+  // genre,
+  icon,
+  title,
   ...props
 }: GenreIconProps) {
   return (
-    <div className="flex flex-col items-center rou">
+    <div className="flex flex-col items-center">
       <button
         className={cn(
           'rounded-xl flex items-center justify-center h-14 w-14 text-[1.875rem]',
@@ -38,9 +42,9 @@ export function GenreIcon({
         )}
         {...props}
       >
-        {genre.icon}
+        {icon}
       </button>
-      <p className="text-white-dimmed pt-2 font-700 text-s"> {genre.name} </p>
+      <p className="text-white-dimmed pt-2 font-700 text-s whitespace-nowrap">{title}</p>
     </div>
   );
 }
