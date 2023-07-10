@@ -14,7 +14,7 @@ export type SummaryRow = {
 };
 
 export type TicketType = {
-  id: string;
+  id: number;
   movieId: number;
   date: string;
   time: string;

@@ -1,18 +1,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { SeatType } from '../types/booking';
-
-type TicketType = {
-  id: string;
-  movieId: number;
-  date: string;
-  time: string;
-  price: number;
-  seat: string[];
-};
+import { TicketType } from '../types/booking';
 
 type TicketStore = TicketType & {
-  setId: (value: string) => void;
+  setId: (value: number) => void;
   setMovieId: (value: number) => void;
   setDate: (value: string) => void;
   setTime: (value: string) => void;
@@ -23,7 +14,7 @@ type TicketStore = TicketType & {
 export const useTicketStore = create<TicketStore>()(
   persist(
     set => ({
-      id: '',
+      id: 0,
       movieId: 2434650,
       date: '',
       time: '',

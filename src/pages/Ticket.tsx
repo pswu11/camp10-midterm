@@ -43,7 +43,7 @@ export function Ticket() {
           </div>
           <div className="w-full flex justify-center mb-3 -mt-3">
             <Barcode
-              value={currentTicket.id}
+              value={currentTicket.id.toString()}
               background="#FFFFFF00"
               lineColor="#FFFFFF"
               height={48}

@@ -96,7 +96,7 @@ export function SelectTime() {
   const ticketStore = useTicketStore();
   const { setMovieId, setId, setTime, setDate } = ticketStore;
   useEffect(() => {
-    setId(generateTicketId().toString());
+    setId(generateTicketId());
     setMovieId(currentMovie.id);
   }, []);
 
