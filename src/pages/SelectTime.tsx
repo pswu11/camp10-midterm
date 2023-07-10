@@ -43,8 +43,8 @@ function generateAvailableDates(numberOfDays: number) {
     nextDay.setDate(today.getDate() + i);
     nextDays.push({
       isActive: false,
-      // randomly disable certain dates
-      isDisabled: Math.random() > 0.3 ? false : true,
+      // randomly disable certain dates as soldout if it's not today
+      isDisabled: today.getDate() === nextDay.getDate() ? false : Math.random() > 0.3 ? false : true,
       date: nextDay.toLocaleString('en-GB', options),
     });
   }
