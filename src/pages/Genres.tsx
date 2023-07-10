@@ -3,7 +3,7 @@ import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import { Genre } from '../types/api';
 import { GenreIcon } from '../components/GenreIcon';
 import { Button } from '../components/Button';
-import { useGenreStore } from '../stores/genres';
+import { useGenresStore } from '../stores/genres';
 import { useState } from 'react';
 
 const genreObj: Record<string, string> = {
@@ -34,7 +34,7 @@ type GenreProps = {
 
 export function Genres() {
   const genres = useLoaderData() as Genre[];
-  const { selectedGenres, setSelectedGenres } = useGenreStore();
+  const { selectedGenres, setSelectedGenres } = useGenresStore();
   const initGenreEntries: GenreProps[] = genres
     .filter(item => genreObj[item.name])
     .map(g => {

@@ -7,7 +7,7 @@ type GenresStore = {
   setSelectedGenres: (value: Genre[]) => void;
 };
 
-export const useGenreStore = create<GenresStore>()(
+export const useGenresStore = create<GenresStore>()(
   persist(
     set => ({
       selectedGenres: [],
