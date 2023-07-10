@@ -147,7 +147,7 @@ export function SelectTime() {
   return (
     <div className="h-full w-full px-5 py-8 flex flex-col">
       <div className="flex relative items-center justify-center">
-        <MdOutlineKeyboardArrowLeft className="text-white text-xl absolute left-0" />
+        <Link to="/" className="text-white text-xl absolute left-0"><MdOutlineKeyboardArrowLeft /></Link>
         <h2 className="text-white text-l font-700">Select Date & Time</h2>
       </div>
       <h3 className="uppercase text-m text-white-dimmed font-700 my-6">Date</h3>
