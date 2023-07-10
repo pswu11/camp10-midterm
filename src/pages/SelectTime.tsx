@@ -50,7 +50,7 @@ function generateAvailableDates(numberOfDays: number) {
   return nextDays;
 }
 
-function generateAvailableTimes(date: string) {
+function generateAvailableTimes(date?: string) {
   const timeslots: TimeType[] = [];
   const optionsDate: Intl.DateTimeFormatOptions = {
     day: 'numeric',
@@ -89,7 +89,7 @@ export function SelectTime() {
     generateAvailableDates(8)
   );
   const [availableTimes, setAvailableTimes] = useState(
-    generateAvailableTimes(8)
+    generateAvailableTimes()
   );
 
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {

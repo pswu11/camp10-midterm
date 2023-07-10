@@ -2,7 +2,7 @@ import Barcode from 'react-barcode';
 import { Button } from '../components/Button';
 import { TicketInfo } from '../components/TicketInfo';
 import { Movie } from '../types/api';
-import { useRouteLoaderData } from 'react-router-dom';
+import { Link, useRouteLoaderData } from 'react-router-dom';
 import { IMG_BASE_URL } from '../api/movies';
 import { useTicketStore } from '../stores/ticket';
 
@@ -51,7 +51,7 @@ export function Ticket() {
           </div>
         </div>
       </div>
-      <Button className="mt-auto">Back to Home</Button>
+      <Link to="/"><Button className="w-full">Back to Home</Button></Link>
     </div>
   );
 }
