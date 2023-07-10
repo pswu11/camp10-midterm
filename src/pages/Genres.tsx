@@ -35,12 +35,15 @@ type GenreProps = {
 export function Genres() {
   const genres = useLoaderData() as Genre[];
   const { selectedGenres, setSelectedGenres } = useGenresStore();
+
+  // construct inital genre states from api data, filtering out whichever is not in genreObj
   const initGenreEntries: GenreProps[] = genres
     .filter(item => genreObj[item.name])
     .map(g => {
       return {
         ...g,
         icon: genreObj[g.name],
+        // if genre is in selectedGenres marked it selected
         isSelected: selectedGenres.some(item => item.name === g.name),
       };
     });
@@ -48,10 +51,10 @@ export function Genres() {
 
   const handleGenreIcon = (genre: GenreProps) => {
     let updatedGenreEntries: GenreProps[] = [];
-    updatedGenreEntries = genreEntries.map(g => {
-      if (g.name === genre.name) {
+    updatedGenreEntries = genreEntries.map(entry => {
+      if (entry.name === genre.name) {
         const selectedGenre = {
-          ...g,
+          ...entry,
           isSelected: !genre.isSelected,
         };
         if (!genre.isSelected) {
@@ -63,7 +66,7 @@ export function Genres() {
         }
         return selectedGenre;
       } else {
-        return g;
+        return entry;
       }
     });
     setGenreEntries(updatedGenreEntries);
