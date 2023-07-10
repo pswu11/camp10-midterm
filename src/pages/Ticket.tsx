@@ -2,32 +2,17 @@ import Barcode from 'react-barcode';
 import { Button } from '../components/Button';
 import { TicketInfo } from '../components/TicketInfo';
 import { Movie } from '../types/api';
-import { useRouteLoaderData } from 'react-router-dom';
+import { Link, useRouteLoaderData } from 'react-router-dom';
 import { IMG_BASE_URL } from '../api/movies';
-
-type TicketType = {
-  id: string;
-  movieId: number;
-  date: string;
-  time: string;
-  price: number;
-  seat: string[];
-};
+import { useTicketStore } from '../stores/ticket';
 
 export function Ticket() {
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
     movie: Movie;
   };
-
+  const currentTicket = useTicketStore()
   // the ticket info sould come from other booking steps
-  const currentTicket: TicketType = {
-    id: '325398732342', // a made-up 12-digit numbers
-    movieId: currentMovie.id,
-    date: '06 Jun',
-    time: '16:40',
-    price: 42.3,
-    seat: ['C-3', 'C-4'],
-  };
+
 
   return (
     <div className="w-full h-full py-8 px-5 flex flex-col gap-y-4">
@@ -58,7 +43,7 @@ export function Ticket() {
           </div>
           <div className="w-full flex justify-center mb-3 -mt-3">
             <Barcode
-              value={currentTicket.id}
+              value={currentTicket.id.toString()}
               background="#FFFFFF00"
               lineColor="#FFFFFF"
               height={48}
@@ -66,7 +51,7 @@ export function Ticket() {
           </div>
         </div>
       </div>
-      <Button className="mt-auto">Back to Home</Button>
+      <Link to="/"><Button className="w-full">Back to Home</Button></Link>
     </div>
   );
 }
