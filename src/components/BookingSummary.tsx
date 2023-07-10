@@ -7,48 +7,17 @@ import clsx from 'clsx';
 import { cn } from '../lib/utils';
 import { SummaryRow } from '../types/booking';
 import { Link } from 'react-router-dom';
-import { useTicketStore } from '../stores/ticket';
-
-// This logic is purely made up for now
-// function returnSeatType(seatCode: string) {
-//   const row = seatCode.split('-')[0];
-//   switch (row) {
-//     case 'A':
-//       return 'Front';
-//     // assume H is the last row
-//     case 'H':
-//       return 'Back';
-//     default:
-//       return 'Middle';
-//   }
-// }
-
-// Transform selected seats into summaries
-// function createBookingSummary(selectedSeats: SeatType[]) {
-//   const summaries: SummaryRow[] = [];
-//   selectedSeats.forEach(seat => {
-//     const type = returnSeatType(seat.code);
-//     if (!summaries.some(row => row.type === type)) {
-//       summaries.push({ type: type, amount: 1, price: seatPrices[type] });
-//     } else {
-//       summaries.forEach(row => {
-//         if (row.type === type) {
-//           row.amount += 1;
-//         }
-//       });
-//     }
-//   });
-//   return summaries;
-// }
 
 type BookingSummaryProps = {
   buttonLink: string;
+  buttonDisabled: boolean;
   summaries: SummaryRow[];
 };
 
 export function BookingSummary({
   summaries,
   buttonLink,
+  buttonDisabled,
 }: BookingSummaryProps) {
   const [isOpen, setIsOpen] = useState(true);
   const toggleSlide = () => {
@@ -97,7 +66,7 @@ export function BookingSummary({
           </span>
         </div>
         <Link className="w-3/5" to={buttonLink}>
-          <Button className="w-full">Book Ticket</Button>
+          <Button className="w-full" disabled={buttonDisabled}>Book Ticket</Button>
         </Link>
       </div>
     </div>

@@ -6,6 +6,7 @@ import { SeatType } from '../types/booking';
 import { useRouteLoaderData } from 'react-router-dom';
 import { Movie } from '../types/api';
 import { useTicketStore } from '../stores/ticket';
+import { useEffect } from 'react';
 
 // This will come from backend eventually
 const mockAllSeats: SeatType[] = [
@@ -94,11 +95,14 @@ function createBookingSummary(selectedSeats: SeatType[]) {
 
 export function SelectSeat() {
   const [selectedSeats, setSelectedSeats] = useState([] as SeatType[]);
-  const { setSeat, setPrice } = useTicketStore();
+  const { seat, setSeat, setPrice } = useTicketStore();
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
     movie: Movie;
   };
   let updatedSelectedSeats: SeatType[] = [];
+  useEffect(() => {
+    setSeat([])
+  }, []);
   return (
     <>
       <div className="flex gap-x-2 mx-auto">
@@ -137,6 +141,7 @@ export function SelectSeat() {
       <BookingSummary
         summaries={createBookingSummary(selectedSeats)}
         buttonLink={`/movies/${currentMovie.id}/ticket`}
+        buttonDisabled={seat.length === 0 ? true : false}
       />
     </>
   );
