@@ -5,6 +5,15 @@ import PaginationButton from '../components/PaginationButton';
 
 export function Movies() {
   const nowPlayingMovies = useLoaderData() as Movie[];
+  
+  const [currentPage, setCurrentPage] = useState(1)
+  
+  
+  const moviesDisplay = nowPlayingMovies.slice((currentPage-1)*4,currentPage*4)
+  
+     
+   
+
   console.log(nowPlayingMovies);
   return (
     <div className="flex flex-wrap gap-4 justify-center">
@@ -17,5 +26,6 @@ export function Movies() {
     
     </div>
     </div>
+    
   );
 }
