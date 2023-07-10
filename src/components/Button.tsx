@@ -19,7 +19,7 @@ const variantStyles: Record<ButtonVariant, string> = {
 
 const sizeStyles: Record<ButtonSize, string> = {
   default: 'py-4 text-m',
-  small: 'py-1 text-s',
+  small: 'py-3 text-s',
 };
 
 const disabledStyles = 'opacity-50';
