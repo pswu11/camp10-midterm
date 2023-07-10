@@ -12,3 +12,12 @@ export type SummaryRow = {
   amount: number;
   price: number;
 };
+
+export type TicketType = {
+  id: number;
+  movieId: number;
+  date: string;
+  time: string;
+  price: number;
+  seat: string[];
+};
