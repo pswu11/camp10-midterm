@@ -34,6 +34,9 @@ dependencies:
   tailwind-merge:
     specifier: ^1.13.2
     version: 1.13.2
+  zustand:
+    specifier: ^4.3.9
+    version: 4.3.9(react@18.2.0)
 
 devDependencies:
   '@storybook/addon-essentials':
@@ -9149,6 +9152,22 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zustand@4.3.9(react@18.2.0):
+    resolution: {integrity: sha512-Tat5r8jOMG1Vcsj8uldMyqYKC5IZvQif8zetmLHs9WoZlntTHmIoNM8TpLRY31ExncuUvUOXehd0kvahkuHjDw==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
 
 settings:
   autoInstallPeers: true
