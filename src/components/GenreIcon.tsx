@@ -1,22 +1,7 @@
 import { cn } from '../lib/utils';
 
-{
-  // Usage Notes:
-  //       const genreObj = {
-  //   28: { "icon": "🤩", "name": "Action" },
-  //   12: { "icon": "🫣", "name": "Abenteuer" },
-  //   16: { "icon": "🫣", "name": "Animation" }
-  // }
-  // Object.entries(genreObj).map(([key,value], idx)=> {
-  //   return (
-  //     <GenreIcon genre={value} />
-  //   )
-  // })
-}
-
 type GenreIconProps = {
   isActive?: boolean;
-  // genre: { icon: string; name: string };
   icon: string,
   title: string
 } & React.DetailedHTMLProps<
@@ -27,7 +12,6 @@ type GenreIconProps = {
 export function GenreIcon({
   isActive = false,
   className,
-  // genre,
   icon,
   title,
   ...props
