@@ -21,15 +21,15 @@ type TimeType = {
 };
 
 const fixedTimes = [
-  "10:30",
-  "12:55",
-  "14:30",
-  "15:45",
-  "17:50",
-  "19:30",
-  "20:45",
-  "22:30"
-]
+  '10:30',
+  '12:55',
+  '14:30',
+  '15:45',
+  '17:50',
+  '19:30',
+  '20:45',
+  '22:30',
+];
 
 function generateAvailableDates(numberOfDays: number) {
   const today = new Date();
@@ -44,7 +44,12 @@ function generateAvailableDates(numberOfDays: number) {
     nextDays.push({
       isActive: false,
       // randomly disable certain dates as soldout if it's not today
-      isDisabled: today.getDate() === nextDay.getDate() ? false : Math.random() > 0.3 ? false : true,
+      isDisabled:
+        today.getDate() === nextDay.getDate()
+          ? false
+          : Math.random() > 0.3
+          ? false
+          : true,
       date: nextDay.toLocaleString('en-GB', options),
     });
   }
@@ -57,11 +62,11 @@ function generateAvailableTimes(date?: string) {
     day: 'numeric',
     month: 'short',
   };
-  const today = new Date().toLocaleString('en-GB', optionsDate)
+  const today = new Date().toLocaleString('en-GB', optionsDate);
   if (today === date) {
-    const currentHour = new Date().getHours()
+    const currentHour = new Date().getHours();
     for (let i = 0; i <= 7; i++) {
-      const hour = Number(fixedTimes[i].split(":")[0])
+      const hour = Number(fixedTimes[i].split(':')[0]);
       timeslots.push({
         isActive: false,
         isDisabled: hour > currentHour ? false : true,
@@ -82,7 +87,7 @@ function generateAvailableTimes(date?: string) {
 
 export function SelectTime() {
   const [availableDates, setAvailableDates] = useState(
-    generateAvailableDates(8)
+    generateAvailableDates(12)
   );
   const [availableTimes, setAvailableTimes] = useState(
     generateAvailableTimes()
@@ -94,10 +99,15 @@ export function SelectTime() {
 
   // use ticket-store and set id, movieId  for once only
   const ticketStore = useTicketStore();
-  const { setMovieId, setId, setTime, setDate } = ticketStore;
+  const { setMovieId, setId, setTime, setDate, setPrice, setSeat } =
+    ticketStore;
   useEffect(() => {
     setId(generateTicketId());
-    setMovieId(currentMovie.id);
+    setTime(''),
+      setDate(''),
+      setPrice(0),
+      setSeat([]),
+      setMovieId(currentMovie.id);
   }, []);
 
   const handleDateClick = (clickedDate: string) => {
@@ -105,10 +115,11 @@ export function SelectTime() {
       if (date.date === clickedDate && !date.isDisabled) {
         // Toggle the isActive property if the date is not disabled
         setDate(date.date);
+        setTime('');
         setAvailableTimes(generateAvailableTimes(date.date));
         return {
           ...date,
-          isActive: !date.isActive,
+          isActive: true,
         };
       } else if (date.isActive) {
         // Set rest of the dates inactive
@@ -129,7 +140,7 @@ export function SelectTime() {
         setTime(time.time);
         return {
           ...time,
-          isActive: !time.isActive,
+          isActive: true,
         };
       } else {
         // Set rest of the times inactive
@@ -147,7 +158,9 @@ export function SelectTime() {
   return (
     <div className="h-full w-full px-5 py-8 flex flex-col">
       <div className="flex relative items-center justify-center">
-        <Link to="/" className="text-white text-xl absolute left-0"><MdOutlineKeyboardArrowLeft /></Link>
+        <Link to="/" className="text-white text-xl absolute left-0">
+          <MdOutlineKeyboardArrowLeft />
+        </Link>
         <h2 className="text-white text-l font-700">Select Date & Time</h2>
       </div>
       <h3 className="uppercase text-m text-white-dimmed font-700 my-6">Date</h3>
@@ -157,7 +170,11 @@ export function SelectTime() {
             key={date.date}
             isActive={date.isActive}
             isDisabled={date.isDisabled}
-            onClick={() => handleDateClick(date.date)}
+            onClick={() => {
+              if (!date.isActive) {
+                return handleDateClick(date.date);
+              }
+            }}
           >
             {date.date}
           </BookingDetails>
@@ -181,7 +198,12 @@ export function SelectTime() {
         to={`/movies/${currentMovie.id}/select-seat`}
         className="w-full mt-auto"
       >
-        <Button className="w-full">Select Seat</Button>
+        <Button
+          className="w-full"
+          disabled={!ticketStore.date || !ticketStore.time ? true : false}
+        >
+          Select Seat
+        </Button>
       </Link>
     </div>
   );
