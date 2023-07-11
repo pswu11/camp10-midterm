@@ -5,6 +5,7 @@ import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Fragment } from 'react';
+import { useLoaderData } from 'react-router-dom';
 
 const castAndCrew: Credits = {
   id: 1003579,
@@ -45,6 +46,8 @@ const castAndCrew: Credits = {
 const tabs = ['Cast', 'Crew'];
 
 export function CastAndCrew() {
+  const credits = useLoaderData() as Credits
+
   return (
     <div className="h-full w-full px-5 py-8 flex flex-col">
       <div className="flex relative items-center justify-center">
@@ -60,7 +63,7 @@ export function CastAndCrew() {
               {({ selected }) => (
                 <Button
                   variant="secondary"
-                  size="tab"
+                  size="tiny"
                   className={`${
                     selected
                       ? 'ring-1 ring-white bg-white-dimmed'
@@ -74,13 +77,13 @@ export function CastAndCrew() {
           ))}
         </Tab.List>
         <Tab.Panels className="overflow-y-scroll">
-          <Tab.Panel>
-            {castAndCrew.cast.map((person: Cast) => (
+          <Tab.Panel className='space-y-4 container-snap snap-mandatory overflow-y-scroll'>
+            {credits.cast.map((person: Cast) => (
               <CastCrew person={person} key={person.id} />
             ))}
           </Tab.Panel>
-          <Tab.Panel>
-            {castAndCrew.crew.map((person: Crew) => (
+          <Tab.Panel className='space-y-4'>
+            {credits.crew.map((person: Crew) => (
               <CastCrew key={person.id} person={person} />
             ))}
           </Tab.Panel>

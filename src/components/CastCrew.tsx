@@ -9,10 +9,10 @@ export default function CastCrew({ person }: CastCrewProps) {
   const role = isActor(person) ? person.character : person.job;
   const imageUrl = image
     ? `https://image.tmdb.org/t/p/w500${image}`
-    : 'https://images.unsplash.com/photo-1607317146126-64b09b69eb4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80';
+    : 'https://1fid.com/wp-content/uploads/2022/06/no-profile-picture-9-1022x1024.jpg';
   return (
     <div className="flex flex-row gap-5">
-      <div className="h-16 w-16 bg-dark-light">
+      <div className="h-16 w-16 bg-dark-light flex ju">
         <img
           src={imageUrl}
           alt={personName}
