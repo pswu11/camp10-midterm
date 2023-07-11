@@ -101,10 +101,17 @@ export function SelectSeat() {
   };
   let updatedSelectedSeats: SeatType[] = [];
   useEffect(() => {
-    setSeat([])
+    setSeat([]);
   }, []);
   return (
     <>
+      <h4 className="text-white text-s">
+        This will later be filled by the header component
+      </h4>
+      <div className="flex-col px-7 justify-center items-center mx-7">
+        <div className=" bg-yellow h-1 w-63"></div>
+        <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
+      </div>
       <div className="flex gap-x-2 mx-auto">
         {mockAllSeats.map(item => (
           <Seat
