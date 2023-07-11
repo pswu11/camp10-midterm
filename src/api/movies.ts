@@ -11,7 +11,9 @@ export const getCurrentMovie = async ({
 }) => {
   const { movieId } = params;
   const res = await axios.get(
-    `https://api.themoviedb.org/3/movie/${movieId}?api_key=830580354c9aaf7a57d3f02a7a0010ae`
+    `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+      import.meta.env.VITE_TMDB_KEY
+    }`
   );
   const movie = res.data as Movie;
   return movie;

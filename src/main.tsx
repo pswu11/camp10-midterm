@@ -20,9 +20,8 @@ import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
 import { getCurrentMovie } from './api/movies';
 import axios from 'axios';
-import { Movie } from './types/api';
+import { Credits, Movie } from './types/api';
 import { UpcomingMovies } from './types/api';
-
 
 const router = createBrowserRouter([
   {
@@ -33,10 +32,14 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home />,
         loader: async () => {
-          const { data: movies } = await axios.get<{results:UpcomingMovies[]}>( 
-            `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&api_key=${import.meta.env.VITE_TMDB_KEY}`
-          )
-          return movies.results
+          const { data: movies } = await axios.get<{
+            results: UpcomingMovies[];
+          }>(
+            `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&api_key=${
+              import.meta.env.VITE_TMDB_KEY
+            }`
+          );
+          return movies.results;
         },
         index: true,
       },
@@ -71,19 +74,18 @@ const router = createBrowserRouter([
     loader: async ({ params }) => {
       const { movieId } = params;
       const res = await axios.get(
-<<<<<<< HEAD
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=830580354c9aaf7a57d3f02a7a0010ae`
-      );
-      const movie = res.data as Movie;
-
-=======
         `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
           import.meta.env.VITE_TMDB_KEY
         }`
       );
+      const resCredits = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${
+          import.meta.env.VITE_TMDB_KEY
+        }`
+      );
+      const resCreditsData = resCredits.data as Credits;
       const movie = res.data as Movie;
->>>>>>> main
-      return { movie };
+      return { movie, resCreditsData };
     },
     children: [
       {

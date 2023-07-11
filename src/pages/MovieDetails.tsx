@@ -1,17 +1,16 @@
 import { Link, useRouteLoaderData } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Credits, Movie } from '../types/api';
-import axios from 'axios';
 import { useState } from 'react';
 import { IoChevronBackSharp } from 'react-icons/io5';
 import { BsHeartFill, BsHeart } from 'react-icons/bs';
 
 export function MovieDetails() {
   const { movie } = useRouteLoaderData('currentMovie') as { movie: Movie };
+  const { resCreditsData } = useRouteLoaderData('currentMovie') as {
+    resCreditsData: Credits;
+  };
   const [heartIcon, toggleHeart] = useState(false);
-
-  const [director, setDirector] = useState('');
-  const [novel, setNovel] = useState('');
   const {
     id,
     title,
@@ -19,22 +18,24 @@ export function MovieDetails() {
     runtime,
     vote_average,
     release_date,
-    overview,
     genres,
+    overview,
   } = movie;
+  const { crew } = resCreditsData;
 
-  const getData = () => {
-    axios
-      .get<Credits[]>(
-        `https://api.themoviedb.org/3/movie/${id}/credits?api_key=830580354c9aaf7a57d3f02a7a0010ae`
-      )
-      .then(res => {
-        setDirector(res.data.crew.find(x => x.job == 'Director').name);
-        setNovel(res.data.crew.find(x => x.job == 'Novel').name);
-      })
-      .catch(err => console.log(err));
-  };
-  getData();
+  const filteredCrew: string[] = [];
+  crew.map(x => {
+    if (
+      x.job === 'Director' ||
+      x.job == 'Novel' ||
+      (!x.job && x.known_for_department == 'Writing')
+    ) {
+      filteredCrew.push(x.name);
+    }
+  });
+
+  console.log(filteredCrew);
+
   return (
     <div className="flex flex-col px-5 py-6 ">
       <div className="flex h-[2.375rem] justify-between items-center text-white text-l font-700">
@@ -85,13 +86,13 @@ export function MovieDetails() {
           <p className="text-s text-white-dimmed font-700">
             Director:{' '}
             <span className="text-white font-700 pl-[0.62rem]">
-              {director ? director : 'Unknown'}
+              {filteredCrew[0] ?? ' '}
             </span>
           </p>
           <p className="text-s text-white-dimmed font-500">
             Writer:{' '}
             <span className="text-white font-500 pl-[1.44rem]">
-              {novel ? novel : 'Unknown'}
+              {filteredCrew[1] ?? ' '}
             </span>
           </p>
         </div>
