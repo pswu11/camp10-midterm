@@ -61,6 +61,26 @@ const seatPrices = {
   Back: 16.99,
 };
 
+const seatsMatrix = [
+  [0, 1, 1, 1, 0, 1, 1, 1, 0],
+  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+  [0, 1, 1, 1, 0, 1, 1, 1, 0],
+];
+
+seatsMatrix.map(row => {
+  row.map(seat => {
+    if (!seat) {
+      return <div />;
+    }
+    return (
+      <Seat seatid={0} seatCode={''} isSelected={false} isReserved={false} />
+    );
+  });
+});
+
 // This logic is purely made up for now
 function returnSeatType(seatCode: string) {
   const row = seatCode.split('-')[0];
@@ -101,7 +121,7 @@ export function SelectSeat() {
   };
   let updatedSelectedSeats: SeatType[] = [];
   useEffect(() => {
-    setSeat([])
+    setSeat([]);
   }, []);
   return (
     <>
