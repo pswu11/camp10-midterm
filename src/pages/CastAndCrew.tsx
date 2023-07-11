@@ -4,6 +4,7 @@ import { Tab } from '@headlessui/react';
 import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/Button';
+import { Fragment } from 'react';
 
 const castAndCrew: Credits = {
   id: 1003579,
@@ -41,6 +42,8 @@ const castAndCrew: Credits = {
   ],
 };
 
+const tabs = ['Cast', 'Crew'];
+
 export function CastAndCrew() {
   return (
     <div className="h-full w-full px-5 py-8 flex flex-col">
@@ -52,14 +55,25 @@ export function CastAndCrew() {
       </div>
       <Tab.Group>
         <Tab.List className="flex justify-between mt-8 mb-6">
-          <Tab className="text-white text-s py-1 bg-white-dimmed rounded-md px-16 focus:border outline-none focus:border-white">
-            Cast
-          </Tab>
-          <Tab className="text-white text-s py-1 bg-white-dimmed rounded-md px-16 focus:border outline-none focus:border-white">
-            Crew
-          </Tab>
+          {tabs.map(tab => (
+            <Tab as={Fragment}>
+              {({ selected }) => (
+                <Button
+                  variant="secondary"
+                  size="tab"
+                  className={`${
+                    selected
+                      ? 'ring-1 ring-white bg-white-dimmed'
+                      : 'text-white-dimmed'
+                  }`}
+                >
+                  {tab}
+                </Button>
+              )}
+            </Tab>
+          ))}
         </Tab.List>
-        <Tab.Panels>
+        <Tab.Panels className="overflow-y-scroll">
           <Tab.Panel>
             {castAndCrew.cast.map((person: Cast) => (
               <CastCrew person={person} key={person.id} />
