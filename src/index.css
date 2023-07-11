@@ -12,3 +12,12 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
 }
+
+.typography-title {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff;
+}

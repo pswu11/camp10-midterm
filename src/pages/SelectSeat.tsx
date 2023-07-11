@@ -7,6 +7,7 @@ import { useRouteLoaderData } from 'react-router-dom';
 import { Movie } from '../types/api';
 import { useTicketStore } from '../stores/ticket';
 import { useEffect } from 'react';
+import HeaderFunction from '../components/Header';
 
 // This will come from backend eventually
 const mockAllSeats: SeatType[] = [
@@ -105,6 +106,7 @@ export function SelectSeat() {
   }, []);
   return (
     <>
+    <HeaderFunction children={"Select Seat"} />
       <div className="flex gap-x-2 mx-auto">
         {mockAllSeats.map(item => (
           <Seat
