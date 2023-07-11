@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { SearchInput } from '../components/SearchInput';
 import MovieSlider from '../components/MovieSlider';
 import { UpcomingMovie } from '../types/api';
@@ -16,32 +16,23 @@ export function Home() {
         <UserInfo />
         <SearchInput />
         <div>
-          <p className="text-white-dimmed font-500 text-l">Genre</p>
+          <div className="flex flex-row justify-between mb-4">
+            <p className="text-white-dimmed font-500 text-l">Genre</p>
+            <div className="text-yellow text-s font-500">
+              <Link to={''}>See All {'>'}</Link>
+            </div>
+          </div>
           <div className="flex flex-row justify-between">
-            <GenreIcon
-              genre={{
-                icon: '',
-                name: '',
-              }}
-            />
-            <GenreIcon
-              genre={{
-                icon: '',
-                name: '',
-              }}
-            />
-            <GenreIcon
-              genre={{
-                icon: '',
-                name: '',
-              }}
-            />
-            <GenreIcon
-              genre={{
-                icon: '',
-                name: '',
-              }}
-            />
+            {[1, 2, 3, 4].map(iconNumber => (
+              <GenreIcon
+                genre={{
+                  icon: '',
+                  name: '',
+                }}
+              >
+                {iconNumber}
+              </GenreIcon>
+            ))}
           </div>
         </div>
         <div>
