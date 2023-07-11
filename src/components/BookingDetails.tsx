@@ -8,23 +8,20 @@ type BookingDetailsProps = {
   HTMLButtonElement
 >;
 function BookingDetails({
-  isDisabled = false,
-  isActive = false,
+  isDisabled,
+  isActive,
   className,
   children,
   ...props
 }: BookingDetailsProps) {
   return (
     <button
-      className={cn(
-        'flex justify-center rounded-s font-500 text-m px-4 py-[.375rem] rounded text-white-dimmed',
-        isActive
-          ? 'bg-yellow text-dark-light'
-          : isDisabled
-          ? 'text-dark-light'
-          : '',
+      className={`${cn(
+        'flex justify-center rounded-s font-500 px-4 py-[.375rem] rounded',
+        isDisabled ? 'text-dark-light' : 'text-white-dimmed',
+        isActive ? 'bg-yellow text-dark' : '',
         className
-      )}
+      )} text-m`}
       {...props}
     >
       {children}

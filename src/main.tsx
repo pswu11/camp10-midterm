@@ -43,6 +43,15 @@ const router = createBrowserRouter([
       {
         path: 'movies',
         element: <Movies />,
+        loader: async () => {
+          const res = await axios.get(
+            `https://api.themoviedb.org/3/movie/now_playing?api_key=${
+              import.meta.env.VITE_TMDB_KEY
+            }`
+          );
+          const nowPlayingMovies = res.data.results as Movie[];
+          return nowPlayingMovies;
+        },
       },
       {
         path: 'bookmarks',
@@ -62,10 +71,18 @@ const router = createBrowserRouter([
     loader: async ({ params }) => {
       const { movieId } = params;
       const res = await axios.get(
+<<<<<<< HEAD
         `https://api.themoviedb.org/3/movie/${movieId}?api_key=830580354c9aaf7a57d3f02a7a0010ae`
       );
       const movie = res.data as Movie;
 
+=======
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+          import.meta.env.VITE_TMDB_KEY
+        }`
+      );
+      const movie = res.data as Movie;
+>>>>>>> main
       return { movie };
     },
     children: [
