@@ -12,7 +12,9 @@ export default function HeaderFunction(calledProps: HeaderProps) {
     return ( 
         <header className="flex justify-between ml items-center px-5 pb-6 pt-8 sticky top-0 z-10 bg-dark text-white m">
                 <button onClick={() => navigation(-1)}>
-                    <HiArrowCircleLeft />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
                 </button>
                 <h1 className="typography-title" >{calledProps.children}</h1>
         </header>
