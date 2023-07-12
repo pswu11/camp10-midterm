@@ -4,7 +4,7 @@ import MovieSlider from '../components/MovieSlider';
 import { UpcomingMovie } from '../types/api';
 import UserInfo from '../components/UserInfo';
 import { GenreIcon } from '../components/GenreIcon';
-import { Navbar } from '../components/Navbar';
+import { HiChevronRight } from 'react-icons/hi';
 
 export function Home() {
   const movies = useLoaderData() as UpcomingMovie[];
@@ -12,17 +12,18 @@ export function Home() {
 
   return (
     <>
-      <section className=" flex flex-col gap-y-6">
+      <section className="flex flex-col gap-y-6">
         <UserInfo />
         <SearchInput />
         <div>
-          <div className="flex flex-row justify-between mb-4">
-            <p className="text-white-dimmed font-500 text-l">Genre</p>
-            <div className="text-yellow text-s font-500">
-              <Link to={''}>See All {'>'}</Link>
+          <div className="flex justify-between items-center">
+            <p className="text-white-dimmed font-700 text-l">Genre</p>
+            <div className=" flex text-yellow/50 text-s  font-500 gap-3 items-center">
+              <Link to={'/genres'}>See All</Link>
+              <HiChevronRight className="w-4 h-4" />
             </div>
           </div>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between mt-4">
             {[1, 2, 3, 4].map(iconNumber => (
               <GenreIcon
                 genre={{
@@ -36,9 +37,7 @@ export function Home() {
           </div>
         </div>
         <div>
-          <h3 className="mr-5 text-white text-l font-700 mb-2">
-            Upcoming Movies
-          </h3>
+          <h3 className="text-white text-l font-700 mb-4">Upcoming Movies</h3>
           <MovieSlider movies={movies} />
         </div>
       </section>
