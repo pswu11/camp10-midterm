@@ -19,7 +19,7 @@ import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
 import { getCredits, getCurrentMovie } from './api/movies';
 import axios from 'axios';
-import { Movie } from './types/api';
+import { Genre, Movie } from './types/api';
 import { UpcomingMovies } from './types/api';
 
 const router = createBrowserRouter([
