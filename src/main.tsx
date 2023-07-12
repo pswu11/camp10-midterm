@@ -108,15 +108,6 @@ const router = createBrowserRouter([
   {
     path: 'genres',
     element: <Genres />,
-    loader: async () => {
-      const res = await axios.get(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=${
-          import.meta.env.VITE_TMDB_KEY
-        }`
-      );
-      const { genres } = res.data as { genres: Genre[] };
-      return genres;
-    },
   },
   {
     path: 'login',
