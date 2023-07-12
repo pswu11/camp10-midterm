@@ -17,7 +17,7 @@ import { Home } from './pages/Home';
 import { User } from './pages/User';
 import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
-import { getCurrentMovie } from './api/movies';
+import { getCredits, getCurrentMovie } from './api/movies';
 import axios from 'axios';
 import { Genre, Movie } from './types/api';
 import { UpcomingMovies } from './types/api';
@@ -88,6 +88,7 @@ const router = createBrowserRouter([
       {
         path: 'castandcrew',
         element: <CastAndCrew />,
+        loader: getCredits,
       },
       {
         path: 'select-time',
