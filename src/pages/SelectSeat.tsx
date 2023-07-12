@@ -8,52 +8,6 @@ import { Movie } from '../types/api';
 import { useTicketStore } from '../stores/ticket';
 import { useEffect } from 'react';
 
-// This will come from backend eventually
-const mockAllSeats: SeatType[] = [
-  {
-    id: 1,
-    code: 'A-3',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 2,
-    code: 'A-4',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 3,
-    code: 'C-3',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 4,
-    code: 'C-4',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 5,
-    code: 'H-8',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 6,
-    code: 'D-10',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 7,
-    code: 'D-11',
-    isSelected: false,
-    isReserved: false,
-  },
-];
-
 // This is purely made up for now
 const seatPrices = {
   Front: 12.99,
@@ -70,25 +24,12 @@ const seatsMatrix = [
   [0, 1, 1, 1, 0, 1, 1, 1, 0],
 ];
 
-seatsMatrix.map(row => {
-  row.map(seat => {
-    if (!seat) {
-      return <div />;
-    }
-    return (
-      <Seat seatid={0} seatCode={''} isSelected={false} isReserved={false} />
-    );
-  });
-});
-
-// This logic is purely made up for now
 function returnSeatType(seatCode: string) {
   const row = seatCode.split('-')[0];
   switch (row) {
-    case 'A':
+    case '1':
       return 'Front';
-    // assume H is the last row
-    case 'H':
+    case '6':
       return 'Back';
     default:
       return 'Middle';
@@ -123,6 +64,8 @@ export function SelectSeat() {
   useEffect(() => {
     setSeat([]);
   }, []);
+
+  let startingNumber = 0;
   return (
     <>
       <h4 className="text-white text-s">
@@ -132,38 +75,30 @@ export function SelectSeat() {
         <div className=" bg-yellow h-1 w-63"></div>
         <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
       </div>
-      <div className="flex gap-x-2 mx-auto">
-        {mockAllSeats.map(item => (
-          <Seat
-            key={item.id}
-            seatid={item.id}
-            seatCode={item.code}
-            isReserved={item.isReserved}
-            isSelected={item.isSelected}
-            onClick={() => {
-              if (!item.isSelected) {
-                item.isSelected = true;
-                updatedSelectedSeats = [...selectedSeats, item];
-                setSelectedSeats(updatedSelectedSeats);
-              } else {
-                item.isSelected = false;
-                updatedSelectedSeats = selectedSeats.filter(
-                  seat => seat.id !== item.id
-                );
-                setSelectedSeats(updatedSelectedSeats);
-              }
-              // update ticket store
-              setSeat(updatedSelectedSeats.map(seat => seat.code));
-              setPrice(
-                Number(
-                  createBookingSummary(updatedSelectedSeats)
-                    .reduce((acc, seat) => acc + seat.amount * seat.price, 0)
-                    .toFixed(2)
-                )
-              );
-            }}
-          />
-        ))}
+      <div className="grid grid-rows-6 grid-cols-9 gap-3 m-5">
+        {seatsMatrix.map((row, rowIdx) => {
+          row.reduce((acc, cur) => {
+            console.log({ acc, cur });
+          }, 0);
+          return <h1>what</h1>;
+          /*  return row.map((seat, seatIdx) => {
+            if (!seat) {
+              return <div key={`${rowIdx}-${seatIdx}}`} />;
+            }
+            startingNumber += 1;
+            console.log(seatIdx);
+            console.log(`${rowIdx + 1}-${startingNumber}`);
+            return (
+              <Seat
+                key={`${rowIdx}-${seatIdx}}`}
+                seatid={`${rowIdx + 1}-${seatIdx + 1}`}
+                seatCode={`${rowIdx + 1}-${startingNumber}`}
+                isSelected={false}
+                isReserved={false}
+              />
+            );
+          }); */
+        })}
       </div>
       <BookingSummary
         summaries={createBookingSummary(selectedSeats)}
