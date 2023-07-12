@@ -70,17 +70,6 @@ const seatsMatrix = [
   [0, 1, 1, 1, 0, 1, 1, 1, 0],
 ];
 
-seatsMatrix.map(row => {
-  row.map(seat => {
-    if (!seat) {
-      return <div />;
-    }
-    return (
-      <Seat seatid={0} seatCode={''} isSelected={false} isReserved={false} />
-    );
-  });
-});
-
 // This logic is purely made up for now
 function returnSeatType(seatCode: string) {
   const row = seatCode.split('-')[0];
@@ -125,13 +114,26 @@ export function SelectSeat() {
   }, []);
   return (
     <>
-      <h4 className="text-white text-s">
-        This will later be filled by the header component
-      </h4>
-      <div className="flex-col px-7 justify-center items-center mx-7">
-        <div className=" bg-yellow h-1 w-63"></div>
-        <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
+      <div className="grid grid-rows-6 grid-cols-9 gap-3 m-5">
+        {seatsMatrix.map((row, rowIdx) => {
+          return row.map((seat, seatIdx) => {
+            if (!seat) {
+              return <div key={`${rowIdx}-${seatIdx}}`} />;
+            }
+
+            return (
+              <Seat
+                key={`${rowIdx}-${seatIdx}}`}
+                seatid={`${rowIdx + 1}-${seatIdx + 1}}`}
+                seatCode={`${rowIdx + 1}-${seatIdx + 1}}`}
+                isSelected={false}
+                isReserved={false}
+              />
+            );
+          });
+        })}
       </div>
+
       <div className="flex gap-x-2 mx-auto">
         {mockAllSeats.map(item => (
           <Seat
