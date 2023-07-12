@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { cn } from '../lib/utils';
 
 type ButtonVariant = 'primary' | 'secondary';
-type ButtonSize = 'default' | 'small';
+type ButtonSize = 'default' | 'small' | 'tiny';
 
 type ButtonProps = {
   variant?: ButtonVariant;
@@ -19,8 +19,9 @@ const variantStyles: Record<ButtonVariant, string> = {
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  default: 'py-4 text-m',
-  small: 'py-1 text-s',
+  default: 'py-4 text-m font-700',
+  small: 'py-3 text-s font-700',
+  tiny: 'py-1 px-16 text-s font-500'
 };
 
 const disabledStyles = 'opacity-50';
