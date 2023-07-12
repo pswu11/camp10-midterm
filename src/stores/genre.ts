@@ -9,7 +9,7 @@ type Genre = {
 type Store = {
   genres: Record<string, Genre>;
   homePageGenres: string[];
-  selectGenre: (genre: string, fromOverview?: boolean) => void;
+  selectGenre: (genre: string) => void;
 };
 
 export const useGenreStore = create<Store>(set => ({
@@ -32,17 +32,18 @@ export const useGenreStore = create<Store>(set => ({
     Thriller: { icon: '😨', id: 53, isSelected: false },
   },
   homePageGenres: ['Action', 'Adventure', 'Animation', 'Comedy'], // initial home page genres
-  selectGenre: (genre, fromOverview) =>
+  selectGenre: (genre) =>
     set(state => {
       const isSelected = !state.genres[genre].isSelected;
       let homePageGenres = state.homePageGenres;
-      if (fromOverview && isSelected) {
+      if (isSelected) {
         homePageGenres = [
           genre,
           ...homePageGenres.filter(g => g !== genre),
         ].slice(0, 4);
       }
       return {
+        homePageGenres,
         genres: {
           ...state.genres,
           [genre]: {
@@ -50,7 +51,6 @@ export const useGenreStore = create<Store>(set => ({
             isSelected,
           },
         },
-        homePageGenres,
       };
     }),
 }));

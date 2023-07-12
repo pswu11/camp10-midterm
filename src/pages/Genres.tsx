@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
-import { GenreIcons } from '../components/GenreIcon';
 import { Button } from '../components/Button';
 import { useGenreStore } from '../stores/genre';
+import { GenreIcon } from '../components/GenreIcon';
 
 export function Genres() {
-  const allGenres = useGenreStore(state => state.genres);
-  const selectedGenres = Object.keys(allGenres).filter(
-    genre => allGenres[genre].isSelected
+  const { genres, selectGenre } = useGenreStore();
+  const selectedGenres = Object.keys(genres).filter(
+    genre => genres[genre].isSelected
   );
 
   return (
@@ -18,8 +18,18 @@ export function Genres() {
         </Link>
         <h2 className="text-white text-l font-700">Genres</h2>
       </div>
-      <div className="w-full grid grid-cols-4 gap-y-8 mt-12 mb-auto">
-        <GenreIcons variant="overview" />
+      <div className="w-full grid grid-cols-4 gap-y-8 mt-12 mb-auto place-items-center">
+        {Object.keys(genres).map((genre, idx) => {
+          return (
+            <GenreIcon
+              icon={genres[genre].icon}
+              genre={genre}
+              key={idx}
+              isSelected={genres[genre].isSelected}
+              onClick={() => selectGenre(genre)}
+            />
+          );
+        })}
       </div>
       <div className="text-white-dimmed text-m mt-auto">
         <span className="text-white">{selectedGenres.length}</span> genres
