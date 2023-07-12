@@ -25,7 +25,7 @@ export function Home() {
               <HiChevronRight className="w-4 h-4" />
             </div>
           </div>
-          <div className="flex flex-row justify-between mt-4">
+          <div className="flex justify-between mt-4">
             {homePageGenres.map((g, idx) => (
               <GenreIcon
                 icon={genres[g].icon}
