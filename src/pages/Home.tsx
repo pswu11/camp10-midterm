@@ -17,13 +17,15 @@ export function Home() {
       <Link to="/genres">Go to overview</Link>
       <div className="flex justify-between mt-4">
         {
-          homePageGenres.map((g, idx) => <GenreIcon 
+        homePageGenres.map((g, idx) => (
+          <GenreIcon
             icon={genres[g].icon}
             genre={g}
             key={idx}
             isSelected={genres[g].isSelected}
-            onClick={() => selectGenre(g)}
-            />)
+            onClick={() => selectGenre(g, true)}
+          />
+        ))
         }
       </div>
     </>

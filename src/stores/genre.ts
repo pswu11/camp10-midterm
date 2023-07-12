@@ -1,16 +1,18 @@
 import { create } from 'zustand';
 
-type Genre = {
+export type GenreIconType = {
   icon: string;
   id: number;
   isSelected: boolean;
 };
 
 type Store = {
-  genres: Record<string, Genre>;
+  genres: Record<string, GenreIconType>;
   homePageGenres: string[];
-  selectGenre: (genre: string) => void;
+  selectGenre: (genre: string, onHomePage?: boolean) => void;
 };
+
+const defaultHomePageGenres = ['Action', 'Adventure', 'Animation', 'Comedy']
 
 export const useGenreStore = create<Store>(set => ({
   genres: {
@@ -31,12 +33,12 @@ export const useGenreStore = create<Store>(set => ({
     'Science Fiction': { icon: '🛸', id: 878, isSelected: false },
     Thriller: { icon: '😨', id: 53, isSelected: false },
   },
-  homePageGenres: ['Action', 'Adventure', 'Animation', 'Comedy'], // initial home page genres
-  selectGenre: (genre) =>
+  homePageGenres: defaultHomePageGenres, // initial home page genres
+  selectGenre: (genre, onHomePage) =>
     set(state => {
       const isSelected = !state.genres[genre].isSelected;
       let homePageGenres = state.homePageGenres;
-      if (isSelected) {
+      if (isSelected && !onHomePage) {
         homePageGenres = [
           genre,
           ...homePageGenres.filter(g => g !== genre),
