@@ -2,7 +2,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 import { SearchInput } from '../components/SearchInput';
 import MovieSlider from '../components/MovieSlider';
 import { UpcomingMovie } from '../types/api';
-import { useGenreStore } from '../stores/genre';
+import { useGenreStore } from '../stores/genres';
 import UserInfo from '../components/UserInfo';
 import { GenreIcon } from '../components/GenreIcon';
 import { HiChevronRight } from 'react-icons/hi';

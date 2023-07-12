@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import { Button } from '../components/Button';
-import { useGenreStore } from '../stores/genre';
+import { useGenreStore } from '../stores/genres';
 import { GenreIcon } from '../components/GenreIcon';
 
 export function Genres() {
-  const { genres, selectGenre } = useGenreStore();
+  const { genres, selectGenre, reset } = useGenreStore();
   const selectedGenres = Object.keys(genres).filter(
     genre => genres[genre].isSelected
   );
@@ -31,9 +31,14 @@ export function Genres() {
           );
         })}
       </div>
-      <div className="text-white-dimmed text-m mt-auto">
-        <span className="text-white">{selectedGenres.length}</span> genres
-        selected.
+      <div className="text-white-dimmed text-m mt-auto flex justify-between">
+        <div>
+          <span className="text-white">{selectedGenres.length}</span> genres
+          selected.
+        </div>
+        <button className="hover:text-yellow" onClick={reset}>
+          Unselect all
+        </button>
       </div>
       <Link to="/" className="w-full mt-4">
         <Button className="w-full" size="small">
