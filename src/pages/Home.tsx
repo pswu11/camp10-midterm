@@ -2,12 +2,14 @@ import { Link, useLoaderData } from 'react-router-dom';
 import { SearchInput } from '../components/SearchInput';
 import MovieSlider from '../components/MovieSlider';
 import { UpcomingMovie } from '../types/api';
+import { useGenreStore } from '../stores/genres';
 import UserInfo from '../components/UserInfo';
 import { GenreIcon } from '../components/GenreIcon';
 import { HiChevronRight } from 'react-icons/hi';
 
 export function Home() {
   const movies = useLoaderData() as UpcomingMovie[];
+  const { genres, homePageGenres, selectGenre } = useGenreStore();
   console.log(movies);
 
   return (
@@ -24,15 +26,14 @@ export function Home() {
             </div>
           </div>
           <div className="flex flex-row justify-between mt-4">
-            {[1, 2, 3, 4].map(iconNumber => (
+            {homePageGenres.map((g, idx) => (
               <GenreIcon
-                genre={{
-                  icon: '',
-                  name: '',
-                }}
-              >
-                {iconNumber}
-              </GenreIcon>
+                icon={genres[g].icon}
+                genre={g}
+                key={idx}
+                isSelected={genres[g].isSelected}
+                onClick={() => selectGenre(g, true)}
+              />
             ))}
           </div>
         </div>
