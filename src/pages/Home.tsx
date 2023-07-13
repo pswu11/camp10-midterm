@@ -9,8 +9,8 @@ import { HiChevronRight } from 'react-icons/hi';
 
 export function Home() {
   const movies = useLoaderData() as UpcomingMovie[];
-  const { genres, homePageGenres, selectGenre } = useGenreStore();
-  console.log(movies);
+  const { genres, homePageGenres, selectedGenres, selectGenre } = useGenreStore();
+  const filteredMovies = selectedGenres.length === 0 ? movies : movies.filter(movie => movie.genre_ids.some(id => selectedGenres.some(g => g === id)))
 
   return (
     <>
@@ -39,7 +39,7 @@ export function Home() {
         </div>
         <div>
           <h3 className="text-white text-l font-700 mb-4">Upcoming Movies</h3>
-          <MovieSlider movies={movies} />
+          <MovieSlider movies={filteredMovies} />
         </div>
       </section>
     </>

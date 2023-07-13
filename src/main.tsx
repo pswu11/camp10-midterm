@@ -17,7 +17,7 @@ import { Home } from './pages/Home';
 import { User } from './pages/User';
 import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
-import { getCredits, getCurrentMovie } from './api/movies';
+import { discoverMoviesWithoutGenres, getCredits, getCurrentMovie, getNowPlayingMovies } from './api/movies';
 import axios from 'axios';
 import { Credits, Movie } from './types/api';
 import { UpcomingMovies } from './types/api';
@@ -45,15 +45,7 @@ const router = createBrowserRouter([
       {
         path: 'movies',
         element: <Movies />,
-        loader: async () => {
-          const res = await axios.get(
-            `https://api.themoviedb.org/3/movie/now_playing?api_key=${
-              import.meta.env.VITE_TMDB_KEY
-            }`
-          );
-          const nowPlayingMovies = res.data.results as Movie[];
-          return nowPlayingMovies;
-        },
+        loader: getNowPlayingMovies,
       },
       {
         path: 'bookmarks',

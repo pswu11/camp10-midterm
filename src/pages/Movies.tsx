@@ -3,18 +3,23 @@ import MovieCard from '../components/MovieCard';
 import { Movie } from '../types/api';
 import PaginationButton from '../components/PaginationButton';
 import { useState } from 'react';
+import { useGenreStore } from '../stores/genres';
+// import { discoverMoviesWithGenres } from '../api/movies';
 
 export function Movies() {
   const nowPlayingMovies = useLoaderData() as Movie[];
-
   const [currentPage, setCurrentPage] = useState(1);
+  const { selectedGenres } = useGenreStore();
+  const filteredMovies = selectedGenres.length === 0 ? nowPlayingMovies : nowPlayingMovies.filter(movie => movie.genre_ids.some(id => selectedGenres.some(g => g === id)))
+  console.log(nowPlayingMovies, filteredMovies)
 
-  const moviesDisplay = nowPlayingMovies.slice(
+
+  const moviesDisplay = filteredMovies.slice(
     (currentPage - 1) * 4,
     currentPage * 4
   );
 
-  console.log(moviesDisplay);
+  // console.log(moviesDisplay);
   return (
     <div>
       <div className="grid grid-cols-2 gap-4">

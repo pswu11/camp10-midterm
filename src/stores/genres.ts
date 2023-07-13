@@ -8,6 +8,7 @@ export type GenreIconType = {
 
 type Store = {
   genres: Record<string, GenreIconType>;
+  selectedGenres: number[];
   homePageGenres: string[];
   selectGenre: (genre: string, onHomePage?: boolean) => void;
   reset: () => void
@@ -32,22 +33,34 @@ const initalGenreStates = {
   'Science Fiction': { icon: '🛸', id: 878, isSelected: false },
   Thriller: { icon: '😨', id: 53, isSelected: false },
 }
+const initSelectedGenres: number[] = []
 
 export const useGenreStore = create<Store>(set => ({
   genres: initalGenreStates,
+  selectedGenres: initSelectedGenres,
   homePageGenres: defaultHomePageGenres, // initial home page genres
   selectGenre: (genre, onHomePage) =>
     set(state => {
       const isSelected = !state.genres[genre].isSelected;
+      const genreId = state.genres[genre].id
+      let selectedGenres = initSelectedGenres;
       let homePageGenres = state.homePageGenres;
+      // check homepage conditions
       if (isSelected && !onHomePage) {
         homePageGenres = [
           genre,
           ...homePageGenres.filter(g => g !== genre),
         ].slice(0, 4);
       }
+      // check if genre is selected already
+      if (state.selectedGenres.includes(genreId)) {
+        selectedGenres = state.selectedGenres.filter(id => id!== genreId)
+      } else {
+        selectedGenres = [...state.selectedGenres, genreId]
+      }
       return {
         homePageGenres,
+        selectedGenres,
         genres: {
           ...state.genres,
           [genre]: {
@@ -58,6 +71,6 @@ export const useGenreStore = create<Store>(set => ({
       };
     }),
   reset: () => {
-    set({genres: initalGenreStates, homePageGenres: defaultHomePageGenres})
+    set({genres: initalGenreStates, selectedGenres: initSelectedGenres, homePageGenres: defaultHomePageGenres})
   }
 }));
