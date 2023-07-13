@@ -19,7 +19,7 @@ import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
 import { getCredits, getCurrentMovie } from './api/movies';
 import axios from 'axios';
-import { Genre, Movie } from './types/api';
+import { Credits, Movie } from './types/api';
 import { UpcomingMovies } from './types/api';
 
 const router = createBrowserRouter([
@@ -77,8 +77,14 @@ const router = createBrowserRouter([
           import.meta.env.VITE_TMDB_KEY
         }`
       );
+      const resCredits = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${
+          import.meta.env.VITE_TMDB_KEY
+        }`
+      );
+      const resCreditsData = resCredits.data as Credits;
       const movie = res.data as Movie;
-      return { movie };
+      return { movie, resCreditsData };
     },
     children: [
       {

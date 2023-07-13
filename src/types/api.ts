@@ -17,6 +17,7 @@ export type UpcomingMovie = {
 // Movie (aka MovieDetail) to include length
 export type Movie = {
   runtime: number;
+  genres: Genre[];
 } & UpcomingMovie;
 
 export type UpcomingMovies = UpcomingMovie[];
