@@ -17,10 +17,9 @@ import { Home } from './pages/Home';
 import { User } from './pages/User';
 import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
-import { discoverMoviesWithoutGenres, getCredits, getCurrentMovie, getNowPlayingMovies } from './api/movies';
+import { discoverMoviesWithoutGenres, getCredits, getCurrentMovie, getNowPlayingMovies, getUpcomingMovies } from './api/movies';
 import axios from 'axios';
 import { Credits, Movie } from './types/api';
-import { UpcomingMovies } from './types/api';
 
 const router = createBrowserRouter([
   {
@@ -30,22 +29,13 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
-        loader: async () => {
-          const { data: movies } = await axios.get<{
-            results: UpcomingMovies[];
-          }>(
-            `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&api_key=${
-              import.meta.env.VITE_TMDB_KEY
-            }`
-          );
-          return movies.results;
-        },
+        loader: getUpcomingMovies,
         index: true,
       },
       {
         path: 'movies',
         element: <Movies />,
-        loader: getNowPlayingMovies,
+        loader: discoverMoviesWithoutGenres,
       },
       {
         path: 'bookmarks',

@@ -40,9 +40,20 @@ export const getNowPlayingMovies = async () => {
   return nowPlayingMovies;
 }
 
+export const getUpcomingMovies = async () => {
+  const res = await axios.get(
+    `https://api.themoviedb.org/3/movie/upcoming?api_key=${
+      import.meta.env.VITE_TMDB_KEY
+    }`
+  );
+  const nowPlayingMovies = res.data.results as Movie[];
+  return nowPlayingMovies;
+}
+
+
 export const discoverMoviesWithoutGenres = async () => {
   const res = await axios.get(
-    `https://api.themoviedb.org/3/discover/movie?language=en-US&sort_by=popularity.desc&with_genres=&api_key=${
+    `https://api.themoviedb.org/3/discover/movie?language=en-US&sort_by=popularity.desc&api_key=${
       import.meta.env.VITE_TMDB_KEY
     }`
   );

@@ -9,39 +9,43 @@ import { HiChevronRight } from 'react-icons/hi';
 
 export function Home() {
   const movies = useLoaderData() as UpcomingMovie[];
-  const { genres, homePageGenres, selectedGenres, selectGenre } = useGenreStore();
-  const filteredMovies = selectedGenres.length === 0 ? movies : movies.filter(movie => movie.genre_ids.some(id => selectedGenres.some(g => g === id)))
+  const { genres, homePageGenres, selectedGenres, selectGenre } =
+    useGenreStore();
+  const filteredMovies =
+    selectedGenres.length === 0
+      ? movies
+      : movies.filter(movie =>
+          movie.genre_ids.some(id => selectedGenres.some(g => g === id))
+        );
 
   return (
-    <>
-      <section className="flex flex-col gap-y-6">
-        <UserInfo />
-        <SearchInput />
-        <div>
-          <div className="flex justify-between items-center">
-            <p className="text-white-dimmed font-700 text-l">Genre</p>
-            <div className=" flex text-yellow/50 text-s  font-500 gap-3 items-center">
-              <Link to={'/genres'}>See All</Link>
-              <HiChevronRight className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="flex justify-between mt-4">
-            {homePageGenres.map((g, idx) => (
-              <GenreIcon
-                icon={genres[g].icon}
-                genre={g}
-                key={idx}
-                isSelected={genres[g].isSelected}
-                onClick={() => selectGenre(g, true)}
-              />
-            ))}
+    <section className="flex flex-col gap-y-6">
+      <UserInfo />
+      <SearchInput />
+      <div>
+        <div className="flex justify-between items-center">
+          <p className="text-white-dimmed font-700 text-l">Genre</p>
+          <div className=" flex text-yellow/50 text-s  font-500 gap-3 items-center">
+            <Link to={'/genres'}>See All</Link>
+            <HiChevronRight className="w-4 h-4" />
           </div>
         </div>
-        <div>
-          <h3 className="text-white text-l font-700 mb-4">Upcoming Movies</h3>
-          <MovieSlider movies={filteredMovies} />
+        <div className="flex justify-between mt-4">
+          {homePageGenres.map((g, idx) => (
+            <GenreIcon
+              icon={genres[g].icon}
+              genre={g}
+              key={idx}
+              isSelected={genres[g].isSelected}
+              onClick={() => selectGenre(g, true)}
+            />
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+      <div>
+        <h3 className="text-white text-l font-700 mb-4">Upcoming Movies</h3>
+        <MovieSlider movies={filteredMovies} />
+      </div>
+    </section>
   );
 }

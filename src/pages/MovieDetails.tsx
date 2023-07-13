@@ -8,8 +8,8 @@ import { formatName } from '../lib/utils';
 import { useNavigate } from 'react-router-dom';
 
 export function MovieDetails() {
-  const { movie } = useRouteLoaderData('currentMovie') as { movie: Movie };
-  const { resCreditsData } = useRouteLoaderData('currentMovie') as {
+  const { resCreditsData, movie } = useRouteLoaderData('currentMovie') as {
+    movie: Movie;
     resCreditsData: Credits;
   };
   const [heartIcon, toggleHeart] = useState(false);
@@ -121,7 +121,7 @@ export function MovieDetails() {
           Read more
         </a>
       </div>
-      <Button> Get Reservation</Button>
+      <Button><Link to="select-time">Get Reservation</Link></Button>
     </div>
   );
 }
