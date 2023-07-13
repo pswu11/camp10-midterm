@@ -75,12 +75,10 @@ export function SelectSeat() {
         <div className=" bg-yellow h-1 w-63"></div>
         <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
       </div>
+
       <div className="grid grid-rows-6 grid-cols-9 gap-3 m-5">
         {seatsMatrix.map((row, rowIdx) => {
-          row.reduce((acc, cur) => {
-            console.log({ acc, cur });
-          }, 0);
-
+          
           return row.map((seat, seatIdx) => {
             if (!seat) {
               return <div key={`${rowIdx}-${seatIdx}}`} />;
