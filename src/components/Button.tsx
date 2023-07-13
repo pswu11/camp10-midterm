@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { cn } from '../lib/utils';
 
 type ButtonVariant = 'primary' | 'secondary';
 type ButtonSize = 'default' | 'small' | 'tiny';
@@ -21,7 +20,7 @@ const variantStyles: Record<ButtonVariant, string> = {
 const sizeStyles: Record<ButtonSize, string> = {
   default: 'py-4 text-m font-700',
   small: 'py-3 text-s font-700',
-  tiny: 'py-1 px-16 text-s font-500'
+  tiny: 'py-1 px-16 text-s font-500',
 };
 
 const disabledStyles = 'opacity-50';
@@ -42,10 +41,10 @@ export function Button({
   return (
     <button
       className={clsx(
-        'flex justify-center items-center font-700  px-9 rounded-lg',
+        'flex justify-center text-center items-center rounded-lg',
+        sizeStyle,
         disabledStyle,
         variantStyle,
-        sizeStyle,
         className
       )}
       disabled={disabled}
