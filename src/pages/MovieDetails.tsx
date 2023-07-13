@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { IoChevronBackSharp } from 'react-icons/io5';
 import { BsHeartFill, BsHeart } from 'react-icons/bs';
 import { formatName } from '../lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 export function MovieDetails() {
   const { movie } = useRouteLoaderData('currentMovie') as { movie: Movie };
@@ -24,6 +25,8 @@ export function MovieDetails() {
   } = movie;
   const { crew } = resCreditsData;
 
+  const navigate = useNavigate();
+
   const filteredCrew: string[] = [];
   crew.map((x, _y) => {
     if (
@@ -40,9 +43,8 @@ export function MovieDetails() {
   return (
     <div className="flex flex-col px-5 py-6 justify-between h-full">
       <div className="flex justify-between items-center text-white text-l font-700">
-        <Link to="/movies">
-          <IoChevronBackSharp />
-        </Link>
+        <IoChevronBackSharp onClick={() => navigate(-1)} />
+
         <p> Movie Details </p>
         {heartIcon ? (
           <BsHeartFill
