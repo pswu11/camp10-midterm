@@ -102,13 +102,9 @@ export function MovieDetails() {
             </span>
           </p>
         </div>
-        <Button
-          // onClick={getData}
-          variant="secondary"
-          size="small"
-          label="Cast & Crew"
-          className="w-1/2"
-        />
+        <Button variant="secondary" size="small" className="w-1/2">
+          <Link to={`/movies/${id}/castandcrew`}>Cast & Crew</Link>
+        </Button>
       </div>
       <hr className="border-white-dimmed" />
       <div className="flex flex-col pt-4">
