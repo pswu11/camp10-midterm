@@ -15,15 +15,18 @@ const seatPrices = {
   Back: 16.99,
 };
 
+// Seats Matrix
+
 const seatsMatrix = [
-  [0, 1, 1, 1, 0, 1, 1, 1, 0],
-  [1, 1, 1, 1, 0, 1, 1, 1, 1],
-  [1, 1, 1, 1, 0, 1, 1, 1, 1],
-  [1, 1, 1, 1, 0, 1, 1, 1, 1],
-  [1, 1, 1, 1, 0, 1, 1, 1, 1],
-  [0, 1, 1, 1, 0, 1, 1, 1, 0],
+  [null, 'A-1', 'A-2', 'A-3', null, 'A-4', 'A-5', 'A-6', null],
+  ['B-1', 'B-2', 'B-3', 'B-4', null, 'B-5', 'B-6', 'B-7', 'B-8'],
+  ['C-1', 'C-2', 'C-3', 'C-4', null, 'C-5', 'C-6', 'C-7', 'C-8'],
+  ['D-1', 'D-2', 'D-3', 'D-4', null, 'D-5', 'D-6', 'D-7', 'D-8'],
+  ['E-1', 'E-2', 'E-3', 'E-4', null, 'E-5', 'E-6', 'E-7', 'E-8'],
+  [null, 'F-1', 'F-2', 'F-3', null, 'F-4', 'F-5', 'F-6', null],
 ];
 
+// ???
 function returnSeatType(seatCode: string) {
   const row = seatCode.split('-')[0];
   switch (row) {
@@ -35,7 +38,7 @@ function returnSeatType(seatCode: string) {
       return 'Middle';
   }
 }
-
+// What does it mean?
 // Transform selected seats into summaries
 function createBookingSummary(selectedSeats: SeatType[]) {
   const summaries: SummaryRow[] = [];
@@ -65,9 +68,9 @@ export function SelectSeat() {
     setSeat([]);
   }, []);
 
-  let startingNumber = 0;
   return (
     <>
+      {/* screen */}
       <h4 className="text-white text-s">
         This will later be filled by the header component
       </h4>
@@ -76,21 +79,20 @@ export function SelectSeat() {
         <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
       </div>
 
+      {/* Creating the seats */}
       <div className="grid grid-rows-6 grid-cols-9 gap-3 m-5">
-        {seatsMatrix.map((row, rowIdx) => {
-          
+        {seatsMatrix.map(row => {
           return row.map((seat, seatIdx) => {
             if (!seat) {
-              return <div key={`${rowIdx}-${seatIdx}}`} />;
+              return <div key={seatIdx} />;
             }
-            startingNumber += 1;
-            console.log(seatIdx);
-            console.log(`${rowIdx + 1}-${startingNumber}`);
+
+            console.log(seat);
+
             return (
               <Seat
-                key={`${rowIdx}-${seatIdx}}`}
-                seatid={`${rowIdx + 1}-${seatIdx + 1}`}
-                seatCode={`${rowIdx + 1}-${startingNumber}`}
+                key={seatIdx}
+                seatCode={seat}
                 isSelected={false}
                 isReserved={false}
               />
@@ -98,6 +100,7 @@ export function SelectSeat() {
           });
         })}
       </div>
+
       <BookingSummary
         summaries={createBookingSummary(selectedSeats)}
         buttonLink={`/movies/${currentMovie.id}/ticket`}
