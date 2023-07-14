@@ -41,7 +41,7 @@ export function MovieDetails() {
   console.log(filteredCrew);
 
   return (
-    <div className="flex flex-col px-5 py-6 justify-between h-full">
+    <div className="flex flex-col px-5 py-8 justify-between h-full">
       <div className="flex justify-between items-center text-white text-l font-700">
         <IoChevronBackSharp onClick={() => navigate(-1)} />
 

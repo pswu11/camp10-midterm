@@ -1,11 +1,10 @@
 import CastCrew from '../components/CastCrew';
 import { Cast, Credits, Crew } from '../types/api';
 import { Tab } from '@headlessui/react';
-import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
-import { Link } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Fragment } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import Header from '../components/Header';
 
 const tabs = ['Cast', 'Crew'];
 
@@ -24,12 +23,7 @@ export function CastAndCrew() {
 
   return (
     <div className="h-full w-full px-5 py-8 flex flex-col">
-      <div className="flex relative items-center justify-center">
-        <Link to="/" className="text-white text-xl absolute left-0">
-          <MdOutlineKeyboardArrowLeft />
-        </Link>
-        <h2 className="text-white text-l font-700">Select Date & Time</h2>
-      </div>
+      <Header title={'Cast & Crew'} />
       <Tab.Group>
         <Tab.List className="flex justify-between mt-8 mb-6">
           {tabs.map((tab, index) => (
