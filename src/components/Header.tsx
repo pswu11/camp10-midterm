@@ -11,7 +11,7 @@ export default function Header({ title, rightIcon }: HeaderProps) {
   const navigation = useNavigate();
 
   return (
-    <header className="flex items-center justify-between text-white px-2">
+    <header className="flex items-center justify-between text-white">
       <MdOutlineKeyboardArrowLeft
         className="w-6 h-6 cursor-pointer"
         onClick={() => navigation(-1)}

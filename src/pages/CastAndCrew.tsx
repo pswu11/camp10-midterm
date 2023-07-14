@@ -1,8 +1,6 @@
 import CastCrew from '../components/CastCrew';
 import { Cast, Credits, Crew } from '../types/api';
 import { Tab } from '@headlessui/react';
-import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
-import { Link } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Fragment } from 'react';
 import { useLoaderData } from 'react-router-dom';
