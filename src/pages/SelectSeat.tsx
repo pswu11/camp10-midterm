@@ -102,11 +102,11 @@ export function SelectSeat() {
   };
   let updatedSelectedSeats: SeatType[] = [];
   useEffect(() => {
-    setSeat([])
+    setSeat([]);
   }, []);
   return (
     <>
-    <HeaderFunction children={"Select Seat"} />
+      <HeaderFunction title="Select Seat" />
       <div className="flex gap-x-2 mx-auto">
         {mockAllSeats.map(item => (
           <Seat

@@ -1,17 +1,23 @@
-import { IoIosArrowBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { ReactNode } from 'react';
+import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 type HeaderProps = {
-  children: string;
+  title: string;
+  rightIcon?: ReactNode;
 };
 
-export default function Header(title: HeaderProps) {
+export default function Header({ title, rightIcon }: HeaderProps) {
   const navigation = useNavigate();
 
   return (
-    <header className="grid grid-cols-3 text-white">
-      <IoIosArrowBack className="ml-2 w-6 h-6" onClick={() => navigation(-1)}/>
-      <h1 className="text-center font-700 leading-5">{title.children}</h1>
+    <header className="flex items-center justify-between text-white px-2">
+      <MdOutlineKeyboardArrowLeft
+        className="w-6 h-6 cursor-pointer"
+        onClick={() => navigation(-1)}
+      />
+      <h1 className="text-center font-700 leading-5">{title}</h1>
+      {rightIcon ? rightIcon : <div className="w-6 h-6" />}
     </header>
   );
 }
