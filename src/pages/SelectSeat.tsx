@@ -7,6 +7,7 @@ import { useRouteLoaderData } from 'react-router-dom';
 import { Movie } from '../types/api';
 import { useTicketStore } from '../stores/ticket';
 import { useEffect } from 'react';
+import HeaderFunction from '../components/Header';
 
 // This is purely made up for now
 const seatPrices = {
