@@ -119,7 +119,7 @@ export function SelectSeat() {
                   } else {
                     seat.isSelected = false;
                     updatedSelectedSeats = selectedSeats.filter(
-                      seat => seat.code !== seat.code
+                      currentseat => currentseat.code !== seat.code
                     );
                     setSelectedSeats(updatedSelectedSeats);
                   }
