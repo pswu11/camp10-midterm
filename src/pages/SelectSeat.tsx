@@ -26,14 +26,6 @@ const seatsMatrix = [
   [null, 'F-1', 'F-2', 'F-3', null, 'F-4', 'F-5', 'F-6', null],
 ];
 
-// const seatStates: SeatType[] = [
-//   {
-//     code: 'A-3',
-//     isSelected: false,
-//     isReserved: false,
-//   },
-// ];
-
 // Creating a seatObject with all the properties we need for handling the click event
 const seatsObject = seatsMatrix.map(row => {
   return row.map(seat => {
@@ -56,7 +48,6 @@ function returnSeatType(seatCode: string) {
       return 'Middle';
   }
 }
-// What does it mean?
 // Transform selected seats into summaries
 function createBookingSummary(selectedSeats: SeatType[]) {
   const summaries: SummaryRow[] = [];
@@ -85,10 +76,9 @@ export function SelectSeat() {
   useEffect(() => {
     setSeat([]);
   }, []);
-  // console.log(seatsObject);
+
   return (
     <>
-      {/* screen */}
       <h4 className="text-white text-s">
         This will later be filled by the header component
       </h4>
@@ -97,7 +87,6 @@ export function SelectSeat() {
         <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
       </div>
 
-      {/* Creating the seats */}
       <div className="grid grid-rows-6 grid-cols-9 gap-3 m-5">
         {seatsObject.map(row => {
           return row.map((seat, seatIdx) => {
@@ -142,7 +131,6 @@ export function SelectSeat() {
           });
         })}
       </div>
-
       <BookingSummary
         summaries={createBookingSummary(selectedSeats)}
         buttonLink={`/movies/${currentMovie.id}/ticket`}
