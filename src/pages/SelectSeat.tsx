@@ -16,7 +16,7 @@ const seatPrices = {
   Back: 16.99,
 };
 
-// Seats Matrix
+// Seats Matrix - maybe smart to refactor this into a utility dir at some point in future?
 
 const seatsMatrix = [
   [null, 'A-1', 'A-2', 'A-3', null, 'A-4', 'A-5', 'A-6', null],
@@ -53,7 +53,7 @@ function returnSeatType(seatCode: string) {
 function createBookingSummary(selectedSeats: SeatType[]) {
   const summaries: SummaryRow[] = [];
   selectedSeats.forEach(seat => {
-    const type = returnSeatType(seat.code);
+    const type = returnSeatType(seat.code!);
     if (!summaries.some(row => row.type === type)) {
       summaries.push({ type: type, amount: 1, price: seatPrices[type] });
     } else {
@@ -68,7 +68,7 @@ function createBookingSummary(selectedSeats: SeatType[]) {
 }
 
 export function SelectSeat() {
-  const [selectedSeats, setSelectedSeats] = useState([] as SeatType[]);
+  const [selectedSeats, setSelectedSeats] = useState<SeatType[]>([]);
   const { seat, setSeat, setPrice } = useTicketStore();
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
     movie: Movie;
@@ -115,7 +115,7 @@ export function SelectSeat() {
                   }
                   //Update ticket store
                   console.log(updatedSelectedSeats);
-                  setSeat(updatedSelectedSeats.map(seat => seat.code));
+                  setSeat(updatedSelectedSeats.map(seat => seat.code!));
                   setPrice(
                     Number(
                       createBookingSummary(updatedSelectedSeats)
