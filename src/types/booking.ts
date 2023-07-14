@@ -1,8 +1,8 @@
 export type SeatTypeOptions = 'Front' | 'Middle' | 'Back';
 
 export type SeatType = {
-  id: number;
-  code: string;
+  id?: number;
+  code: string | null;
   isSelected: boolean;
   isReserved: boolean;
 };

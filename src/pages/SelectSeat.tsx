@@ -26,13 +26,31 @@ const seatsMatrix = [
   [null, 'F-1', 'F-2', 'F-3', null, 'F-4', 'F-5', 'F-6', null],
 ];
 
-// ???
+// const seatStates: SeatType[] = [
+//   {
+//     code: 'A-3',
+//     isSelected: false,
+//     isReserved: false,
+//   },
+// ];
+
+// Creating a seatObject with all the properties we need for handling the click event
+const seatsObject = seatsMatrix.map(row => {
+  return row.map(seat => {
+    return {
+      code: seat,
+      isSelected: false,
+      isReserved: false,
+    };
+  });
+});
+
 function returnSeatType(seatCode: string) {
   const row = seatCode.split('-')[0];
   switch (row) {
-    case '1':
+    case 'A':
       return 'Front';
-    case '6':
+    case 'F':
       return 'Back';
     default:
       return 'Middle';
@@ -67,7 +85,7 @@ export function SelectSeat() {
   useEffect(() => {
     setSeat([]);
   }, []);
-
+  // console.log(seatsObject);
   return (
     <>
       {/* screen */}
@@ -81,20 +99,44 @@ export function SelectSeat() {
 
       {/* Creating the seats */}
       <div className="grid grid-rows-6 grid-cols-9 gap-3 m-5">
-        {seatsMatrix.map(row => {
+        {seatsObject.map(row => {
           return row.map((seat, seatIdx) => {
-            if (!seat) {
+            if (!seat.code) {
               return <div key={seatIdx} />;
             }
-
-            console.log(seat);
 
             return (
               <Seat
                 key={seatIdx}
-                seatCode={seat}
-                isSelected={false}
-                isReserved={false}
+                seatCode={seat.code}
+                isSelected={seat.isSelected}
+                isReserved={seat.isReserved}
+                onClick={() => {
+                  if (!seat.isSelected) {
+                    seat.isSelected = true;
+                    updatedSelectedSeats = [...selectedSeats, seat];
+                    setSelectedSeats(updatedSelectedSeats);
+                  } else {
+                    seat.isSelected = false;
+                    updatedSelectedSeats = selectedSeats.filter(
+                      seat => seat.code !== seat.code
+                    );
+                    setSelectedSeats(updatedSelectedSeats);
+                  }
+                  //Update ticket store
+                  console.log(updatedSelectedSeats);
+                  setSeat(updatedSelectedSeats.map(seat => seat.code));
+                  setPrice(
+                    Number(
+                      createBookingSummary(updatedSelectedSeats)
+                        .reduce(
+                          (acc, seat) => acc + seat.amount * seat.price,
+                          0
+                        )
+                        .toFixed(2)
+                    )
+                  );
+                }}
               />
             );
           });
