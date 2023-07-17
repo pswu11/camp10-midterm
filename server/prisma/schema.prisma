@@ -42,7 +42,7 @@ datasource db {
 //   booking Booking @relation(fields: [booking_id], references: [id])
 // }
 
-// Cleaner Proposal that would be closer to reality
+// Another Proposal that would be closer to reality: 
 
 // we should have a fixed amount of movies that we make available in the app
 // save the ids and pull data from tmdb api
@@ -58,7 +58,7 @@ model Screening {
   id Int @unique @default(autoincrement())
   datetime DateTime
   movie_id Int
-  seat_availability Int[] // e.g. [0, 1, 0, 1, 1] => 1: reserved
+  seat_availability Int[] // seat matrix, e.g. [0, 1, 0, 1, 1] => 1: reserved, 0: available
   bookings Booking[]
   movie Movie @relation(fields: [movie_id], references: [id])
 }
@@ -74,14 +74,15 @@ model User {
   favorite_genres Int[]
 }
 
-// booking === ticket
+// booking means ticket in the app
 model Booking {
   id Int @unique @default(autoincrement())
-  screening_id Int  // getting datetime and movie id from screening
+  screening_id Int
   movie_title String
   user_id String
   seats String[]
-  booked_at DateTime @default(now())
+  datetime DateTime
+  booked_at DateTime @default(now()) // this will be used for recent bookings on user page
   user User @relation(fields: [user_id], references: [id])
   screening Screening @relation(fields: [screening_id], references: [id])
 }
