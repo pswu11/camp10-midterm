@@ -1,0 +1,19 @@
+POST http://localhost:8000/user?testparam1="hello"&testparam2=123 HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "abc@123.de",
+    "password": "password123ab!@#"
+}
+
+###
+
+PATCH http://localhost:8000/user/12345678 HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Steven",
+    "lastName": "Bark"
+}
