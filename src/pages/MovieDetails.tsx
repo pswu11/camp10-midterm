@@ -121,7 +121,9 @@ export function MovieDetails() {
           Read more
         </a>
       </div>
-      <Button> Get Reservation</Button>
+      <Button> 
+        <Link to={`/movies/${id}/select-time`}>Get Reservation</Link>
+      </Button>
     </div>
   );
 }
