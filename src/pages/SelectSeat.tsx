@@ -1,82 +1,75 @@
+// SelectSeat.tsx
 import Seat from '../components/Seat';
 import { BookingSummary } from '../components/BookingSummary';
 import { SummaryRow } from '../types/booking';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { SeatType } from '../types/booking';
 import { useRouteLoaderData } from 'react-router-dom';
 import { Movie } from '../types/api';
 import { useTicketStore } from '../stores/ticket';
-import { useEffect } from 'react';
-import HeaderFunction from '../components/Header';
+import { useSeatLayoutStore } from '../stores/seats';
 
-// This is purely made up for now
 const seatPrices = {
   Front: 12.99,
   Middle: 14.75,
   Back: 16.99,
 };
 
-// Seats Matrix - maybe smart to refactor this into a utility dir at some point in future?
+const returnSeatType = (seatCode: string) =>
+  seatCode.startsWith('A')
+    ? 'Front'
+    : seatCode.startsWith('F')
+    ? 'Back'
+    : 'Middle';
 
-const seatsMatrix = [
-  [null, 'A-1', 'A-2', 'A-3', null, 'A-4', 'A-5', 'A-6', null],
-  ['B-1', 'B-2', 'B-3', 'B-4', null, 'B-5', 'B-6', 'B-7', 'B-8'],
-  ['C-1', 'C-2', 'C-3', 'C-4', null, 'C-5', 'C-6', 'C-7', 'C-8'],
-  ['D-1', 'D-2', 'D-3', 'D-4', null, 'D-5', 'D-6', 'D-7', 'D-8'],
-  ['E-1', 'E-2', 'E-3', 'E-4', null, 'E-5', 'E-6', 'E-7', 'E-8'],
-  [null, 'F-1', 'F-2', 'F-3', null, 'F-4', 'F-5', 'F-6', null],
-];
-
-// Creating a seatObject with all the properties we need for handling the click event
-const seatsObject = seatsMatrix.map(row => {
-  return row.map(seat => {
-    return {
-      code: seat,
-      isSelected: false,
-      isReserved: false,
-    };
-  });
-});
-
-function returnSeatType(seatCode: string) {
-  const row = seatCode.split('-')[0];
-  switch (row) {
-    case 'A':
-      return 'Front';
-    case 'F':
-      return 'Back';
-    default:
-      return 'Middle';
-  }
-}
-// Transform selected seats into summaries
-function createBookingSummary(selectedSeats: SeatType[]) {
+const createBookingSummary = (selectedSeats: SeatType[]) => {
   const summaries: SummaryRow[] = [];
   selectedSeats.forEach(seat => {
     const type = returnSeatType(seat.code!);
-    if (!summaries.some(row => row.type === type)) {
-      summaries.push({ type: type, amount: 1, price: seatPrices[type] });
-    } else {
-      summaries.forEach(row => {
-        if (row.type === type) {
-          row.amount += 1;
-        }
-      });
-    }
+    const summary = summaries.find(row => row.type === type);
+    summary
+      ? (summary.amount += 1)
+      : summaries.push({ type: type, amount: 1, price: seatPrices[type] });
   });
   return summaries;
-}
+};
 
 export function SelectSeat() {
-  const [selectedSeats, setSelectedSeats] = useState<SeatType[]>([]);
   const { seat, setSeat, setPrice } = useTicketStore();
+  const { seatLayout, setSeatLayout, selectedSeats, selectSeat, deselectSeat } =
+    useSeatLayoutStore();
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
     movie: Movie;
   };
-  let updatedSelectedSeats: SeatType[] = [];
-  useEffect(() => {
-    setSeat([]);
-  }, []);
+
+  useEffect(() => setSeat([]), []);
+
+  const handleSeatClick = (
+    seat: SeatType,
+    rowIndex: number,
+    seatIdx: number
+  ) => {
+    if (!seat.isReserved) {
+      const updatedSeat = { ...seat, isSelected: !seat.isSelected };
+      updatedSeat.isSelected
+        ? selectSeat(updatedSeat)
+        : deselectSeat(updatedSeat);
+      const updatedSeatLayout = [...seatLayout];
+      updatedSeatLayout[rowIndex][seatIdx] = updatedSeat;
+      setSeatLayout(updatedSeatLayout);
+
+      setSeat(selectedSeats.map(seat => seat.code!));
+      setPrice(
+        Number(
+          createBookingSummary(selectedSeats)
+            .reduce((acc, seat) => acc + seat.amount * seat.price, 0)
+            .toFixed(2)
+        )
+      );
+    }
+  };
+
+  const summaries = createBookingSummary(selectedSeats);
 
   return (
     <>
@@ -89,53 +82,26 @@ export function SelectSeat() {
       </div>
 
       <div className="grid grid-rows-6 grid-cols-9 gap-3 m-5">
-        {seatsObject.map(row => {
-          return row.map((seat, seatIdx) => {
-            if (!seat.code) {
-              return <div key={seatIdx} />;
-            }
-
-            return (
+        {seatLayout.map((row, rowIndex) =>
+          row.map((seat, seatIdx) =>
+            seat.code ? (
               <Seat
                 key={seatIdx}
                 seatCode={seat.code}
                 isSelected={seat.isSelected}
                 isReserved={seat.isReserved}
-                onClick={() => {
-                  if (!seat.isSelected) {
-                    seat.isSelected = true;
-                    updatedSelectedSeats = [...selectedSeats, seat];
-                    setSelectedSeats(updatedSelectedSeats);
-                  } else {
-                    seat.isSelected = false;
-                    updatedSelectedSeats = selectedSeats.filter(
-                      currentseat => currentseat.code !== seat.code
-                    );
-                    setSelectedSeats(updatedSelectedSeats);
-                  }
-                  //Update ticket store
-                  console.log(updatedSelectedSeats);
-                  setSeat(updatedSelectedSeats.map(seat => seat.code!));
-                  setPrice(
-                    Number(
-                      createBookingSummary(updatedSelectedSeats)
-                        .reduce(
-                          (acc, seat) => acc + seat.amount * seat.price,
-                          0
-                        )
-                        .toFixed(2)
-                    )
-                  );
-                }}
+                onClick={() => handleSeatClick(seat, rowIndex, seatIdx)}
               />
-            );
-          });
-        })}
+            ) : (
+              <div key={seatIdx} />
+            )
+          )
+        )}
       </div>
       <BookingSummary
-        summaries={createBookingSummary(selectedSeats)}
+        summaries={summaries}
         buttonLink={`/movies/${currentMovie.id}/ticket`}
-        buttonDisabled={seat.length === 0 ? true : false}
+        buttonDisabled={seat.length === 0}
       />
     </>
   );

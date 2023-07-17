@@ -4,7 +4,6 @@ import React from 'react';
 //http://localhost:5173/movies/1/select-seat
 
 type SeatProps = {
-
   seatCode: string;
   isSelected: boolean;
   isReserved: boolean;
@@ -26,6 +25,7 @@ function Seat({
         'w-7 h-7 rounded',
         isReserved ? 'bg-white' : isSelected ? 'bg-yellow' : 'bg-dark-light'
       )}
+      disabled={isReserved}
       {...props}
     />
   );
