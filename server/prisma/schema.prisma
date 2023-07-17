@@ -10,6 +10,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// model User {
+//   id String @unique @default(uuid())
+//   email String
+//   password String
+//   first_name String
+//   last_name String
+//   bookings Booking[]
+//   bookmarks Int[]
+//   favorite_genres Int[]
+// }
+
+// // booking === ticket
+// model Booking {
+//   id Int @unique @default(autoincrement())
+//   movie_title String
+//   movie_id String
+//   datetime DateTime
+//   user_id String
+//   user User @relation(fields: [user_id], references: [id])
+//   booked_at DateTime @default(now())
+//   seats Seat[]
+// }
+
+// model Seat {
+//   id Int @unique @default(autoincrement())
+//   code String
+//   movie_id Int
+//   datetime DateTime
+//   booking_id Int
+//   booking Booking @relation(fields: [booking_id], references: [id])
+// }
+
+// Cleaner Proposal that would be closer to reality
+
+// we should have a fixed amount of movies that we make available in the app
+// save the ids and pull data from tmdb api
+model Movie {
+  id Int @unique
+  screenings Screening[]
+}
+
+// each screening is combination of movie_id and datetime
+// we should generate screenings in the database to replace the 
+// current generator functions on select-time page
+model Screening {
+  id Int @unique @default(autoincrement())
+  datetime DateTime
+  movie_id Int
+  seat_availability Int[] // e.g. [0, 1, 0, 1, 1] => 1: reserved
+  bookings Booking[]
+  movie Movie @relation(fields: [movie_id], references: [id])
+}
+
 model User {
   id String @unique @default(uuid())
   email String
@@ -24,20 +77,12 @@ model User {
 // booking === ticket
 model Booking {
   id Int @unique @default(autoincrement())
+  screening_id Int  // getting datetime and movie id from screening
   movie_title String
-  movie_id String
-  datetime DateTime
   user_id String
-  user User @relation(fields: [user_id], references: [id])
+  seats String[]
   booked_at DateTime @default(now())
-  seats Seat[]
+  user User @relation(fields: [user_id], references: [id])
+  screening Screening @relation(fields: [screening_id], references: [id])
 }
 
-model Seat {
-  id Int @unique @default(autoincrement())
-  code String
-  movie_id Int
-  datetime DateTime
-  booking_id Int
-  booking Booking @relation(fields: [booking_id], references: [id])
-}
