@@ -58,6 +58,7 @@ const router = createBrowserRouter([
       {
         path: 'bookmarks',
         element: <Bookmarks />,
+        
       },
       {
         path: 'user',
