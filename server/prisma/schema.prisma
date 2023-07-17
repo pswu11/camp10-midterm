@@ -47,7 +47,7 @@ datasource db {
 // we should have a fixed amount of movies that we make available in the app
 // save the ids and pull data from tmdb api
 model Movie {
-  id Int @unique
+  id         Int         @unique
   screenings Screening[]
 }
 
@@ -55,35 +55,34 @@ model Movie {
 // we should generate screenings in the database to replace the 
 // current generator functions on select-time page
 model Screening {
-  id Int @unique @default(autoincrement())
-  datetime DateTime
-  movie_id Int
+  id                Int       @unique @default(autoincrement())
+  datetime          DateTime
+  movie_id          Int
   seat_availability Int[] // seat matrix, e.g. [0, 1, 0, 1, 1] => 1: reserved, 0: available
-  bookings Booking[]
-  movie Movie @relation(fields: [movie_id], references: [id])
+  bookings          Booking[]
+  movie             Movie     @relation(fields: [movie_id], references: [id])
 }
 
 model User {
-  id String @unique @default(uuid())
-  email String
-  password String
-  first_name String
-  last_name String
-  bookings Booking[]
-  bookmarks Int[]
-  favorite_genres Int[]
+  id              String    @unique @default(uuid())
+  email           String
+  password        String
+  first_name      String
+  last_name       String
+  bookings        Booking[]
+  bookmarks       Int[]
+  favorite_genres Int[] // store genre ids
 }
 
 // booking means ticket in the app
 model Booking {
-  id Int @unique @default(autoincrement())
+  id           Int       @unique @default(autoincrement())
   screening_id Int
-  movie_title String
-  user_id String
-  seats String[]
-  datetime DateTime
-  booked_at DateTime @default(now()) // this will be used for recent bookings on user page
-  user User @relation(fields: [user_id], references: [id])
-  screening Screening @relation(fields: [screening_id], references: [id])
+  movie_title  String
+  user_id      String
+  seats        String[] // alternatively, we could store an array of seat matrix like [[0, 0, 0, 0, 1, 0, 0],[0, 1, 0, 0, 0, 0, 0]] to denote the seats reserved for this booking. 
+  datetime     DateTime
+  booked_at    DateTime  @default(now()) // this will be used for recent bookings on user page
+  user         User      @relation(fields: [user_id], references: [id])
+  screening    Screening @relation(fields: [screening_id], references: [id])
 }
-
