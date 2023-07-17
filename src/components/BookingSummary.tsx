@@ -1,3 +1,4 @@
+// BookingSummary.tsx
 import { BookingSummaryRow } from './BookingSummaryRow';
 import { Button } from './Button';
 import { Transition } from '@headlessui/react';
@@ -7,6 +8,7 @@ import clsx from 'clsx';
 import { cn } from '../lib/utils';
 import { SummaryRow } from '../types/booking';
 import { Link } from 'react-router-dom';
+import { useSeatLayoutStore } from '../stores/seats';
 
 type BookingSummaryProps = {
   buttonLink: string;
@@ -23,6 +25,7 @@ export function BookingSummary({
   const toggleSlide = () => {
     setIsOpen(!isOpen);
   };
+  const { selectedSeats } = useSeatLayoutStore();
 
   return (
     <div className="w-full bg-dark-light rounded-3xl px-5 pt-7 pb-6">
@@ -52,7 +55,7 @@ export function BookingSummary({
         <div
           className={cn(
             'border border-t-[1px] border-white-dimmed-heavy border-b-0 mt-4',
-            summaries.length === 0 && 'border-t-0'
+            selectedSeats.length === 0 && 'border-t-0'
           )}
         ></div>
       </Transition>
@@ -62,11 +65,15 @@ export function BookingSummary({
             Total Price
           </span>
           <span className="text-xl font-700 text-white">
-            {`$${summaries.reduce((acc, row) => acc + row.amount * row.price, 0).toFixed(2)}`}
+            {`$${summaries
+              .reduce((acc, row) => acc + row.amount * row.price, 0)
+              .toFixed(2)}`}
           </span>
         </div>
         <Link className="w-3/5" to={buttonLink}>
-          <Button className="w-full" disabled={buttonDisabled}>Book Ticket</Button>
+          <Button className="w-full" disabled={buttonDisabled}>
+            Book Ticket
+          </Button>
         </Link>
       </div>
     </div>
