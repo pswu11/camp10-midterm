@@ -16,7 +16,7 @@ export default function Header({ title, rightIcon }: HeaderProps) {
         className="w-6 h-6 cursor-pointer"
         onClick={() => navigation(-1)}
       />
-      <h1 className="text-center font-700 leading-5">{title}</h1>
+      <h1 className="text-center font-600 leading-5">{title}</h1>
       {rightIcon ? rightIcon : <div className="w-6 h-6" />}
     </header>
   );
