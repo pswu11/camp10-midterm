@@ -76,7 +76,7 @@ model User {
 
 // booking means ticket in the app
 model Booking {
-  id           Int       @unique @default(autoincrement())
+  id           Int       @unique @default(autoincrement()) // it's 12-digit int in the design, could also use uuid
   screening_id Int
   movie_title  String
   user_id      String
