@@ -62,11 +62,15 @@ export function BookingSummary({
             Total Price
           </span>
           <span className="text-xl font-700 text-white">
-            {`$${summaries.reduce((acc, row) => acc + row.amount * row.price, 0).toFixed(2)}`}
+            {`$${summaries
+              .reduce((acc, row) => acc + row.amount * row.price, 0)
+              .toFixed(2)}`}
           </span>
         </div>
         <Link className="w-3/5" to={buttonLink}>
-          <Button className="w-full" disabled={buttonDisabled}>Book Ticket</Button>
+          <Button className="w-full" disabled={buttonDisabled}>
+            Book Ticket
+          </Button>
         </Link>
       </div>
     </div>

@@ -80,55 +80,71 @@ export function SelectSeat() {
 
   return (
     <>
-      <Header title="Select Seats" />
-      <div className="flex-col px-7 justify-center items-center mx-7">
-        <div className=" bg-yellow h-1 w-63"></div>
-        <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
-      </div>
+      <div className="flex flex-col px-5 py-8 gap-8 justify-start h-full ">
+        <Header title="Select Seats" />
+        <div className="flex-col px-7 justify-center items-center">
+          <div className=" bg-yellow h-1 w-63"></div>
+          <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
+        </div>
 
-      <div className="grid grid-rows-6 grid-cols-9 gap-3 m-5">
-        {seatsObject.map(row => {
-          return row.map((seat, seatIdx) => {
-            if (!seat.code) {
-              return <div key={seatIdx} />;
-            }
+        <div className="grid grid-rows-6 grid-cols-9 gap-3">
+          {seatsObject.map(row => {
+            return row.map((seat, seatIdx) => {
+              if (!seat.code) {
+                return <div key={seatIdx} />;
+              }
 
-            return (
-              <Seat
-                key={seatIdx}
-                seatCode={seat.code}
-                isSelected={seat.isSelected}
-                isReserved={seat.isReserved}
-                onClick={() => {
-                  if (!seat.isSelected) {
-                    seat.isSelected = true;
-                    updatedSelectedSeats = [...selectedSeats, seat];
-                    setSelectedSeats(updatedSelectedSeats);
-                  } else {
-                    seat.isSelected = false;
-                    updatedSelectedSeats = selectedSeats.filter(
-                      currentseat => currentseat.code !== seat.code
+              return (
+                <Seat
+                  key={seatIdx}
+                  seatCode={seat.code}
+                  isSelected={seat.isSelected}
+                  isReserved={seat.isReserved}
+                  onClick={() => {
+                    if (!seat.isSelected) {
+                      seat.isSelected = true;
+                      updatedSelectedSeats = [...selectedSeats, seat];
+                      setSelectedSeats(updatedSelectedSeats);
+                    } else {
+                      seat.isSelected = false;
+                      updatedSelectedSeats = selectedSeats.filter(
+                        currentseat => currentseat.code !== seat.code
+                      );
+                      setSelectedSeats(updatedSelectedSeats);
+                    }
+                    //Update ticket store
+                    console.log(updatedSelectedSeats);
+                    setSeat(updatedSelectedSeats.map(seat => seat.code!));
+                    setPrice(
+                      Number(
+                        createBookingSummary(updatedSelectedSeats)
+                          .reduce(
+                            (acc, seat) => acc + seat.amount * seat.price,
+                            0
+                          )
+                          .toFixed(2)
+                      )
                     );
-                    setSelectedSeats(updatedSelectedSeats);
-                  }
-                  //Update ticket store
-                  console.log(updatedSelectedSeats);
-                  setSeat(updatedSelectedSeats.map(seat => seat.code!));
-                  setPrice(
-                    Number(
-                      createBookingSummary(updatedSelectedSeats)
-                        .reduce(
-                          (acc, seat) => acc + seat.amount * seat.price,
-                          0
-                        )
-                        .toFixed(2)
-                    )
-                  );
-                }}
-              />
-            );
-          });
-        })}
+                  }}
+                />
+              );
+            });
+          })}
+        </div>
+        <div className="flex flex-row justify-center gap-6">
+          <div className="flex justify-start gap-[6px]">
+            <div className="bg-dark-light w-4 h-4 rounded-full"></div>
+            <span className="text-white-dimmed text-s">Available</span>
+          </div>
+          <div className="flex justify-start gap-[6px]">
+            <div className="bg-yellow w-4 h-4 rounded-full"></div>
+            <span className="text-white-dimmed text-s">Selected</span>
+          </div>
+          <div className="flex justify-start gap-[6px]">
+            <div className="bg-white w-4 h-4 rounded-full "></div>
+            <span className="text-white-dimmed text-s">Reserved</span>
+          </div>
+        </div>
       </div>
       <BookingSummary
         summaries={createBookingSummary(selectedSeats)}
