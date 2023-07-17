@@ -30,6 +30,7 @@ export default {
     },
     fontWeight: {
       700: '700',
+      600: '600',
       500: '500',
     },
     extend: {},

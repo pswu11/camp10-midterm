@@ -7,7 +7,7 @@ import { useRouteLoaderData } from 'react-router-dom';
 import { Movie } from '../types/api';
 import { useTicketStore } from '../stores/ticket';
 import { useEffect } from 'react';
-import HeaderFunction from '../components/Header';
+import Header from '../components/Header';
 
 // This is purely made up for now
 const seatPrices = {
@@ -80,9 +80,7 @@ export function SelectSeat() {
 
   return (
     <>
-      <h4 className="text-white text-s">
-        This will later be filled by the header component
-      </h4>
+      <Header title="Select Seats" />
       <div className="flex-col px-7 justify-center items-center mx-7">
         <div className=" bg-yellow h-1 w-63"></div>
         <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
