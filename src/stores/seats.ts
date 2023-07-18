@@ -20,8 +20,10 @@ const seatsMatrix = [
   [null, 'F-1', 'F-2', 'F-3', null, 'F-4', 'F-5', 'F-6', null],
 ];
 
+const seatsMatrixFlat = seatsMatrix.flat()
+
 // Creating a seatObject with all the properties we need for handling the click event
-const seatsObject = seatsMatrix.flat().map(seat => {
+const seatObjectsArray = seatsMatrixFlat.map(seat => {
   return {
     code: seat,
     isSelected: false,
@@ -30,7 +32,7 @@ const seatsObject = seatsMatrix.flat().map(seat => {
 });
 
 export const useSeatLayoutStore = create<SeatLayoutStore>(set => ({
-  seatLayout: seatsObject,
+  seatLayout: seatObjectsArray,
   selectedSeats: [],
   setSeatLayout: value => set({ seatLayout: value }),
   selectSeat: seat =>
