@@ -45,18 +45,14 @@ export function SelectSeat() {
 
   useEffect(() => setSeat([]), []);
 
-  const handleSeatClick = (
-    seat: SeatType,
-    rowIndex: number,
-    seatIdx: number
-  ) => {
+  const handleSeatClick = (seat: SeatType, seatIdx: number) => {
     if (!seat.isReserved) {
       const updatedSeat = { ...seat, isSelected: !seat.isSelected };
       updatedSeat.isSelected
         ? selectSeat(updatedSeat)
         : deselectSeat(updatedSeat);
       const updatedSeatLayout = [...seatLayout];
-      updatedSeatLayout[rowIndex][seatIdx] = updatedSeat;
+      updatedSeatLayout[seatIdx] = updatedSeat;
       setSeatLayout(updatedSeatLayout);
 
       setSeat(selectedSeats.map(seat => seat.code!));
@@ -81,19 +77,17 @@ export function SelectSeat() {
           <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
         </div>
         <div className="grid grid-rows-6 grid-cols-9 gap-3">
-          {seatLayout.map((row, rowIndex) =>
-            row.map((seat, seatIdx) =>
-              seat.code ? (
-                <Seat
-                  key={seatIdx}
-                  seatCode={seat.code}
-                  isSelected={seat.isSelected}
-                  isReserved={seat.isReserved}
-                  onClick={() => handleSeatClick(seat, rowIndex, seatIdx)}
-                />
-              ) : (
-                <div key={seatIdx} />
-              )
+          {seatLayout.map((seat, seatIdx) =>
+            seat.code ? (
+              <Seat
+                key={seatIdx}
+                seatCode={seat.code}
+                isSelected={seat.isSelected}
+                isReserved={seat.isReserved}
+                onClick={() => handleSeatClick(seat, seatIdx)}
+              />
+            ) : (
+              <div key={seatIdx} />
             )
           )}
         </div>
