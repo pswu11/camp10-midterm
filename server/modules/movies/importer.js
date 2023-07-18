@@ -60,7 +60,13 @@ async function ingestMoviesFromAPI(page) {
         return item.id === obj.id && item.releaseDate === obj.releaseDate;
       })
     );
+  }).map(screening => {
+    return {
+      ...screening,
+      seatAvailability: Array(54).fill(0),
+    }
   });
+
   console.log('uniqueMovies: ', uniqueMovies.length);
 
   for (let i = 0; i < uniqueMovies.length; i++) {
