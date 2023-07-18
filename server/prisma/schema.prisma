@@ -12,6 +12,7 @@ datasource db {
 
 model Movie {
   id         Int         @id
+  releaseDate DateTime
   screenings Screening[]
   likedBy   User[]
 }

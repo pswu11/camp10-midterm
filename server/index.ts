@@ -1,10 +1,9 @@
-import express, { Response } from 'express';
+import express from 'express';
 import { z, ZodError } from 'zod';
 import { PrismaClient, Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import jwt from 'jsonwebtoken';
-
 import cors from 'cors';
 
 const prismaClient = new PrismaClient();
@@ -258,6 +257,46 @@ app.patch('/user/:id', async (req, res) => {
   }
 });
 
+
+// create movie
+
+app.post('/movie', async (req, res) => {
+  const movie = req.body
+  console.log(movie)
+  try {
+    const response = await prismaClient.movie.create({
+      data: {
+        ...movie
+      }
+    })
+    res.status(201).json(response)
+  } catch(error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        res.status(422).send('Movies must have unique id');
+        return;
+    }
+    res.status(500).send(error)
+  }
+})
+
+// create screenings
+app.post('/screening', async (req, res) => {
+  const screenings = req.body
+  console.log(screenings)
+  try {
+    const response = await prismaClient.screening.createMany({
+      data: {
+        ...screenings
+      }
+    })
+    res.status(201).json(response)
+  } catch(error) {
+    res.status(500).send(error)
+  }
+})
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
+
