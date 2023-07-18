@@ -5,9 +5,18 @@ import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import jwt from 'jsonwebtoken';
 
+import cors from 'cors';
+
 const prismaClient = new PrismaClient();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: '*',
+  })
+);
+
 const PORT = process.env.PORT || 8000;
 
 const secretKey =
@@ -165,7 +174,10 @@ app.post('/auth/login', async (req, res) => {
       secretKey
     );
 
-    res.status(201).json(token);
+    res.status(201).json({
+      token,
+      user: _.pick(user, ['id', 'email', 'firstName', 'lastName']),
+    });
     return;
   } catch (error) {
     if (error instanceof ZodError) {
