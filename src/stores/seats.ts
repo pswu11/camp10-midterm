@@ -3,9 +3,9 @@ import { create } from 'zustand';
 import { SeatType } from '../types/booking';
 
 type SeatLayoutStore = {
-  seatLayout: SeatType[][];
+  seatLayout: SeatType[];
   selectedSeats: SeatType[];
-  setSeatLayout: (value: SeatType[][]) => void;
+  setSeatLayout: (value: SeatType[]) => void;
   selectSeat: (seat: SeatType) => void;
   deselectSeat: (seat: SeatType) => void;
 };
@@ -21,14 +21,12 @@ const seatsMatrix = [
 ];
 
 // Creating a seatObject with all the properties we need for handling the click event
-const seatsObject = seatsMatrix.map(row => {
-  return row.map(seat => {
-    return {
-      code: seat,
-      isSelected: false,
-      isReserved: Math.random() < 0.2, // 20% chance of being reserved
-    };
-  });
+const seatsObject = seatsMatrix.flat().map(seat => {
+  return {
+    code: seat,
+    isSelected: false,
+    isReserved: Math.random() < 0.2, // 20% chance of being reserved
+  };
 });
 
 export const useSeatLayoutStore = create<SeatLayoutStore>(set => ({
