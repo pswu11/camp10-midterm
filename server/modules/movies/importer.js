@@ -2,6 +2,7 @@
 
 var allMovies = [];
 var uniqueMovies = [];
+var allScreeniings = [{dateTime: "dddd", movieId: 123456}, {dateTime: "dddd", movieId: 123456}, {dateTime: "dddd", movieId: 123456}];
 
 const options = {
   method: 'GET',
@@ -11,6 +12,7 @@ const options = {
       `Bearer ${process.env.VITE_TMDB_TOKEN}`,
   },
 };
+
 async function ingestMoviesFromAPI(page) {
   for (let i = 1; i <= page; i++) {
     // get movies before July 19
@@ -122,7 +124,6 @@ async function ingestScreenings() {
     }
   }
 
-  var allScreeniings = [];
   for (let datetime of allDateTime) {
     for (let movie of uniqueMovies) {
       const screening = {
@@ -143,6 +144,8 @@ async function ingestScreenings() {
     .then(response => console.log(response))
     .catch(err => console.error(err));
 }
+
+
 
 async function ingestAll() {
   await ingestMoviesFromAPI(1);

@@ -259,6 +259,7 @@ app.patch('/user/:id', async (req, res) => {
 
 
 // create movie
+// TODO: data validation using zod for movie
 
 app.post('/movie', async (req, res) => {
   const movie = req.body
@@ -279,14 +280,16 @@ app.post('/movie', async (req, res) => {
   }
 })
 
-// create screenings
+// create screening or many screenings 
+// TODO: add zod for screening 
+// TODO: test out createMany
 app.post('/screening', async (req, res) => {
-  const screenings = req.body
-  console.log(screenings)
+  const screening = req.body
+  console.log(screening)
   try {
-    const response = await prismaClient.screening.createMany({
+    const response = await prismaClient.screening.create({
       data: {
-        ...screenings
+        ...screening
       }
     })
     res.status(201).json(response)
@@ -299,4 +302,3 @@ app.post('/screening', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
-
