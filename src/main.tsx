@@ -21,6 +21,7 @@ import { getCredits, getCurrentMovie } from './api/movies';
 import axios from 'axios';
 import { Credits, Movie } from './types/api';
 import { UpcomingMovies } from './types/api';
+import Signup from './pages/Signup';
 
 const router = createBrowserRouter([
   {
@@ -119,6 +120,10 @@ const router = createBrowserRouter([
     path: 'login',
     element: <Login />,
   },
+  {
+    path: 'signup',
+    element: <Signup />,
+  },
 ]);
 
 const queryClient = new QueryClient();
@@ -128,7 +133,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <ReactQueryDevtools initialIsOpen={false} />
-      <div className="bg-white-dimmed text-white rounded 0.375 py-5 px"></div>
     </QueryClientProvider>
   </React.StrictMode>
 );
