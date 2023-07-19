@@ -5,7 +5,9 @@ content-type: application/json
     "firstName": "John",
     "lastName": "Doe",
     "email": "abc@123.de",
-    "password": "password123ab!@#"
+    "password": "password123ab!@#",
+    "city":"CITY",
+    "zip":"someNumber"
 }
 
 ###

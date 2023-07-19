@@ -1,5 +1,6 @@
 import {
   HiHome,
+  HiKey,
   HiOutlineLocationMarker,
   HiOutlineMail,
   HiOutlineUserCircle,
@@ -9,8 +10,11 @@ import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { IoChevronBackSharp } from 'react-icons/io5';
 import { BsArrowUpCircle } from 'react-icons/bs';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
+  const navigate = useNavigate();
   return (
     <div className="bg-dark flex flex-col items-center justify-around w-[375px] h-[667px] rounded-3xl px-5 py-8 m-auto text-white">
       <div className="flex justify-between w-3/5 self-start">
@@ -25,31 +29,58 @@ export default function Signup() {
       </div>
 
       <p className="text-[1.5rem] font-500 pb-4"> {'Max Mustermann'}</p>
-      <form className="flex flex-col space-y-4 pt-2 w-full">
+      <form
+        className="flex flex-col space-y-4 pt-2 w-full"
+        onSubmit={async event => {
+          event.preventDefault();
+
+          const target = event.target as HTMLFormElement;
+          const formData = new FormData(target);
+          const userSignUpData = Object.fromEntries(formData.entries());
+
+          console.log(userSignUpData);
+
+          const response = await axios
+            .post('http://localhost:8000/auth/signup', userSignUpData, {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            .catch(err => err.response.data);
+
+          // navigate('/login');
+        }}
+      >
         <Input
-          name="first-name"
+          name="firstName"
           placeholder="First Name*"
           icon={<HiUser />}
           type="text"
         />
         <Input
-          name="last-name"
+          name="lastName"
           placeholder="Last Name*"
           icon={<HiUser />}
           type="text"
         />
         <Input
-          name="user-mail"
+          name="email"
           placeholder="Mail@mail.com*"
           icon={<HiOutlineMail />}
           type="email"
         />
+        <Input
+          name="password"
+          placeholder="Enter Your Password"
+          icon={<HiKey />}
+          type="password"
+        />
         <Input name="city" placeholder="City" icon={<HiHome />} type="text" />
         <Input
           name="zip"
-          placeholder="Postal Id  "
+          placeholder="Postal Id "
           icon={<HiOutlineLocationMarker />}
-          type="number"
+          type="text"
         />
         <Button type="submit" label="Confirm Information" />
       </form>

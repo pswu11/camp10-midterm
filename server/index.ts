@@ -1,4 +1,4 @@
-import express, { Response } from 'express';
+import express from 'express';
 import { z, ZodError } from 'zod';
 import { PrismaClient, Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
@@ -35,6 +35,8 @@ const userPostModel = z.object({
     email: z.string().email(),
     firstName: z.string(),
     lastName: z.string(),
+    zip: z.string(),
+    city: z.string(),
     password: z
       .string()
       .min(8)
@@ -100,6 +102,9 @@ const userPatchModel = z.object({
   body: z.object({
     email: z.string().email().optional(),
     firstName: z.string().optional(),
+    city: z.string().optional(),
+    zip: z.string().optional(),
+    userImage: z.string().optional(),
     lastName: z.string().optional(),
     password: z
       .string()
