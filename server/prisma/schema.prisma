@@ -12,6 +12,7 @@ datasource db {
 
 model Movie {
   id         Int         @id
+  releaseDate DateTime
   screenings Screening[]
   likedBy   User[]
 }
@@ -31,6 +32,9 @@ model User {
   passwordHashAndSalt        String
   firstName      String
   lastName       String
+  city           String
+  zip            String
+  userImage      String? 
   bookings        Booking[]
   favoriteGenres Int[]
   bookmarks  Movie[]
