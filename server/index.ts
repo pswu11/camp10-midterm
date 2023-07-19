@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 
 import cors from 'cors';
 
+// ? Crossorign ressource Cors prevent load js von different sources. Whitelist
 const prismaClient = new PrismaClient();
 
 const app = express();
@@ -22,6 +23,7 @@ const PORT = process.env.PORT || 8000;
 const secretKey =
   '6011d9c75dde2857028dad3fdb8bdef1bc49052645ca219c65e667fc03a9756c';
 
+  // express method to limit the amount of data to 3mb
 app.use(
   express.json({
     limit: '3mb',
@@ -29,6 +31,8 @@ app.use(
 );
 
 // User routes
+
+// Checking the req, res with zod, standard and defined by our own "refine"....
 
 const userPostModel = z.object({
   body: z.object({
@@ -61,6 +65,8 @@ const userPostModel = z.object({
   queryParams: z.object({}),
 });
 
+// Setup Routes /auth/signup /
+// parse: zod method to compare the imput with the actuall stored data on db
 app.post('/auth/signup', async (req, res) => {
   try {
     const { body: user } = userPostModel.parse({
@@ -68,7 +74,7 @@ app.post('/auth/signup', async (req, res) => {
       pathParams: req.params,
       queryParams: req.query,
     });
-
+// omit: special method from loadash; creating an object using bcrypt, creating a hash with extra salt
     const dbUser = await prismaClient.user.create({
       data: {
         ..._.omit(user, ['password']),
@@ -83,18 +89,20 @@ app.post('/auth/signup', async (req, res) => {
       res.status(422).json(error.issues);
       return;
     }
-
+//Error handling
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         res.status(422).send('Users must have unique email addresses.');
         return;
       }
     }
-
+// error handling
     res.status(500).send('Server encountered an error.');
     return;
   }
 });
+
+// Doing the same with patch
 
 const userPatchModel = z.object({
   body: z.object({
@@ -136,6 +144,8 @@ const postTokenModel = z.object({
   pathParams: z.object({}),
   queryParams: z.object({}),
 });
+
+// compare the hash = password
 
 app.post('/auth/login', async (req, res) => {
   try {

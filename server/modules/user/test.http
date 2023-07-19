@@ -1,3 +1,6 @@
+
+// writing requests here
+
 POST http://localhost:8000/auth/signup HTTP/1.1
 content-type: application/json
 
