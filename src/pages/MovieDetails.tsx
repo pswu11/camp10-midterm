@@ -6,8 +6,12 @@ import { IoChevronBackSharp } from 'react-icons/io5';
 import { BsHeartFill, BsHeart } from 'react-icons/bs';
 import { formatName } from '../lib/utils';
 import { useNavigate } from 'react-router-dom';
+import { useBookmarkStore } from '../stores/bookmarked';
+import axios from 'axios';
 
 export function MovieDetails() {
+  const { movieIds, addMovieId, removeMovieId } = useBookmarkStore();
+  
   const { resCreditsData, movie } = useRouteLoaderData('currentMovie') as {
     movie: Movie;
     resCreditsData: Credits;
@@ -49,12 +53,28 @@ export function MovieDetails() {
         {heartIcon ? (
           <BsHeartFill
             className="text-red"
-            onClick={() => toggleHeart(!heartIcon)}
+            onClick={() => {
+              toggleHeart(!heartIcon);
+            }}
           />
         ) : (
           <BsHeart
             className="text-red"
-            onClick={() => toggleHeart(!heartIcon)}
+            onClick={() => {
+              toggleHeart(!heartIcon);
+              // axios
+              //   .post('/user/bookmarks', {})
+              //   .then(function (response) {
+              //     console.log(response);
+              //   })
+              //   .catch(function (error) {
+              //     console.log(error);
+              //   });
+
+              console.log(movie.id);
+              addMovieId;
+              // console.log(setMovieId);
+            }}
           />
         )}
       </div>

@@ -1,36 +1,52 @@
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
-import { Movie } from "../types/api";
-import MovieCard from "../components/MovieCard";
-import PaginationButton from "../components/PaginationButton";
-
+import { useLoaderData } from 'react-router-dom';
+import MovieCard from '../components/MovieCard';
+import { Movie } from '../types/api';
+import PaginationButton from '../components/PaginationButton';
+import { useState } from 'react';
+import { useGenreStore } from '../stores/genres';
+import { useBookmarkStore } from '../stores/bookmarked';
+// import { discoverMoviesWithGenres } from '../api/movies';
 
 export function Bookmarks() {
-   const nowBookedMovies = useLoaderData() as Movie[];
+  const {movieIds, addMovieId, removeMovieId} = useBookmarkStore();
+
+  const nowBookmarkedMovies = useLoaderData() as Movie[];
+
 
   const [currentPage, setCurrentPage] = useState(1);
+  const { selectedGenres } = useGenreStore();
+  const filteredMovies =
+    selectedGenres.length === 0
+      ? nowBookmarkedMovies
+      : nowBookmarkedMovies.filter(movie =>
+          movie.genre_ids.some(id => selectedGenres.some(g => g === id))
+        );
 
-  const moviesBookedDisplay = nowBookedMovies.slice(
+  const moviesDisplay = filteredMovies.slice(
     (currentPage - 1) * 4,
     currentPage * 4
   );
+  // spawn an array from 1 to n (length)
+  const numberOfPages = Array.from(
+    { length: Math.ceil(filteredMovies.length / 4) },
+    (_, index) => index + 1
+  );
 
-  console.log(moviesBookedDisplay);
   return (
-    <div>
+    <div className="h-full flex flex-col justify-between">
       <div className="grid grid-cols-2 gap-4">
-        {moviesBookedDisplay.map((movie: Movie) => (
+        {moviesDisplay.map((movie: Movie) => (
           <MovieCard movie={movie} variant="now_playing" key={movie.id} />
         ))}
       </div>
-      <div className="flex justify-between mt-5">
-        {[1, 2, 3, 4, 5].map(pageNumber => (
+      <div className="flex justify-between">
+        {numberOfPages.map(page => (
           <PaginationButton
-            key={pageNumber}
+            key={page}
             currentPage={currentPage}
-            onClick={() => setCurrentPage(pageNumber)}
+            onClick={() => setCurrentPage(page)}
           >
-            {pageNumber}
+            {page}
           </PaginationButton>
         ))}
       </div>

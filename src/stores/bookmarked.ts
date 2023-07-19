@@ -1,29 +1,25 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Movie } from '../types/api';
 
-type BookedStore = Movie & {
-
-  setId: (value: number) => void;
-  setTitle: (value: string) => void;
-  setBackdrop_path: (value: string | null) => void;
-  setPoster_path: (value: string|null) => void;
-  setMovieId: (value: number) => void;
- 
-  
+type BookmarkStore = {
+  movieIds: number[];
+  addMovieId: (movieId: number) => void;
+  removeMovieId: (movieId: number) => void;
 };
 
-export const useBookedStore = create<BookedStore>()(
+export const useBookmarkStore = create<BookmarkStore>()(
   persist(
-    set => ({ 
-      setId: value => set({ id: value }),
-      setTitle: value => set({ movieId: value }),
-      setBackdrop_path: value => set({ path: value }),
-      setPoster_path: value => set({ path: value }),
-      setMovieId: value => set({ movieId: value }),
+    set => ({
+      movieIds: [],
+      addMovieId: movieId =>
+        set(state => ({ movieIds: [...state.movieIds, movieId] })),
+      removeMovieId: movieId =>
+        set(state => ({
+          movieIds: state.movieIds.filter(id => id !== movieId),
+        })),
     }),
     {
-      name: 'booked-store',
+      name: 'bookmark-store',
     }
   )
 );

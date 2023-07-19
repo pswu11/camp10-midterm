@@ -1,5 +1,5 @@
 import express, { Response } from 'express';
-import { z, ZodError } from 'zod';
+import { number, z, ZodError } from 'zod';
 import { PrismaClient, Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
@@ -64,6 +64,24 @@ const userPostModel = z.object({
   pathParams: z.object({}),
   queryParams: z.object({}),
 });
+
+// Task: Zod must be implimented; token, is the user authorised?
+//Look at line 220ff
+
+ app.patch('/user/:id/bookmarks', async (req,res) => {
+  const {id} = req.params;
+  const {movieId} = req.query;
+  try {
+    await prismaClient.user.update ({
+    where:{id:id},
+    data: {bookmarks:{connect:{id:Number(movieId)}}}
+
+    })
+  } catch (error){
+
+  }
+ })
+
 
 // Setup Routes /auth/signup /
 // parse: zod method to compare the imput with the actuall stored data on db
@@ -271,3 +289,4 @@ app.patch('/user/:id', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
+
