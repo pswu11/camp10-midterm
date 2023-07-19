@@ -83,7 +83,7 @@ app.post('/auth/signup', async (req, res) => {
       return;
     }
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError ) {
       if (error.code === 'P2002') {
         res.status(422).send('Users must have unique email addresses.');
         return;
@@ -263,7 +263,7 @@ app.patch('/user/:id', async (req, res) => {
 
 app.post('/movie', async (req, res) => {
   const movie = req.body
-  console.log(movie)
+  console.log(req.body)
   try {
     const response = await prismaClient.movie.create({
       data: {
@@ -273,8 +273,12 @@ app.post('/movie', async (req, res) => {
     res.status(201).json(response)
   } catch(error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
-        res.status(422).send('Movies must have unique id');
+        res.status(422).send(error.message);
         return;
+    }
+    if (error instanceof Prisma.PrismaClientValidationError) {
+      res.send(error.message);
+      return
     }
     res.status(500).send(error)
   }
