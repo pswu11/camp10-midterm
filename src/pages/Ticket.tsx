@@ -5,14 +5,17 @@ import { Movie } from '../types/api';
 import { Link, useRouteLoaderData } from 'react-router-dom';
 import { IMG_BASE_URL } from '../api/movies';
 import { useTicketStore } from '../stores/ticket';
+import { useSeatLayoutStore } from '../stores/seats';
 
 export function Ticket() {
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
     movie: Movie;
   };
-  const currentTicket = useTicketStore()
+  const currentTicket = useTicketStore();
+  const { selectedSeats } = useSeatLayoutStore();
+  console.log(selectedSeats);
+  const seatCodes = selectedSeats.map(seat => seat.code);
   // the ticket info sould come from other booking steps
-
 
   return (
     <div className="w-full h-full py-8 px-5 flex flex-col gap-y-4">
@@ -32,7 +35,7 @@ export function Ticket() {
               title="Price"
               info={'$' + currentTicket.price.toString()}
             />
-            <TicketInfo title="Seat" info={currentTicket.seat.join(', ')} />
+            <TicketInfo title="Seat" info={seatCodes.join(', ')} />
           </div>
         </div>
         <div className="w-full">
@@ -51,7 +54,9 @@ export function Ticket() {
           </div>
         </div>
       </div>
-      <Link to="/"><Button className="w-full">Back to Home</Button></Link>
+      <Link to="/">
+        <Button className="w-full">Back to Home</Button>
+      </Link>
     </div>
   );
 }

@@ -19,11 +19,7 @@ export const getCurrentMovie = async ({
   return movie;
 };
 
-export const getCredits = async ({
-  params,
-}: {
-  params: Params<string>;
-}) => {
+export const getCredits = async ({ params }: { params: Params<string> }) => {
   const { movieId } = params;
   const res = await axios.get(
     `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${
@@ -32,4 +28,36 @@ export const getCredits = async ({
   );
   const credits = res.data as Credits;
   return credits;
+};
+
+export const getNowPlayingMovies = async () => {
+  const res = await axios.get(
+    `https://api.themoviedb.org/3/movie/now_playing?api_key=${
+      import.meta.env.VITE_TMDB_KEY
+    }`
+  );
+  const nowPlayingMovies = res.data.results as Movie[];
+  return nowPlayingMovies;
+}
+
+export const getUpcomingMovies = async () => {
+  const res = await axios.get(
+    `https://api.themoviedb.org/3/movie/upcoming?api_key=${
+      import.meta.env.VITE_TMDB_KEY
+    }`
+  );
+  const nowPlayingMovies = res.data.results as Movie[];
+  return nowPlayingMovies;
+}
+
+
+export const discoverMoviesWithoutGenres = async () => {
+  const res = await axios.get(
+    `https://api.themoviedb.org/3/discover/movie?language=en-US&sort_by=popularity.desc&api_key=${
+      import.meta.env.VITE_TMDB_KEY
+    }`
+  );
+  const movies: Movie[] = res.data.results;
+
+  return movies;
 };

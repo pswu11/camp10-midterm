@@ -1,150 +1,122 @@
+// SelectSeat.tsx
 import Seat from '../components/Seat';
 import { BookingSummary } from '../components/BookingSummary';
 import { SummaryRow } from '../types/booking';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { SeatType } from '../types/booking';
 import { useRouteLoaderData } from 'react-router-dom';
 import { Movie } from '../types/api';
 import { useTicketStore } from '../stores/ticket';
-import { useEffect } from 'react';
-import HeaderFunction from '../components/Header';
+import { useSeatLayoutStore } from '../stores/seats';
+import Header from '../components/Header';
 
-// This will come from backend eventually
-const mockAllSeats: SeatType[] = [
-  {
-    id: 1,
-    code: 'A-3',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 2,
-    code: 'A-4',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 3,
-    code: 'C-3',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 4,
-    code: 'C-4',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 5,
-    code: 'H-8',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 6,
-    code: 'D-10',
-    isSelected: false,
-    isReserved: false,
-  },
-  {
-    id: 7,
-    code: 'D-11',
-    isSelected: false,
-    isReserved: false,
-  },
-];
-
-// This is purely made up for now
 const seatPrices = {
   Front: 12.99,
   Middle: 14.75,
   Back: 16.99,
 };
 
-// This logic is purely made up for now
-function returnSeatType(seatCode: string) {
-  const row = seatCode.split('-')[0];
-  switch (row) {
-    case 'A':
-      return 'Front';
-    // assume H is the last row
-    case 'H':
-      return 'Back';
-    default:
-      return 'Middle';
-  }
-}
+const returnSeatType = (seatCode: string) =>
+  seatCode.startsWith('A')
+    ? 'Front'
+    : seatCode.startsWith('F')
+    ? 'Back'
+    : 'Middle';
 
-// Transform selected seats into summaries
-function createBookingSummary(selectedSeats: SeatType[]) {
+const createBookingSummary = (selectedSeats: SeatType[]) => {
   const summaries: SummaryRow[] = [];
   selectedSeats.forEach(seat => {
-    const type = returnSeatType(seat.code);
-    if (!summaries.some(row => row.type === type)) {
-      summaries.push({ type: type, amount: 1, price: seatPrices[type] });
-    } else {
-      summaries.forEach(row => {
-        if (row.type === type) {
-          row.amount += 1;
-        }
-      });
-    }
+    const type = returnSeatType(seat.code!);
+    const summary = summaries.find(row => row.type === type);
+    summary
+      ? (summary.amount += 1)
+      : summaries.push({ type: type, amount: 1, price: seatPrices[type] });
   });
   return summaries;
-}
+};
 
 export function SelectSeat() {
-  const [selectedSeats, setSelectedSeats] = useState([] as SeatType[]);
   const { seat, setSeat, setPrice } = useTicketStore();
+  const { seatLayout, setSeatLayout, selectedSeats, selectSeat, deselectSeat } =
+    useSeatLayoutStore();
   const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
     movie: Movie;
   };
-  let updatedSelectedSeats: SeatType[] = [];
-  useEffect(() => {
-    setSeat([]);
-  }, []);
+
+  useEffect(() => setSeat([]), []);
+
+  const handleSeatClick = (
+    seat: SeatType,
+    rowIndex: number,
+    seatIdx: number
+  ) => {
+    if (!seat.isReserved) {
+      const updatedSeat = { ...seat, isSelected: !seat.isSelected };
+      updatedSeat.isSelected
+        ? selectSeat(updatedSeat)
+        : deselectSeat(updatedSeat);
+      const updatedSeatLayout = [...seatLayout];
+      updatedSeatLayout[rowIndex][seatIdx] = updatedSeat;
+      setSeatLayout(updatedSeatLayout);
+
+      setSeat(selectedSeats.map(seat => seat.code!));
+      setPrice(
+        Number(
+          createBookingSummary(selectedSeats)
+            .reduce((acc, seat) => acc + seat.amount * seat.price, 0)
+            .toFixed(2)
+        )
+      );
+    }
+  };
+
+  const summaries = createBookingSummary(selectedSeats);
+
   return (
-    <>
-      <HeaderFunction title="Select Seat" />
-      <div className="flex gap-x-2 mx-auto">
-        {mockAllSeats.map(item => (
-          <Seat
-            key={item.id}
-            seatid={item.id}
-            seatCode={item.code}
-            isReserved={item.isReserved}
-            isSelected={item.isSelected}
-            onClick={() => {
-              if (!item.isSelected) {
-                item.isSelected = true;
-                updatedSelectedSeats = [...selectedSeats, item];
-                setSelectedSeats(updatedSelectedSeats);
-              } else {
-                item.isSelected = false;
-                updatedSelectedSeats = selectedSeats.filter(
-                  seat => seat.id !== item.id
-                );
-                setSelectedSeats(updatedSelectedSeats);
-              }
-              // update ticket store
-              setSeat(updatedSelectedSeats.map(seat => seat.code));
-              setPrice(
-                Number(
-                  createBookingSummary(updatedSelectedSeats)
-                    .reduce((acc, seat) => acc + seat.amount * seat.price, 0)
-                    .toFixed(2)
-                )
-              );
-            }}
-          />
-        ))}
+    <div className="flex flex-col pt-8 h-full justify-between">
+      <div className="flex flex-col px-5 gap-y-8">
+        <Header title={'Select Seats'} />
+        <div className="flex flex-col w-2/3 self-center">
+          <div className=" bg-yellow h-1 w-full"></div>
+          <div className="h-5 opacity-25 bg-gradient-to-b from-yellow to-dark"></div>
+        </div>
+        <div className="grid grid-rows-6 grid-cols-9 gap-3">
+          {seatLayout.map((row, rowIndex) =>
+            row.map((seat, seatIdx) =>
+              seat.code ? (
+                <Seat
+                  key={seatIdx}
+                  seatCode={seat.code}
+                  isSelected={seat.isSelected}
+                  isReserved={seat.isReserved}
+                  onClick={() => handleSeatClick(seat, rowIndex, seatIdx)}
+                />
+              ) : (
+                <div key={seatIdx} />
+              )
+            )
+          )}
+        </div>
+        <div className="flex flex-row justify-center gap-6">
+          <div className="flex gap-2">
+            <div className="bg-dark-light w-4 h-4 rounded-full"></div>
+            <span className="text-white-dimmed text-s">Available</span>
+          </div>
+          <div className="flex justify-start gap-2">
+            <div className="bg-yellow w-4 h-4 rounded-full"></div>
+            <span className="text-white-dimmed text-s">Selected</span>
+          </div>
+          <div className="flex justify-start gap-2">
+            <div className="bg-white w-4 h-4 rounded-full "></div>
+            <span className="text-white-dimmed text-s">Reserved</span>
+          </div>
+        </div>
       </div>
       <BookingSummary
-        summaries={createBookingSummary(selectedSeats)}
+        summaries={summaries}
         buttonLink={`/movies/${currentMovie.id}/ticket`}
-        buttonDisabled={seat.length === 0 ? true : false}
+        buttonDisabled={seat.length === 0}
       />
-    </>
+    </div>
   );
 }
