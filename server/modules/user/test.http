@@ -1,0 +1,30 @@
+POST http://localhost:8000/auth/signup HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "abc@123.de",
+    "password": "password123ab!@#"
+}
+
+###
+
+POST http://localhost:8000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "abc@123.de",
+    "password": "password123ab!@#"
+}
+
+###
+
+PATCH http://localhost:8000/user/b0258b63-e113-4417-8cc9-d05cb5c67852 HTTP/1.1
+content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIwMjU4YjYzLWUxMTMtNDQxNy04Y2M5LWQwNWNiNWM2Nzg1MiIsImlhdCI6MTY4OTY3NDAzOH0.BNOxGqY1nTUXoRut46PnK2IblfTxxXfPPa39u-_B2yc
+
+{
+    "firstName": "Steven",
+    "lastName": "Bark"
+}

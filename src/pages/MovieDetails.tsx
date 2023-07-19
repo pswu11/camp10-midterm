@@ -8,8 +8,8 @@ import { formatName } from '../lib/utils';
 import { useNavigate } from 'react-router-dom';
 
 export function MovieDetails() {
-  const { movie } = useRouteLoaderData('currentMovie') as { movie: Movie };
-  const { resCreditsData } = useRouteLoaderData('currentMovie') as {
+  const { resCreditsData, movie } = useRouteLoaderData('currentMovie') as {
+    movie: Movie;
     resCreditsData: Credits;
   };
   const [heartIcon, toggleHeart] = useState(false);
@@ -94,13 +94,17 @@ export function MovieDetails() {
           <p className="flex gap-1 text-s text-white-dimmed font-700">
             Director:
             <span className="text-white font-700">
-              {formatName(filteredCrew[0]) ?? ' Unknown '}
+              {filteredCrew[0] ? formatName(filteredCrew[0]) : ' Unknown '}
             </span>
           </p>
           <p className="flex gap-4 text-s text-white-dimmed font-500">
             Writer:
             <span className="text-white font-500">
-              {formatName(filteredCrew[1]) ?? filteredCrew[3] ?? ' Unknown '}
+              {filteredCrew[1]
+                ? formatName(filteredCrew[1])
+                : filteredCrew[3]
+                ? formatName(filteredCrew[3])
+                : ' Unknown '}
             </span>
           </p>
         </div>
@@ -121,7 +125,9 @@ export function MovieDetails() {
           Read more
         </a>
       </div>
-      <Button> Get Reservation</Button>
+      <Button>
+        <Link to="select-time">Get Reservation</Link>
+      </Button>
     </div>
   );
 }
