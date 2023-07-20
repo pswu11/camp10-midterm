@@ -1,10 +1,12 @@
 import express from 'express';
 import { z, ZodError } from 'zod';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient, Prisma, User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
+import { movieModule } from './modules/movie/movie';
+import { screeningModule } from './modules/screening/screening';
 
 const prismaClient = new PrismaClient();
 
@@ -72,7 +74,7 @@ app.post('/auth/signup', async (req, res) => {
       data: {
         ..._.omit(user, ['password']),
         passwordHashAndSalt: await bcrypt.hash(user.password, 10),
-      },
+      } as User,
     });
 
     res.status(201).json(dbUser);
@@ -83,7 +85,7 @@ app.post('/auth/signup', async (req, res) => {
       return;
     }
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError ) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         res.status(422).send('Users must have unique email addresses.');
         return;
@@ -257,52 +259,12 @@ app.patch('/user/:id', async (req, res) => {
   }
 });
 
-
-// create movie
-// TODO: data validation using zod for movie
-
-app.post('/movie', async (req, res) => {
-  const movie = req.body
-  console.log(req.body)
-  try {
-    const response = await prismaClient.movie.create({
-      data: {
-        ...movie
-      }
-    })
-    res.status(201).json(response)
-  } catch(error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
-        res.status(422).send(error.message);
-        return;
-    }
-    if (error instanceof Prisma.PrismaClientValidationError) {
-      res.send(error.message);
-      return
-    }
-    res.status(500).send(error)
-  }
-})
-
-// create screening or many screenings 
-// TODO: add zod for screening 
-// TODO: test out createMany
-app.post('/screening', async (req, res) => {
-  const screening = req.body
-  console.log(screening)
-  try {
-    const response = await prismaClient.screening.create({
-      data: {
-        ...screening
-      }
-    })
-    res.status(201).json(response)
-  } catch(error) {
-    res.status(500).send(error)
-  }
-})
-
-
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
+
+movieModule();
+screeningModule();
+
+export { app };
+export { prismaClient };

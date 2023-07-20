@@ -1,0 +1,18 @@
+POST http://localhost:8000/screening HTTP/1.1
+Content-type: application/json
+
+[{
+    "movieId": 976573,
+    "datetime": "{{$localDatetime iso8601}}",
+    "seatAvailability": [
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0]
+},{
+    "movieId": 502356,
+    "datetime": "{{$localDatetime iso8601}}",
+    "seatAvailability": [
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0]
+}]
