@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "nodemon index.ts"
+    "dev": "nodemon index.ts",
+    "ingest": "node modules/imports/importer.js"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,4 @@
 // ingest movies from TMDB API and generate screenings
-// node modules/imports/importer.js
 
 const NUMBER_OF_PAGES = 2;
 const NUMBER_OF_DAYS = 30;
@@ -151,8 +150,6 @@ async function ingestScreenings() {
         seatAvailability: Array(54).fill(0),
       };
       allScreeniings.push(screening);
-      console.log(allScreeniings.length);
-      console.log(screening);
     }
   }
   console.log(allScreeniings.length);
@@ -163,7 +160,7 @@ async function ingestScreenings() {
     },
     body: JSON.stringify(allScreeniings),
   })
-    .then(response => console.log(response))
+    .then(response => console.log(response.json()))
     .catch(err => console.error(err));
 }
 
