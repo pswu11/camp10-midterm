@@ -48,4 +48,18 @@ export async function movieModule() {
       res.send(err);
     }
   });
+
+  app.get('/movie/:movieId', async (req, res) => {
+    const { movieId } = req.params
+    try {
+      const movie = await prismaClient.movie.findFirst({
+        where: {
+          id: Number(movieId)
+        }
+      });
+      res.status(200).json(movie);
+    } catch (err) {
+      res.send(err);
+    }
+  });
 }

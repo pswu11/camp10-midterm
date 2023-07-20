@@ -16,3 +16,6 @@ Content-type: application/json
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0]
 }]
+
+###
+GET http://localhost:8000/screening/447365 HTTP/1.1

@@ -41,12 +41,20 @@ export const getNowPlayingMovies = async () => {
 }
 
 export const getUpcomingMovies = async () => {
-  const res = await axios.get(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${
-      import.meta.env.VITE_TMDB_KEY
-    }`
-  );
-  const nowPlayingMovies = res.data.results as Movie[];
+  const movies = await axios.get(
+    `http://localhost:8000/movie`
+  ).then(res => res.data);
+  console.log(movies)
+  const nowPlayingMovies = [] as Movie[]
+  for (let movie of movies) {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${
+        import.meta.env.VITE_TMDB_KEY
+      }`
+    );
+    const movieInfo = res.data as Movie
+    nowPlayingMovies.push(movieInfo)
+  }
   return nowPlayingMovies;
 }
 

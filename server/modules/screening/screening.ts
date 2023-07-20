@@ -46,4 +46,20 @@ export async function screeningModule() {
       res.status(500).send(error);
     }
   });
+
+  app.get("/screening/:movieId", async (req, res) => {
+    const { movieId } = req.params
+    console.log(movieId)
+    try {
+      const screenings = await prismaClient.screening.findMany({
+        where: {
+          movieId: Number(movieId)
+        }
+      })
+      console.log(screenings)
+      res.json(screenings)
+    } catch(err) {
+      res.send(err)
+    }
+  })
 }
