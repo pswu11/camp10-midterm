@@ -17,9 +17,9 @@ import { Home } from './pages/Home';
 import { User } from './pages/User';
 import { MovieDetails } from './pages/MovieDetails';
 import { Login } from './pages/Login';
-import { discoverMoviesWithoutGenres, getCredits, getCurrentMovie, getNowPlayingMovies, getUpcomingMovies } from './api/movies';
+import { getCredits, getCurrentMovie, getNowPlayingMovies, getUpcomingMovies } from './api/movies';
 import axios from 'axios';
-import { Credits, Movie } from './types/api';
+import { Credits, Movie, ScreeningModel } from './types/api';
 
 const router = createBrowserRouter([
   {
@@ -64,9 +64,14 @@ const router = createBrowserRouter([
           import.meta.env.VITE_TMDB_KEY
         }`
       );
+
+      const resScreenings = await axios.get(
+        `http://localhost:8000/screening/${movieId}`
+      );
+      const screenings = resScreenings.data as ScreeningModel[]
       const resCreditsData = resCredits.data as Credits;
       const movie = res.data as Movie;
-      return { movie, resCreditsData };
+      return { movie, resCreditsData, screenings };
     },
     children: [
       {

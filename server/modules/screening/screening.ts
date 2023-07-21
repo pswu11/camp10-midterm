@@ -47,13 +47,15 @@ export async function screeningModule() {
     }
   });
 
-  app.get("/screening/:movieId", async (req, res) => {
+  app.get("/screening/:movieId?", async (req, res) => {
     const { movieId } = req.params
     console.log(movieId)
     try {
       const screenings = await prismaClient.screening.findMany({
         where: {
-          movieId: Number(movieId)
+          movieId: Number(movieId),
+          datetime: {
+          }
         }
       })
       console.log(screenings)

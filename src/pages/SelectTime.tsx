@@ -5,7 +5,7 @@ import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import { Button } from '../components/Button';
 import { Link } from 'react-router-dom';
 import { useRouteLoaderData } from 'react-router-dom';
-import { Movie } from '../types/api';
+import { Movie, ScreeningModel } from '../types/api';
 import { generateTicketId } from '../lib/utils';
 
 type DateType = {
@@ -20,6 +20,11 @@ type TimeType = {
   time: string;
 };
 
+const optionsDate: Intl.DateTimeFormatOptions = {
+  day: 'numeric',
+  month: 'short',
+};
+
 const fixedTimes = [
   '10:30',
   '12:55',
@@ -30,31 +35,6 @@ const fixedTimes = [
   '20:45',
   '22:30',
 ];
-
-function generateAvailableDates(numberOfDays: number) {
-  const today = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    day: 'numeric',
-    month: 'short',
-  };
-  const nextDays: DateType[] = [];
-  for (let i = 0; i <= numberOfDays - 1; i++) {
-    const nextDay = new Date();
-    nextDay.setDate(today.getDate() + i);
-    nextDays.push({
-      isActive: false,
-      // randomly disable certain dates as soldout if it's not today
-      isDisabled:
-        today.getDate() === nextDay.getDate()
-          ? false
-          : Math.random() > 0.3
-          ? false
-          : true,
-      date: nextDay.toLocaleString('en-GB', options),
-    });
-  }
-  return nextDays;
-}
 
 function generateAvailableTimes(date?: string) {
   const timeslots: TimeType[] = [];
@@ -86,25 +66,48 @@ function generateAvailableTimes(date?: string) {
 }
 
 export function SelectTime() {
+  const { movie: currentMovie, screenings: currentScreenings } =
+  useRouteLoaderData('currentMovie') as {
+    movie: Movie;
+    screenings: ScreeningModel[];
+  };
+  const allDates: DateType[] = [
+    ...new Set(
+      currentScreenings.map(show =>
+        new Date(show.datetime).toLocaleString('en-GB', optionsDate)
+      )
+    ),
+  ].map(date => {
+    return {
+      date: date,
+      isActive: false,
+      isDisabled: false,
+    };
+  });
+
   const [availableDates, setAvailableDates] = useState(
-    generateAvailableDates(12)
+    allDates.slice(0, 12)
   );
   const [availableTimes, setAvailableTimes] = useState(
     generateAvailableTimes()
   );
+  const TODAY = new Date().toLocaleString('en-GB', optionsDate);
 
-  const { movie: currentMovie } = useRouteLoaderData('currentMovie') as {
-    movie: Movie;
-  };
+
+
+
+  console.log(currentScreenings, allDates);
 
   // use ticket-store and set id, movieId  for once only
   const ticketStore = useTicketStore();
   const { setMovieId, setId, setTime, setDate, setPrice, setSeat } =
     ticketStore;
   useEffect(() => {
+    setAvailableDates(allDates);
+    handleDateClick(TODAY);
     setId(generateTicketId());
     setTime(''),
-      setDate(''),
+      setDate(TODAY),
       setPrice(0),
       setSeat([]),
       setMovieId(currentMovie.id);
@@ -165,7 +168,7 @@ export function SelectTime() {
       </div>
       <h3 className="uppercase text-m text-white-dimmed font-700 my-6">Date</h3>
       <div className="grid grid-cols-4 gap-y-4">
-        {availableDates.map(date => (
+        {availableDates.map((date, idx) => (
           <BookingDetails
             key={date.date}
             isActive={date.isActive}

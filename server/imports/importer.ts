@@ -186,10 +186,10 @@ async function ingestScreenings() {
 }
 
 async function ingestAll() {
-  await fetchMoviesFromAPI(NUMBER_OF_PAGES);
-  await ingestMovies();
-  // await fetchMoviesFromDatabase();
-  // await ingestScreenings();
+  // await fetchMoviesFromAPI(NUMBER_OF_PAGES);
+  // await ingestMovies();
+  await fetchMoviesFromDatabase();
+  await ingestScreenings();
 }
 
 ingestAll();
