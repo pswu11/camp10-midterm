@@ -39,7 +39,7 @@ export function Movies() {
         ))}
       </div>
       <div className="flex justify-around">
-        {numberOfPages.splice(0, 5).map(page => (
+        {numberOfPages.splice(0, maxNumberOfPages).map(page => (
           <PaginationButton
             key={page}
             currentPage={currentPage}

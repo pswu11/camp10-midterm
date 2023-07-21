@@ -48,6 +48,7 @@ async function fetchMoviesFromAPI(page: number) {
               return {
                 id: movie.id,
                 releaseDate: new Date(movie.release_date),
+                seatAvailability: Array.from({length: 54}).fill(0)
               } as Movie;
             }
           }),
@@ -67,6 +68,7 @@ async function fetchMoviesFromAPI(page: number) {
               return {
                 id: movie.id,
                 releaseDate: new Date(movie.release_date),
+                seatAvailability: Array.from({length: 54}).fill(0)
               } as Movie;
             }
           }),
