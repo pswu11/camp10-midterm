@@ -11,7 +11,7 @@ model Movie {
   id          Int         @id
   releaseDate DateTime
   screenings  Screening[]
-  likedBy     User[]      @relation("MovieToUser")
+  likedBy     MoviesLikedByUsers[]
 }
 
 model Screening {
@@ -34,7 +34,7 @@ model User {
   userImage           String?
   favoriteGenres      Int[]
   bookings            Booking[]
-  bookmarks           Movie[]   @relation("MovieToUser")
+  bookmarks           MoviesLikedByUsers[]
 }
 
 model Booking {
@@ -47,4 +47,12 @@ model Booking {
   bookedAt    DateTime  @default(now())
   screening   Screening @relation(fields: [screeningId], references: [id])
   user        User      @relation(fields: [userId], references: [id])
+}
+
+model MoviesLikedByUsers {
+  movieId Int
+  movie Movie @relation(fields: [movieId], references: [id])
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  @@id([movieId, userId])
 }

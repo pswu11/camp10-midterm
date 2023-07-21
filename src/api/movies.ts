@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { Credits, Movie } from '../types/api';
+import { Credits, Movie, MovieModel } from '../types/api';
 import { Params } from 'react-router-dom';
+import { now } from 'lodash';
 
 export const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -30,34 +31,39 @@ export const getCredits = async ({ params }: { params: Params<string> }) => {
   return credits;
 };
 
-export const getNowPlayingMovies = async () => {
-  const res = await axios.get(
-    `https://api.themoviedb.org/3/movie/now_playing?api_key=${
-      import.meta.env.VITE_TMDB_KEY
-    }`
-  );
-  const nowPlayingMovies = res.data.results as Movie[];
-  return nowPlayingMovies;
-}
-
 export const getUpcomingMovies = async () => {
-  const movies = await axios.get(
-    `http://localhost:8000/movie`
-  ).then(res => res.data);
-  console.log(movies)
-  const nowPlayingMovies = [] as Movie[]
+  const movies: MovieModel[] = await axios
+    .get(`http://localhost:8000/movie/upcoming`)
+    .then(res => res.data);
+  const upcomingMovies = [] as Movie[];
   for (let movie of movies) {
-    const res = await axios.get(
+    const movieInfo: Movie = await axios.get(
       `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${
         import.meta.env.VITE_TMDB_KEY
       }`
-    );
-    const movieInfo = res.data as Movie
-    nowPlayingMovies.push(movieInfo)
+    ).then(res => res.data);
+    upcomingMovies.push(movieInfo)
   }
-  return nowPlayingMovies;
-}
+  console.log(movies.length);
+  return upcomingMovies
+};
 
+export const getNowPlayingMovies = async () => {
+  const movies: MovieModel[] = await axios
+    .get(`http://localhost:8000/movie/nowplaying`)
+    .then(res => res.data);
+  const nowplayingMovies = [] as Movie[];
+  for (let movie of movies) {
+    const movieInfo: Movie = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${
+        import.meta.env.VITE_TMDB_KEY
+      }`
+    ).then(res => res.data);
+    nowplayingMovies.push(movieInfo)
+  }
+  console.log(movies.length);
+  return nowplayingMovies
+};
 
 export const discoverMoviesWithoutGenres = async () => {
   const res = await axios.get(

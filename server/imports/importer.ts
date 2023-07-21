@@ -2,13 +2,13 @@
 // pnpm node-ts imports/importer.ts
 
 import { Movie, Screening } from '@prisma/client';
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from 'dotenv';
+dotenv.config();
 
-const NUMBER_OF_PAGES = 4; // how many pages of TMDB results
+const NUMBER_OF_PAGES = 2; // how many pages of TMDB results
 const NUMBER_OF_DAYS = 24; // days to generate for booking
-const TODAY= '2021-07-20'
-const API_TOKEN = process.env.VITE_TMDB_TOKEN
+const TODAY = '2023-07-21';
+const API_TOKEN = process.env.VITE_TMDB_TOKEN;
 
 type APIMovie = {
   id: number;
@@ -29,56 +29,54 @@ const options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization:
-      `Bearer ${API_TOKEN}`,
+    Authorization: `Bearer ${API_TOKEN}`,
   },
 };
 
 async function fetchMoviesFromAPI(page: number) {
   for (let i = 1; i <= page; i++) {
-    await fetch(
-      `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_date.gte=${TODAY}&sort_by=popularity.desc`,
-      options
-    )
+    const UPCOMING_ENDPOINT = `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_year=2023&primary_release_date.gte=${TODAY}&sort_by=popularity.desc`;
+    const PAST_ENDPOINT = `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_year=2023&primary_release_date.lte=${TODAY}&sort_by=popularity.desc`;
+
+    await fetch(UPCOMING_ENDPOINT, options)
+      .then(response => response.json())
+      .then(data => {
+        const results = data.results;
+        const newMovies = [
+          ...results.map((movie: APIMovie) => {
+            if (movie.poster_path && movie.backdrop_path) {
+              return {
+                id: movie.id,
+                releaseDate: new Date(movie.release_date),
+              } as Movie;
+            }
+          }),
+        ];
+        allMovies = [...allMovies, ...newMovies];
+        // console.log(allMovies.map(x => x.releaseDate));
+      })
+      .catch(err => console.error(err));
+
+    await fetch(PAST_ENDPOINT, options)
       .then(response => response.json())
       .then(data => {
         const results = data.results;
         const oldMovies = [
           ...results.map((movie: APIMovie) => {
-            return {
-              id: movie.id,
-              releaseDate: new Date(movie.release_date),
-            } as Movie;
-          }),
-        ];
-        allMovies = [...allMovies, ...oldMovies];
-        console.log(results, oldMovies, allMovies);
-      })
-      .catch(err => console.error(err))
-
-      await fetch(
-        `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_date.lte=${TODAY}&sort_by=popularity.desc`,
-        options
-      )
-        .then(response => response.json())
-        .then(data => {
-          const results = data.results;
-          const oldMovies = [
-            ...results.map((movie: APIMovie) => {
+            if (movie.poster_path && movie.backdrop_path) {
               return {
                 id: movie.id,
                 releaseDate: new Date(movie.release_date),
               } as Movie;
-            }),
-          ];
-          allMovies = [...allMovies, ...oldMovies];
-          console.log(results, oldMovies, allMovies);
-        })
-        .catch(err => console.error(err))
+            }
+          }),
+        ];
+        allMovies = [...allMovies, ...oldMovies];
+        // console.log(allMovies.map(x => x.releaseDate));
+      })
+      .catch(err => console.error(err));
   }
   console.log('allMovies: ', allMovies.length);
-  const uniqueCount: number[] = [...new Set(allMovies.map(movie => movie.id))]
-  console.log('uniqueCount: ', uniqueCount.length)
 }
 
 async function fetchMoviesFromDatabase() {
@@ -90,7 +88,7 @@ async function fetchMoviesFromDatabase() {
       uniqueMovies = [...data];
     })
     .catch(err => console.error(err));
-  console.log("count:", uniqueMovies);
+  console.log('count:', uniqueMovies);
 }
 
 async function ingestMovies() {
@@ -187,8 +185,8 @@ async function ingestScreenings() {
 
 async function ingestAll() {
   await fetchMoviesFromAPI(NUMBER_OF_PAGES);
+  await ingestMovies();
   // await fetchMoviesFromDatabase();
-  // await ingestMovies();
   // await ingestScreenings();
 }
 
