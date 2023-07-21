@@ -1,63 +1,84 @@
 // ingest movies from TMDB API and generate screenings
+// pnpm node-ts imports/importer.ts
 
-const NUMBER_OF_PAGES = 2;
-const NUMBER_OF_DAYS = 30;
+import { Movie, Screening } from '@prisma/client';
+import dotenv from 'dotenv'
+dotenv.config()
 
-var allMovies = [];
-var uniqueMovies = [];
-var allScreeniings = [];
+const NUMBER_OF_PAGES = 4; // how many pages of TMDB results
+const NUMBER_OF_DAYS = 24; // days to generate for booking
+const TODAY= '2021-07-20'
+const API_TOKEN = process.env.VITE_TMDB_TOKEN
+
+type APIMovie = {
+  id: number;
+  title: string;
+  backdrop_path: string | null;
+  poster_path: string | null;
+  genre_ids: number[];
+  overview: string;
+  release_date: string;
+  vote_average: number;
+};
+
+var allMovies: Movie[] = [];
+var uniqueMovies: Movie[] = [];
+var allScreeniings: Screening[] = [];
 
 const options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
     Authorization:
-      `Bearer ${process.env.VITE_TMDB_TOKEN}`,
+      `Bearer ${API_TOKEN}`,
   },
 };
 
-async function fetchMoviesFromAPI(page) {
+async function fetchMoviesFromAPI(page: number) {
   for (let i = 1; i <= page; i++) {
     await fetch(
-      'https://api.themoviedb.org/3/discover/movie?page=1&release_date.lte=2023-07-19',
+      `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_date.gte=${TODAY}&sort_by=popularity.desc`,
       options
     )
       .then(response => response.json())
       .then(data => {
         const results = data.results;
         const oldMovies = [
-          ...results.map(movie => {
+          ...results.map((movie: APIMovie) => {
             return {
               id: movie.id,
               releaseDate: new Date(movie.release_date),
-            };
+            } as Movie;
           }),
         ];
         allMovies = [...allMovies, ...oldMovies];
         console.log(results, oldMovies, allMovies);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err))
 
-    await fetch(
-      'https://api.themoviedb.org/3/discover/movie?page=1&release_date.gte=2023-07-20',
-      options
-    )
-      .then(response => response.json())
-      .then(data => {
-        const results = data.results;
-        const newMovies = [
-          ...results.map(movie => {
-            return {
-              id: movie.id,
-              releaseDate: new Date(movie.release_date),
-            };
-          }),
-        ];
-        allMovies = [...allMovies, ...newMovies];
-        console.log(results, newMovies, allMovies);
-      })
-      .catch(err => console.error(err));
+      await fetch(
+        `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_date.lte=${TODAY}&sort_by=popularity.desc`,
+        options
+      )
+        .then(response => response.json())
+        .then(data => {
+          const results = data.results;
+          const oldMovies = [
+            ...results.map((movie: APIMovie) => {
+              return {
+                id: movie.id,
+                releaseDate: new Date(movie.release_date),
+              } as Movie;
+            }),
+          ];
+          allMovies = [...allMovies, ...oldMovies];
+          console.log(results, oldMovies, allMovies);
+        })
+        .catch(err => console.error(err))
   }
+  console.log('allMovies: ', allMovies.length);
+  const uniqueCount: number[] = [...new Set(allMovies.map(movie => movie.id))]
+  console.log('uniqueCount: ', uniqueCount.length)
 }
 
 async function fetchMoviesFromDatabase() {
@@ -69,12 +90,10 @@ async function fetchMoviesFromDatabase() {
       uniqueMovies = [...data];
     })
     .catch(err => console.error(err));
-  console.log(uniqueMovies.length);
+  console.log("count:", uniqueMovies);
 }
 
 async function ingestMovies() {
-  await fetchMoviesFromAPI(NUMBER_OF_PAGES);
-  console.log('allMovies: ', allMovies.length);
   let movieCounter = 0;
   for (let i = 0; i < allMovies.length; i++) {
     try {
@@ -112,9 +131,9 @@ const fixedTimes = [
   '22:30',
 ];
 
-function generateAvailableDates(numberOfDays) {
+function generateAvailableDates(numberOfDays: number) {
   const today = new Date();
-  const options = {
+  const options: Intl.DateTimeFormatOptions = {
     day: 'numeric',
     month: 'short',
   };
@@ -148,8 +167,10 @@ async function ingestScreenings() {
         movieId: id,
         datetime,
         seatAvailability: Array(54).fill(0),
-      };
+      } as Screening;
       allScreeniings.push(screening);
+      console.log(allScreeniings.length);
+      console.log(screening);
     }
   }
   console.log(allScreeniings.length);
@@ -160,13 +181,15 @@ async function ingestScreenings() {
     },
     body: JSON.stringify(allScreeniings),
   })
-    .then(response => console.log(response.json()))
+    .then(response => console.log(response))
     .catch(err => console.error(err));
 }
 
 async function ingestAll() {
-  await ingestMovies();
-  await ingestScreenings();
+  await fetchMoviesFromAPI(NUMBER_OF_PAGES);
+  // await fetchMoviesFromDatabase();
+  // await ingestMovies();
+  // await ingestScreenings();
 }
 
 ingestAll();

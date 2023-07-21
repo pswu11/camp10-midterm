@@ -62,4 +62,13 @@ export async function screeningModule() {
       res.send(err)
     }
   })
+
+  app.delete('/screening', async (_, res) => {
+    try {
+      const response = await prismaClient.screening.deleteMany({})
+      res.status(200).json(response);
+    } catch (err) {
+      res.send(err);
+    }
+  });
 }

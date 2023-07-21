@@ -62,4 +62,13 @@ export async function movieModule() {
       res.send(err);
     }
   });
+
+  app.delete('/movie', async (_, res) => {
+    try {
+      const movie = await prismaClient.movie.deleteMany({})
+      res.status(200).json(movie);
+    } catch (err) {
+      res.send(err);
+    }
+  });
 }

@@ -6,6 +6,12 @@ Content-type: application/json
     "releaseDate": "{{$localDatetime iso8601}}"
 }
 
+
 ###
 
 GET http://localhost:8000/movie/447365 HTTP/1.1
+
+
+###
+
+DELETE http://localhost:8000/movie HTTP/1.1
