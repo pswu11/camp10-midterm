@@ -38,7 +38,7 @@ export function Movies() {
           <MovieCard movie={movie} variant="now_playing" key={movie.id} />
         ))}
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-around">
         {numberOfPages.splice(0, 5).map(page => (
           <PaginationButton
             key={page}

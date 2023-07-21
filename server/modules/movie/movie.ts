@@ -1,6 +1,6 @@
 import { app, prismaClient } from '../../index';
 import { z } from 'zod';
-import { Movie, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 export async function movieModule() {
   const moviePostModel = z.object({
@@ -40,36 +40,6 @@ export async function movieModule() {
       res.status(500).send(error);
     }
   });
-
-  app.post('/movie/bulk', async (req, res) => {
-    try {
-      const movies = req.body as Movie[]
-      const response = await prismaClient.movie.createMany({
-        data: [
-          ...movies,
-        ] as Movie[],
-      });
-      res.status(201).json(response);
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2002'
-      ) {
-        res.status(422).send(error.message);
-        return;
-      }
-      if (error instanceof Prisma.PrismaClientValidationError) {
-        res.send(error.message);
-        return;
-      }
-      if (error instanceof Prisma.PrismaClientUnknownRequestError) {
-        res.send(error.message);
-        return;
-      }
-      res.status(500).send(error);
-    }
-  });
-
 
   app.get('/movie', async (_, res) => {
     try {
