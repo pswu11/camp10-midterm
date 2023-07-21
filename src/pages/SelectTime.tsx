@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useRouteLoaderData } from 'react-router-dom';
 import { Movie, ScreeningModel } from '../types/api';
 import { generateTicketId } from '../lib/utils';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type DateType = {
   isActive: boolean;
@@ -66,45 +67,37 @@ function generateAvailableTimes(date?: string) {
 }
 
 export function SelectTime() {
+  const TODAY = new Date().toLocaleString('en-GB', optionsDate);
+  const [availableDates, setAvailableDates] = useState([] as DateType[]);
+  const [availableTimes, setAvailableTimes] = useState(generateAvailableTimes(TODAY));
   const { movie: currentMovie, screenings: currentScreenings } =
-  useRouteLoaderData('currentMovie') as {
-    movie: Movie;
-    screenings: ScreeningModel[];
-  };
+    useRouteLoaderData('currentMovie') as {
+      movie: Movie;
+      screenings: ScreeningModel[];
+    };
   const allDates: DateType[] = [
     ...new Set(
       currentScreenings.map(show =>
         new Date(show.datetime).toLocaleString('en-GB', optionsDate)
       )
     ),
-  ].map(date => {
+  ].map((date, idx) => {
     return {
       date: date,
-      isActive: false,
+      isActive: idx === 0 ? true : false,
       isDisabled: false,
     };
   });
 
-  const [availableDates, setAvailableDates] = useState(
-    allDates.slice(0, 12)
-  );
-  const [availableTimes, setAvailableTimes] = useState(
-    generateAvailableTimes()
-  );
-  const TODAY = new Date().toLocaleString('en-GB', optionsDate);
-
-
-
-
-  console.log(currentScreenings, allDates);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // use ticket-store and set id, movieId  for once only
   const ticketStore = useTicketStore();
   const { setMovieId, setId, setTime, setDate, setPrice, setSeat } =
     ticketStore;
   useEffect(() => {
-    setAvailableDates(allDates);
-    handleDateClick(TODAY);
+    setAvailableDates(allDates.slice(0, 12));
     setId(generateTicketId());
     setTime(''),
       setDate(TODAY),
@@ -134,6 +127,10 @@ export function SelectTime() {
       return date;
     });
     setAvailableDates(updatedDates);
+    const formattedDate = new Date(`${clickedDate} 2023`).toLocaleDateString(
+      'en-CA'
+    );
+    navigate(`${location.pathname}?date=${formattedDate}`);
   };
 
   const handleTimeClick = (clickedTime: string) => {
@@ -168,7 +165,7 @@ export function SelectTime() {
       </div>
       <h3 className="uppercase text-m text-white-dimmed font-700 my-6">Date</h3>
       <div className="grid grid-cols-4 gap-y-4">
-        {availableDates.map((date, idx) => (
+        {availableDates.map(date => (
           <BookingDetails
             key={date.date}
             isActive={date.isActive}

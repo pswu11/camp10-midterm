@@ -152,7 +152,7 @@ async function ingestScreenings() {
   for (let date of allDates) {
     for (let time of fixedTimes) {
       const dateTimeString = `${date} ${time}`;
-      const dateTime = new Date(dateTimeString);
+      const dateTime = new Date(dateTimeString).setFullYear(2023);
       allDateTime.push(dateTime);
     }
   }
@@ -165,7 +165,7 @@ async function ingestScreenings() {
     for (let id of movieIds) {
       const screening = {
         movieId: id,
-        datetime,
+        datetime: new Date(datetime),
         seatAvailability: Array(54).fill(0),
       } as Screening;
       allScreeniings.push(screening);
