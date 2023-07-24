@@ -8,7 +8,6 @@ import { useRouteLoaderData } from 'react-router-dom';
 import { Movie, ScreeningModel } from '../types/api';
 import { generateTicketId } from '../lib/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { isBefore } from 'date-fns';
 
 type DateType = {
   isActive: boolean;
@@ -74,7 +73,7 @@ export function SelectTime() {
       movie: Movie;
       screenings: ScreeningModel[];
     };
-    
+
   const screeningDates = [
     ...new Set(
       currentScreenings.map(show => {
