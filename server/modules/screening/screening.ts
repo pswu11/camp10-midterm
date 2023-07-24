@@ -17,8 +17,12 @@ export async function screeningModule() {
           .length(54),
       })
       .array(),
-    pathParams: z.object({}),
-    queryParams: z.object({}),
+    pathParams: z.object({
+      movieId: z.number().optional()
+    }),
+    queryParams: z.object({
+      date: z.string().datetime()
+    }),
   });
 
   app.post('/screening', async (req, res) => {

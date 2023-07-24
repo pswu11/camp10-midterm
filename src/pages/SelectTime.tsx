@@ -68,14 +68,12 @@ function generateAvailableTimes(date?: string) {
 
 export function SelectTime() {
   const TODAY = new Date().toLocaleString('en-GB', optionsDate);
-  const [availableDates, setAvailableDates] = useState([] as DateType[]);
-  const [availableTimes, setAvailableTimes] = useState(generateAvailableTimes(TODAY));
   const { movie: currentMovie, screenings: currentScreenings } =
     useRouteLoaderData('currentMovie') as {
       movie: Movie;
       screenings: ScreeningModel[];
     };
-  const allDates: DateType[] = [
+  const initAvailableDates: DateType[] = [
     ...new Set(
       currentScreenings.map(show =>
         new Date(show.datetime).toLocaleString('en-GB', optionsDate)
@@ -88,6 +86,8 @@ export function SelectTime() {
       isDisabled: false,
     };
   });
+  const [availableDates, setAvailableDates] = useState(initAvailableDates.slice(0, 12));
+  const [availableTimes, setAvailableTimes] = useState(generateAvailableTimes(TODAY));
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -97,13 +97,12 @@ export function SelectTime() {
   const { setMovieId, setId, setTime, setDate, setPrice, setSeat } =
     ticketStore;
   useEffect(() => {
-    setAvailableDates(allDates.slice(0, 12));
     setId(generateTicketId());
     setTime(''),
-      setDate(TODAY),
-      setPrice(0),
-      setSeat([]),
-      setMovieId(currentMovie.id);
+    setDate(TODAY),
+    setPrice(0),
+    setSeat([]),
+    setMovieId(currentMovie.id);
   }, []);
 
   const handleDateClick = (clickedDate: string) => {
