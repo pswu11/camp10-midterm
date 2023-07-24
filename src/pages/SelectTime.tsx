@@ -8,6 +8,7 @@ import { useRouteLoaderData } from 'react-router-dom';
 import { Movie, ScreeningModel } from '../types/api';
 import { generateTicketId } from '../lib/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { isBefore } from 'date-fns';
 
 type DateType = {
   isActive: boolean;
@@ -73,21 +74,37 @@ export function SelectTime() {
       movie: Movie;
       screenings: ScreeningModel[];
     };
-  const initAvailableDates: DateType[] = [
+    
+  const screeningDates = [
     ...new Set(
-      currentScreenings.map(show =>
-        new Date(show.datetime).toLocaleString('en-GB', optionsDate)
-      )
+      currentScreenings.map(show => {
+        const today = new Date().toLocaleString('en-GB', optionsDate);
+        const showDate = new Date(show.datetime).toLocaleString(
+          'en-GB',
+          optionsDate
+        );
+        if (new Date(`${today} ${2023}`) <= new Date(`${showDate} ${2023}`)) {
+          console.log(showDate);
+          return showDate;
+        }
+      })
     ),
-  ].map((date, idx) => {
+  ];
+
+  const initAvailableDates = screeningDates.map((date, idx) => {
     return {
       date: date,
       isActive: idx === 0 ? true : false,
       isDisabled: false,
     };
-  });
-  const [availableDates, setAvailableDates] = useState(initAvailableDates.slice(0, 12));
-  const [availableTimes, setAvailableTimes] = useState(generateAvailableTimes(TODAY));
+  }).filter(x => x.date !== undefined) as DateType[];
+
+  const [availableDates, setAvailableDates] = useState(
+    initAvailableDates.slice(0, 12)
+  );
+  const [availableTimes, setAvailableTimes] = useState(
+    generateAvailableTimes(TODAY)
+  );
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -99,10 +116,10 @@ export function SelectTime() {
   useEffect(() => {
     setId(generateTicketId());
     setTime(''),
-    setDate(TODAY),
-    setPrice(0),
-    setSeat([]),
-    setMovieId(currentMovie.id);
+      setDate(TODAY),
+      setPrice(0),
+      setSeat([]),
+      setMovieId(currentMovie.id);
   }, []);
 
   const handleDateClick = (clickedDate: string) => {
