@@ -21,6 +21,7 @@ model Screening {
   seatAvailability Int[]
   bookings         Booking[]
   movie            Movie     @relation(fields: [movieId], references: [id])
+  @@unique([movieId, datetime])
 }
 
 model User {

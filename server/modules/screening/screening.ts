@@ -1,5 +1,5 @@
 import { app, prismaClient } from '../../index';
-import { z } from 'zod';
+import { ZodError, z } from 'zod';
 import { Prisma, Screening } from '@prisma/client';
 
 export async function screeningModule() {
@@ -21,7 +21,7 @@ export async function screeningModule() {
       movieId: z.number().optional()
     }),
     queryParams: z.object({
-      date: z.string().datetime()
+      date: z.string().datetime().optional()
     }),
   });
 
@@ -48,6 +48,13 @@ export async function screeningModule() {
         res.send(error.message);
         return;
       }
+      if (error instanceof ZodError) {
+        res.send(error.message)
+      }
+      // if (error instanceof Error) {
+      //   console.log(error.stack, error.message, error.name)
+      //   res.send(error.message)
+      // }
       res.status(500).send(error);
     }
   });

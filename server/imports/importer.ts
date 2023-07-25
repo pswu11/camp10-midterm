@@ -1,14 +1,15 @@
 // ingest movies from TMDB API and generate screenings
-// pnpm node-ts imports/importer.ts
+// pnpm ts-node imports/importer.ts
 
 import { Movie, Screening } from '@prisma/client';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const NUMBER_OF_PAGES = 2; // how many pages of TMDB results
+const NUMBER_OF_PAGES = 4; // how many pages of TMDB results
 const NUMBER_OF_DAYS = 24; // days to generate for booking
-const TODAY = '2023-07-21';
+const TODAY = new Date().toISOString().split('T')[0];
 const API_TOKEN = process.env.VITE_TMDB_TOKEN;
+const API_ENDPOINT = "http://localhost:8000"
 
 type APIMovie = {
   id: number;
@@ -21,11 +22,11 @@ type APIMovie = {
   vote_average: number;
 };
 
-var allMovies: Movie[] = [];
-var uniqueMovies: Movie[] = [];
-var allScreeniings: Screening[] = [];
+let allMovies: Movie[] = [];
+let uniqueMovies: Movie[] = [];
+let allScreeniings: Screening[] = [];
 
-const options = {
+const APIOptions = {
   method: 'GET',
   headers: {
     accept: 'application/json',
@@ -34,75 +35,58 @@ const options = {
 };
 
 async function fetchMoviesFromAPI(page: number) {
+  console.log('TODAY:', TODAY);
   for (let i = 1; i <= page; i++) {
     const UPCOMING_ENDPOINT = `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_year=2023&primary_release_date.gte=${TODAY}&sort_by=popularity.desc`;
     const PAST_ENDPOINT = `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_year=2023&primary_release_date.lte=${TODAY}&sort_by=popularity.desc`;
 
-    await fetch(UPCOMING_ENDPOINT, options)
+    await fetch(UPCOMING_ENDPOINT, APIOptions)
       .then(response => response.json())
       .then(data => {
         const results = data.results;
-        const newMovies = [
-          ...results.map((movie: APIMovie) => {
-            if (movie.poster_path && movie.backdrop_path) {
-              return {
-                id: movie.id,
-                releaseDate: new Date(movie.release_date),
-                seatAvailability: Array.from({length: 54}).fill(0)
-              } as Movie;
-            }
-          }),
-        ];
-        allMovies = [...allMovies, ...newMovies];
-        // console.log(allMovies.map(x => x.releaseDate));
+        results.forEach((movie: APIMovie) => {
+          if (movie.poster_path && movie.backdrop_path) {
+            const movieObject = {
+              id: movie.id,
+              releaseDate: new Date(movie.release_date),
+              seatAvailability: Array.from({ length: 54 }).fill(0),
+            } as Movie;
+            allMovies.push(movieObject);
+          }
+        });
       })
       .catch(err => console.error(err));
 
-    await fetch(PAST_ENDPOINT, options)
+    await fetch(PAST_ENDPOINT, APIOptions)
       .then(response => response.json())
       .then(data => {
         const results = data.results;
-        const oldMovies = [
-          ...results.map((movie: APIMovie) => {
-            if (movie.poster_path && movie.backdrop_path) {
-              return {
-                id: movie.id,
-                releaseDate: new Date(movie.release_date),
-                seatAvailability: Array.from({length: 54}).fill(0)
-              } as Movie;
-            }
-          }),
-        ];
-        allMovies = [...allMovies, ...oldMovies];
-        // console.log(allMovies.map(x => x.releaseDate));
+        results.forEach((movie: APIMovie) => {
+          if (movie.poster_path && movie.backdrop_path) {
+            const movieObject = {
+              id: movie.id,
+              releaseDate: new Date(movie.release_date),
+              seatAvailability: Array.from({ length: 54 }).fill(0),
+            } as Movie;
+            allMovies.push(movieObject);
+          }
+        });
       })
       .catch(err => console.error(err));
   }
   console.log('allMovies: ', allMovies.length);
 }
 
-async function fetchMoviesFromDatabase() {
-  await fetch(`http://localhost:8000/movie`, {
-    method: 'GET',
-  })
-    .then(response => response.json())
-    .then(data => {
-      uniqueMovies = [...data];
-    })
-    .catch(err => console.error(err));
-  console.log('count:', uniqueMovies);
-}
-
 async function ingestMovies() {
   let movieCounter = 0;
-  for (let i = 0; i < allMovies.length; i++) {
+  allMovies.forEach(async movie => {
     try {
-      const response = await fetch(`http://localhost:8000/movie`, {
+      const response = await fetch(`${API_ENDPOINT}/movie`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(allMovies[i]),
+        body: JSON.stringify(movie),
       });
       if (response.status === 422) {
         throw new Error(
@@ -115,7 +99,19 @@ async function ingestMovies() {
     } catch (err) {
       console.log(err);
     }
-  }
+  });
+}
+
+async function fetchMoviesFromDatabase() {
+  await fetch(`${API_ENDPOINT}/movie`, {
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then(data => {
+      uniqueMovies = [...data];
+    })
+    .catch(err => console.error(err));
+  console.log('countUnique:', uniqueMovies);
 }
 
 // generate Screenings for each movie
@@ -159,7 +155,7 @@ async function ingestScreenings() {
 
   await fetchMoviesFromDatabase();
   const movieIds = uniqueMovies.map(movie => movie.id);
-  console.log(movieIds.length);
+  console.log("databaseMovieCount:", movieIds.length);
 
   for (let datetime of allDateTime) {
     for (let id of movieIds) {
@@ -169,25 +165,24 @@ async function ingestScreenings() {
         seatAvailability: Array(54).fill(0),
       } as Screening;
       allScreeniings.push(screening);
-      console.log(allScreeniings.length);
-      console.log(screening);
     }
   }
-  console.log(allScreeniings.length);
-  await fetch(`http://localhost:8000/screening`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(allScreeniings),
-  })
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
+  try {
+    await fetch(`${API_ENDPOINT}/screening`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(allScreeniings),
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function ingestAll() {
-  // await fetchMoviesFromAPI(NUMBER_OF_PAGES);
-  // await ingestMovies();
+  await fetchMoviesFromAPI(NUMBER_OF_PAGES);
+  await ingestMovies();
   await fetchMoviesFromDatabase();
   await ingestScreenings();
 }

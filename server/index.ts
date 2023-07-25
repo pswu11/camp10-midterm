@@ -25,7 +25,7 @@ const secretKey =
 
 app.use(
   express.json({
-    limit: '3mb',
+    limit: '5mb',
   })
 );
 
