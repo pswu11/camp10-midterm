@@ -45,16 +45,12 @@ export async function screeningModule() {
         return;
       }
       if (error instanceof Prisma.PrismaClientValidationError) {
-        res.send(error.message);
+        res.status(403).send(error.message);
         return;
       }
       if (error instanceof ZodError) {
         res.send(error.message)
       }
-      // if (error instanceof Error) {
-      //   console.log(error.stack, error.message, error.name)
-      //   res.send(error.message)
-      // }
       res.status(500).send(error);
     }
   });
