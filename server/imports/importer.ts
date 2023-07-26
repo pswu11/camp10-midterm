@@ -38,7 +38,7 @@ const APIOptions = {
 async function fetchMoviesFromAPI() {
   console.log('TODAY:', TODAY);
   for (let i = 1; i <= NUMBER_OF_PAGES_AFTER_TODAY; i++) {
-    const UPCOMING_ENDPOINT = `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_date.gt=${TODAY}&sort_by=popularity.desc`;
+    const UPCOMING_ENDPOINT = `https://api.themoviedb.org/3/discover/movie?page=${i}&primary_release_year=2023&primary_release_date.gte=${TODAY}&sort_by=popularity.desc`;
     await fetch(UPCOMING_ENDPOINT, APIOptions)
       .then(response => response.json())
       .then(data => {
@@ -184,8 +184,8 @@ async function ingestScreenings() {
 }
 
 async function ingestAll() {
-  await fetchMoviesFromAPI();
-  await ingestMovies();
+  // await fetchMoviesFromAPI();
+  // await ingestMovies();
   await fetchMoviesFromDatabase();
   await ingestScreenings();
 }

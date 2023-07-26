@@ -7,7 +7,7 @@ type Props = {
 };
 
 const MovieCard = ({ movie, variant }: Props) => (
-  <Link to={`/movies/${movie.id}`} className={`${variant === 'upcoming' ? 'snap-center' : ''}`}>
+  <Link to={`/movies/${movie.id}`}>
     <div
       className={
         variant === 'upcoming'

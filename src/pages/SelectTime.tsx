@@ -8,6 +8,7 @@ import { useRouteLoaderData } from 'react-router-dom';
 import { Movie, ScreeningModel } from '../types/api';
 import { generateTicketId } from '../lib/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 type DateType = {
   isActive: boolean;
@@ -83,7 +84,7 @@ export function SelectTime() {
           optionsDate
         );
         if (new Date(`${today} ${2023}`) <= new Date(`${showDate} ${2023}`)) {
-          console.log(showDate);
+          // console.log(showDate);
           return showDate;
         }
       })
@@ -113,6 +114,7 @@ export function SelectTime() {
   const { setMovieId, setId, setTime, setDate, setPrice, setSeat } =
     ticketStore;
   useEffect(() => {
+    handleDateClick(initAvailableDates[0].date)
     setId(generateTicketId());
     setTime(''),
       setDate(TODAY),
@@ -121,7 +123,7 @@ export function SelectTime() {
       setMovieId(currentMovie.id);
   }, []);
 
-  const handleDateClick = (clickedDate: string) => {
+  const handleDateClick = async (clickedDate: string) => {
     const updatedDates = availableDates.map(date => {
       if (date.date === clickedDate && !date.isDisabled) {
         // Toggle the isActive property if the date is not disabled
@@ -146,6 +148,9 @@ export function SelectTime() {
       'en-CA'
     );
     navigate(`${location.pathname}?date=${formattedDate}`);
+    console.log(formattedDate)
+    const test = await axios.get(`http://localhost:8000/screening/${currentMovie.id}?date=${formattedDate}`).then(res => res.data)
+    console.log(test)
   };
 
   const handleTimeClick = (clickedTime: string) => {

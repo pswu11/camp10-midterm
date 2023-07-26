@@ -11,9 +11,9 @@ model Movie {
   id          Int                  @id
   posterPath  String
   releaseDate DateTime
-  screenings  Screening[]
   genres      Int[]
   likedBy     MoviesLikedByUsers[]
+  screenings  Screening[]
 }
 
 model Screening {
@@ -55,8 +55,8 @@ model Booking {
 
 model MoviesLikedByUsers {
   movieId Int
-  movie   Movie  @relation(fields: [movieId], references: [id])
   userId  String
+  movie   Movie  @relation(fields: [movieId], references: [id])
   user    User   @relation(fields: [userId], references: [id])
 
   @@id([movieId, userId])
