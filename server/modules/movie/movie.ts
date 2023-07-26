@@ -8,7 +8,7 @@ export async function movieModule() {
       id: z.number(),
       releaseDate: z.coerce.date(),
       posterPath: z.string(),
-      genres: z.number().array()
+      genres: z.number().array(),
     }),
     pathParams: z.object({}),
     queryParams: z.object({}),
@@ -57,12 +57,13 @@ export async function movieModule() {
       const movies = await prismaClient.movie.findMany({
         where: {
           releaseDate: {
-            gt: new Date (Date.now())
-          }
-        }
+            gt: new Date(Date.now()),
+          },
+        },
       });
       res.status(200).json(movies);
     } catch (err) {
+      console.log(err);
       res.send(err);
     }
   });
@@ -72,9 +73,9 @@ export async function movieModule() {
       const movies = await prismaClient.movie.findMany({
         where: {
           releaseDate: {
-            lte: new Date (Date.now())
-          }
-        }
+            lte: new Date(Date.now()),
+          },
+        },
       });
       res.status(200).json(movies);
     } catch (err) {
@@ -83,12 +84,12 @@ export async function movieModule() {
   });
 
   app.get('/movie/:movieId', async (req, res) => {
-    const { movieId } = req.params
+    const { movieId } = req.params;
     try {
       const movie = await prismaClient.movie.findFirst({
         where: {
-          id: Number(movieId)
-        }
+          id: Number(movieId),
+        },
       });
       res.status(200).json(movie);
     } catch (err) {
@@ -98,7 +99,7 @@ export async function movieModule() {
 
   app.delete('/movie', async (_, res) => {
     try {
-      const movie = await prismaClient.movie.deleteMany({})
+      const movie = await prismaClient.movie.deleteMany({});
       res.status(200).json(movie);
     } catch (err) {
       res.send(err);

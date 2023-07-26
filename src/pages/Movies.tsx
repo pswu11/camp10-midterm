@@ -1,53 +1,70 @@
-import { useLoaderData } from 'react-router-dom';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import React, { useEffect, useRef } from 'react';
 import MovieCard from '../components/MovieCard';
 import { MovieModel } from '../types/api';
-import PaginationButton from '../components/PaginationButton';
-import { useState } from 'react';
-import { useGenreStore } from '../stores/genres';
-import { getUpcomingMovies } from '../api/movies';
+import { useInView } from 'react-intersection-observer';
 // import { discoverMoviesWithGenres } from '../api/movies';
 
+type MovieResult = {
+  page: number;
+  results: MovieModel[];
+  total_pages: number;
+  total_results: number;
+};
+
 export function Movies() {
-  getUpcomingMovies();
-  const nowPlayingMovies = useLoaderData() as MovieModel[];
-  const [currentPage, setCurrentPage] = useState(1);
-  const { selectedGenres } = useGenreStore();
-  const filteredMovies =
-    selectedGenres.length === 0
-      ? nowPlayingMovies
-      : nowPlayingMovies.filter(movie =>
-          movie.genres.some(id => selectedGenres.some(g => g === id))
-        );
+  const { ref, inView } = useInView();
 
-  const moviesDisplay = filteredMovies.slice(
-    (currentPage - 1) * 4,
-    currentPage * 4
-  );
-  // spawn an array from 1 to n (length)
-  const numberOfPages = Array.from(
-    { length: Math.ceil(filteredMovies.length / 4) },
-    (_, index) => index + 1
-  );
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
-  const maxNumberOfPages = 5
+  // getUpcomingMovies();
+  // const nowPlayingMovies = useLoaderData() as MovieModel[];
+  async function getMovies({ pageParam = 1 }) {
+    return axios
+      .get(
+        `https://api.themoviedb.org/3/movie/now_playing?page=${pageParam}&limit=4&api_key=0be126323ec3cb62353aea3b8ff71936`
+      )
+      .then(res => res.data);
+  }
+
+  const { data, fetchNextPage, isLoading } = useInfiniteQuery<MovieResult>({
+    queryKey: ['movies'],
+    queryFn: getMovies,
+    getNextPageParam: lastPage => {
+      if (lastPage.page === lastPage.total_pages) return undefined;
+      return lastPage.page + 1;
+    },
+  });
+
+  if (isLoading || !data) return <p>Loading...</p>;
 
   return (
     <div className="h-full flex flex-col justify-between">
-      <div className="grid grid-cols-2 gap-4">
-        {moviesDisplay.map((movie: MovieModel) => (
+      <div className="grid grid-cols-2 gap-4 overflow-y-scroll h-[550px]">
+        {data.pages.map((group, i) => (
+          <React.Fragment key={i}>
+            {group.results.map((movie, idx) => {
+              const last = idx === group.results.length - 1;
+              return (
+                <MovieCard
+                  ref={last ? ref : undefined}
+                  movie={movie}
+                  variant="now_playing"
+                  key={movie.id}
+                />
+              );
+            })}
+          </React.Fragment>
+        ))}
+
+        {/* {nowPlayingMovies.results.map((movie: MovieModel) => (
           <MovieCard movie={movie} variant="now_playing" key={movie.id} />
-        ))}
-      </div>
-      <div className="flex justify-around">
-        {numberOfPages.splice(0, maxNumberOfPages).map(page => (
-          <PaginationButton
-            key={page}
-            currentPage={currentPage}
-            onClick={() => setCurrentPage(page)}
-          >
-            {page}
-          </PaginationButton>
-        ))}
+        ))} */}
       </div>
     </div>
   );
