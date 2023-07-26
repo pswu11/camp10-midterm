@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import MovieCard from '../components/MovieCard';
 import { MovieModel } from '../types/api';
 import { useInView } from 'react-intersection-observer';
+import { BsArrowUp } from 'react-icons/bs';
 // import { discoverMoviesWithGenres } from '../api/movies';
 
 type MovieResult = {
@@ -21,6 +22,8 @@ export function Movies() {
       fetchNextPage();
     }
   }, [inView]);
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // getUpcomingMovies();
   // const nowPlayingMovies = useLoaderData() as MovieModel[];
@@ -45,11 +48,14 @@ export function Movies() {
 
   return (
     <div className="h-full flex flex-col justify-between">
-      <div className="grid grid-cols-2 gap-4 overflow-y-scroll h-[550px]">
+      <div
+        className="grid grid-cols-2 gap-4 overflow-y-scroll h-[550px]"
+        ref={containerRef}
+      >
         {data.pages.map((group, i) => (
           <React.Fragment key={i}>
             {group.results.map((movie, idx) => {
-              const last = idx === group.results.length - 1;
+              const last = group.results.length - 3 === idx;
               return (
                 <MovieCard
                   ref={last ? ref : undefined}
@@ -61,7 +67,14 @@ export function Movies() {
             })}
           </React.Fragment>
         ))}
-
+        <button
+          onClick={() => {
+            containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="bg-dark opacity-70 p-2 fixed bottom-24 right-6 rounded-md"
+        >
+          <BsArrowUp />
+        </button>
         {/* {nowPlayingMovies.results.map((movie: MovieModel) => (
           <MovieCard movie={movie} variant="now_playing" key={movie.id} />
         ))} */}
