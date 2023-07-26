@@ -30,6 +30,11 @@ app.use(
 
 // User routes
 
+// app.get('/', async (req, res) => {
+//   const user = await prismaClient.user.findMany({});
+//   res.status(200).json(user);
+// });
+
 const userPostModel = z.object({
   body: z.object({
     email: z.string().email(),
@@ -39,7 +44,7 @@ const userPostModel = z.object({
     city: z.string(),
     password: z
       .string()
-      .min(8)
+      .min(8, 'Password must at least contain 8 characters! ')
       .max(30)
       .refine(
         data => {
@@ -88,7 +93,9 @@ app.post('/auth/signup', async (req, res) => {
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
-        res.status(422).send('Users must have unique email addresses.');
+        res
+          .status(422)
+          .json({ data: 'Users must have unique email addresses.' });
         return;
       }
     }

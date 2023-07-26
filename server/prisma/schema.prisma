@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,45 +8,56 @@ datasource db {
 }
 
 model Movie {
-  id         Int         @id
-  releaseDate DateTime
-  screenings Screening[]
-  likedBy   User[]
+  id                 Int                  @id
+  posterPath         String
+  releaseDate        DateTime
+  genres             Int[]
+  MoviesLikedByUsers MoviesLikedByUsers[]
+  screenings         Screening[]
 }
 
 model Screening {
-  id                Int       @id @default(autoincrement())
-  datetime          DateTime
+  id               Int       @id @default(autoincrement())
+  datetime         DateTime
   movieId          Int
   seatAvailability Int[]
-  bookings          Booking[]
-  movie             Movie     @relation(fields: [movieId], references: [id])
+  bookings         Booking[]
+  movie            Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, datetime])
 }
 
 model User {
-  id              String    @id @default(uuid())
-  email           String  @unique
-  passwordHashAndSalt        String
-  firstName      String
-  lastName       String
-  city           String?
-  zip            String?
-  userImage      String?
-  bookings        Booking[]
-  favoriteGenres Int[]
-  bookmarks  Movie[]
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  passwordHashAndSalt String
+  firstName           String
+  lastName            String
+  city                String?
+  zip                 String?
+  userImage           String?
+  favoriteGenres      Int[]
+  bookings            Booking[]
+  MoviesLikedByUsers  MoviesLikedByUsers[]
 }
 
 model Booking {
-  id           Int       @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   screeningId Int
   movieTitle  String
   userId      String
-  seats        String[]
-  datetime     DateTime
+  seats       String[]
+  datetime    DateTime
   bookedAt    DateTime  @default(now())
-  user         User      @relation(fields: [userId], references: [id])
-  screening    Screening @relation(fields: [screeningId], references: [id])
+  screening   Screening @relation(fields: [screeningId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 }
 
+model MoviesLikedByUsers {
+  movieId Int
+  userId  String
+  Movie   Movie  @relation(fields: [movieId], references: [id])
+  User    User   @relation(fields: [userId], references: [id])
 
+  @@id([movieId, userId])
+}

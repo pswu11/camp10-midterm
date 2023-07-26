@@ -12,6 +12,13 @@ import { IoChevronBackSharp } from 'react-icons/io5';
 import { BsArrowUpCircle } from 'react-icons/bs';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {
+  Renderable,
+  Toast,
+  Toaster,
+  ValueFunction,
+  toast,
+} from 'react-hot-toast';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -29,6 +36,9 @@ export default function Signup() {
       </div>
 
       <p className="text-[1.5rem] font-500 pb-4"> {'Max Mustermann'}</p>
+      <div>
+        <Toaster />
+      </div>
       <form
         className="flex flex-col space-y-4 pt-2 w-full"
         onSubmit={async event => {
@@ -38,17 +48,22 @@ export default function Signup() {
           const formData = new FormData(target);
           const userSignUpData = Object.fromEntries(formData.entries());
 
-          console.log(userSignUpData);
-
           const response = await axios
             .post('http://localhost:8000/auth/signup', userSignUpData, {
               headers: {
                 'Content-Type': 'application/json',
               },
             })
+            .then(res => navigate('/login'))
             .catch(err => err.response.data);
 
-          // navigate('/login');
+          response[1] &&
+            response.map(
+              (data: {
+                message: Renderable | ValueFunction<Renderable, Toast>;
+              }) => toast.error(data.message)
+            );
+          response.data && toast.error(response.data);
         }}
       >
         <Input
