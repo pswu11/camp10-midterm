@@ -4,9 +4,11 @@ import { Movie } from '../types/api';
 import PaginationButton from '../components/PaginationButton';
 import { useState } from 'react';
 import { useGenreStore } from '../stores/genres';
+import { getUpcomingMovies } from '../api/movies';
 // import { discoverMoviesWithGenres } from '../api/movies';
 
 export function Movies() {
+  getUpcomingMovies();
   const nowPlayingMovies = useLoaderData() as Movie[];
   const [currentPage, setCurrentPage] = useState(1);
   const { selectedGenres } = useGenreStore();
@@ -14,7 +16,7 @@ export function Movies() {
     selectedGenres.length === 0
       ? nowPlayingMovies
       : nowPlayingMovies.filter(movie =>
-          movie.genre_ids.some(id => selectedGenres.some(g => g === id))
+          movie.genres.some(genre => selectedGenres.some(g => g === genre.id))
         );
 
   const moviesDisplay = filteredMovies.slice(
@@ -27,6 +29,8 @@ export function Movies() {
     (_, index) => index + 1
   );
 
+  const maxNumberOfPages = 5
+
   return (
     <div className="h-full flex flex-col justify-between">
       <div className="grid grid-cols-2 gap-4">
@@ -34,8 +38,8 @@ export function Movies() {
           <MovieCard movie={movie} variant="now_playing" key={movie.id} />
         ))}
       </div>
-      <div className="flex justify-between">
-        {numberOfPages.map(page => (
+      <div className="flex justify-around">
+        {numberOfPages.splice(0, maxNumberOfPages).map(page => (
           <PaginationButton
             key={page}
             currentPage={currentPage}

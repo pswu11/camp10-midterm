@@ -108,9 +108,11 @@ export function MovieDetails() {
             </span>
           </p>
         </div>
-        <Button variant="secondary" size="small" className="w-1/2">
-          <Link to={`/movies/${id}/castandcrew`}>Cast & Crew</Link>
-        </Button>
+        <Link to={`/movies/${id}/castandcrew`} className="w-1/2">
+          <Button variant="secondary" size="small" className="w-full">
+            Cast & Crew
+          </Button>
+        </Link>
       </div>
       <hr className="border-white-dimmed" />
       <div className="flex flex-col pt-4">
@@ -125,9 +127,9 @@ export function MovieDetails() {
           Read more
         </a>
       </div>
-      <Button>
-        <Link to="select-time">Get Reservation</Link>
-      </Button>
+      <Link to="select-time" className='w-full'>
+        <Button className='w-full'>Get Reservation</Button>
+      </Link>
     </div>
   );
 }

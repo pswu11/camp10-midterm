@@ -1,11 +1,12 @@
 import express from 'express';
 import { z, ZodError } from 'zod';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient, Prisma, User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import jwt from 'jsonwebtoken';
-
 import cors from 'cors';
+import { movieModule } from './modules/movie/movie';
+import { screeningModule } from './modules/screening/screening';
 
 const prismaClient = new PrismaClient();
 
@@ -24,7 +25,7 @@ const secretKey =
 
 app.use(
   express.json({
-    limit: '3mb',
+    limit: '8mb',
   })
 );
 
@@ -80,7 +81,7 @@ app.post('/auth/signup', async (req, res) => {
       data: {
         ..._.omit(user, ['password']),
         passwordHashAndSalt: await bcrypt.hash(user.password, 10),
-      },
+      } as User,
     });
 
     res.status(201).json(dbUser);
@@ -273,3 +274,9 @@ app.patch('/user/:id', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
+
+movieModule();
+screeningModule();
+
+export { app };
+export { prismaClient };

@@ -41,3 +41,18 @@ export type Credits = {
   cast: Cast[];
   crew: Crew[];
 };
+
+export type SeatAvailability = 0 | 1
+
+export type ScreeningModel = {
+  id: number;
+  datetime: string;
+  movieId: number;
+  seatAvailability: SeatAvailability[];
+}
+
+
+export type MovieModel = {
+  id: number;
+  releaseDate: string;
+}
