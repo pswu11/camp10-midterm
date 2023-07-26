@@ -50,14 +50,14 @@ DATABASE_URL=postgresql://postgres:password@127.0.0.1:5432/postgres?schema=publi
 5. Test out the connection
 
 ```bash
+cd server
+
 pnpm prisma db push
 ```
 
 6. Import some data to Movie ans Screening tables using importer:
 
 ```bash
-# go to server/
-cd server
 
 # run script the import movie data from tmdb
 pnpm ts-node imports/importer.ts importMovies
