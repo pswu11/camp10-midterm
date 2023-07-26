@@ -43,3 +43,10 @@ export const getNowPlayingMovies = async () => {
     .then(res => res.data);
   return movies
 };
+
+export const getAllMovies = async () => {
+  const movies: MovieModel[] = await axios
+    .get(`http://localhost:8000/movie/`)
+    .then(res => res.data);
+  return movies
+};
