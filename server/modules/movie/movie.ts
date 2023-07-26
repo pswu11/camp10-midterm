@@ -7,6 +7,8 @@ export async function movieModule() {
     body: z.object({
       id: z.number(),
       releaseDate: z.coerce.date(),
+      posterPath: z.string(),
+      genres: z.number().array()
     }),
     pathParams: z.object({}),
     queryParams: z.object({}),

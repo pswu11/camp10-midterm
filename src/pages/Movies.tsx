@@ -1,6 +1,6 @@
 import { useLoaderData } from 'react-router-dom';
 import MovieCard from '../components/MovieCard';
-import { Movie } from '../types/api';
+import { MovieModel } from '../types/api';
 import PaginationButton from '../components/PaginationButton';
 import { useState } from 'react';
 import { useGenreStore } from '../stores/genres';
@@ -9,14 +9,14 @@ import { getUpcomingMovies } from '../api/movies';
 
 export function Movies() {
   getUpcomingMovies();
-  const nowPlayingMovies = useLoaderData() as Movie[];
+  const nowPlayingMovies = useLoaderData() as MovieModel[];
   const [currentPage, setCurrentPage] = useState(1);
   const { selectedGenres } = useGenreStore();
   const filteredMovies =
     selectedGenres.length === 0
       ? nowPlayingMovies
       : nowPlayingMovies.filter(movie =>
-          movie.genres.some(genre => selectedGenres.some(g => g === genre.id))
+          movie.genres.some(id => selectedGenres.some(g => g === id))
         );
 
   const moviesDisplay = filteredMovies.slice(
@@ -34,7 +34,7 @@ export function Movies() {
   return (
     <div className="h-full flex flex-col justify-between">
       <div className="grid grid-cols-2 gap-4">
-        {moviesDisplay.map((movie: Movie) => (
+        {moviesDisplay.map((movie: MovieModel) => (
           <MovieCard movie={movie} variant="now_playing" key={movie.id} />
         ))}
       </div>
