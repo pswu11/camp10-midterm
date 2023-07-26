@@ -2,6 +2,23 @@
 
 https://www.figma.com/file/TOCJzJFMXE7PL1dQyGWqXZ/midterm?type=design&node-id=193-51&mode=design&t=4jEuQWIjPhpPolEq-0
 
+
+## Run MovieApp locally
+
+- Both frontend and server will need to be started.
+- Make sure `.env` is setup in both projects
+
+To start frontend:
+```bash
+pnpm dev
+```
+
+To start api server: 
+```bash
+cd server
+pnpm dev
+```
+
 ## How to use `.env` in vite project
 
 Note: Make sure you already have TMDB's api key, if not, register an account and request for one.
@@ -10,7 +27,7 @@ https://vitejs.dev/guide/env-and-mode.html
 
 - create a file named `.env`
 - make sure that `*.env` is already in your `.gitignore` (you don't want to commit this file)
-- add `VITE_TMDB_KEY="{your_api_key}"` to `.env` (please remove `{}` it's just a placeholder for api key)
+- add `VITE_TMDB_KEY="{your_api_key}"` to `.env` (please don't include `{}`!)
 
 Usage:
 

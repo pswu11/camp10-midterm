@@ -1,21 +1,21 @@
 import { Link, useLoaderData } from 'react-router-dom';
 import { SearchInput } from '../components/SearchInput';
 import MovieSlider from '../components/MovieSlider';
-import { UpcomingMovie } from '../types/api';
+import { Movie, UpcomingMovie } from '../types/api';
 import { useGenreStore } from '../stores/genres';
 import UserInfo from '../components/UserInfo';
 import { GenreIcon } from '../components/GenreIcon';
 import { HiChevronRight } from 'react-icons/hi';
 
 export function Home() {
-  const movies = useLoaderData() as UpcomingMovie[];
+  const movies = useLoaderData() as Movie[];
   const { genres, homePageGenres, selectedGenres, selectGenre } =
     useGenreStore();
   const filteredMovies =
     selectedGenres.length === 0
       ? movies
       : movies.filter(movie =>
-          movie.genre_ids.some(id => selectedGenres.some(g => g === id))
+          movie.genres.some(genre => selectedGenres.some(g => g === genre.id))
         );
 
   return (
