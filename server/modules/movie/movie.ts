@@ -45,7 +45,11 @@ export async function movieModule() {
 
   app.get('/movie', async (_, res) => {
     try {
-      const movies = await prismaClient.movie.findMany();
+      const movies = await prismaClient.movie.findMany({
+        orderBy: {
+          releaseDate: 'asc',
+        }
+      });
       res.status(200).json(movies);
     } catch (err) {
       res.send(err);
