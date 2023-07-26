@@ -34,16 +34,6 @@ export const getUpcomingMovies = async () => {
   const movies: MovieModel[] = await axios
     .get(`http://localhost:8000/movie/upcoming`)
     .then(res => res.data);
-  // const upcomingMovies = [] as Movie[];
-  // for (let movie of movies) {
-  //   const movieInfo: Movie = await axios.get(
-  //     `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${
-  //       import.meta.env.VITE_TMDB_KEY
-  //     }`
-  //   ).then(res => res.data);
-  //   upcomingMovies.push(movieInfo)
-  // }
-  // console.log(movies.length);
   return movies
 };
 
@@ -51,26 +41,5 @@ export const getNowPlayingMovies = async () => {
   const movies: MovieModel[] = await axios
     .get(`http://localhost:8000/movie/nowplaying`)
     .then(res => res.data);
-  // const nowplayingMovies = [] as Movie[];
-  // for (let movie of movies) {
-  //   const movieInfo: Movie = await axios.get(
-  //     `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${
-  //       import.meta.env.VITE_TMDB_KEY
-  //     }`
-  //   ).then(res => res.data);
-  //   nowplayingMovies.push(movieInfo)
-  // }
-  // console.log(movies.length);
   return movies
-};
-
-export const discoverMoviesWithoutGenres = async () => {
-  const res = await axios.get(
-    `https://api.themoviedb.org/3/discover/movie?language=en-US&sort_by=popularity.desc&api_key=${
-      import.meta.env.VITE_TMDB_KEY
-    }`
-  );
-  const movies: Movie[] = res.data.results;
-
-  return movies;
 };
