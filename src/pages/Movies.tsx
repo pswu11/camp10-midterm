@@ -58,6 +58,8 @@ export function Movies() {
               const last = group.results.length - 3 === idx;
               return (
                 <MovieCard
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
                   ref={last ? ref : undefined}
                   movie={movie}
                   variant="now_playing"

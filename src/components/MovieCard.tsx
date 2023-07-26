@@ -12,6 +12,8 @@ type Ref = (node?: Element | null | undefined) => void;
 
 const MovieCard = React.forwardRef<Ref, Props>(({ movie, variant }, ref) => (
   <Link
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     ref={ref}
     to={`/movies/${movie.id}`}
     className={`${variant === 'upcoming' ? 'snap-center' : ''}`}
