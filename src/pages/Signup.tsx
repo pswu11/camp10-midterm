@@ -10,15 +10,9 @@ import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { IoChevronBackSharp } from 'react-icons/io5';
 import { BsArrowUpCircle } from 'react-icons/bs';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {
-  Renderable,
-  Toast,
-  Toaster,
-  ValueFunction,
-  toast,
-} from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -48,22 +42,22 @@ export default function Signup() {
           const formData = new FormData(target);
           const userSignUpData = Object.fromEntries(formData.entries());
 
-          const response = await axios
+          await axios
             .post('http://localhost:8000/auth/signup', userSignUpData, {
               headers: {
                 'Content-Type': 'application/json',
               },
             })
-            .then(res => navigate('/login'))
-            .catch(err => err.response.data);
-
-          response[1] &&
-            response.map(
-              (data: {
-                message: Renderable | ValueFunction<Renderable, Toast>;
-              }) => toast.error(data.message)
-            );
-          response.data && toast.error(response.data);
+            .then(res => {
+              if (res.status === 201) {
+                navigate('/login');
+                return;
+              }
+            })
+            .catch(err => {
+              const errors: AxiosError[] = err.response.data;
+              errors.map(err => toast.error(err.message));
+            });
         }}
       >
         <Input

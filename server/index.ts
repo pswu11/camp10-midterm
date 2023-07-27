@@ -88,6 +88,7 @@ app.post('/auth/signup', async (req, res) => {
     return;
   } catch (error) {
     if (error instanceof ZodError) {
+      console.log(error)
       res.status(422).json(error.issues);
       return;
     }
